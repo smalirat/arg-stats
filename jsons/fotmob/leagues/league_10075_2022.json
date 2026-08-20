@@ -1,0 +1,3132 @@
+{
+    "tabs": [
+        "overview",
+        "table",
+        "fixtures",
+        "stats"
+    ],
+    "allAvailableSeasons": [
+        "2023",
+        "2022",
+        "2020",
+        "2019"
+    ],
+    "details": {
+        "id": 10075,
+        "type": "league",
+        "name": "Torneo de Verano",
+        "selectedSeason": "2022",
+        "latestSeason": "2023",
+        "shortName": "Torneo de Verano",
+        "country": "ARG",
+        "gender": "male",
+        "faqJSONLD": null,
+        "breadcrumbJSONLD": {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://www.fotmob.com"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Torneo de Verano",
+                    "item": "https://www.fotmob.com/leagues/10075/overview/torneo-de-verano"
+                }
+            ]
+        },
+        "canSyncCalendar": false,
+        "leagueColor": "#333333",
+        "dataProvider": "enet",
+        "seopath": "torneo-de-verano"
+    },
+    "seostr": "torneo-de-verano",
+    "QAData": [],
+    "table": [
+        {
+            "data": {
+                "composite": true,
+                "ccode": "ARG",
+                "leagueId": 10075,
+                "pageUrl": "/leagues/10075/overview/torneo-de-verano?season=2022",
+                "leagueName": "Torneo de Verano",
+                "legend": [],
+                "tableFilterTypes": [
+                    "all",
+                    "home",
+                    "away"
+                ],
+                "tables": [
+                    {
+                        "ccode": "ARG",
+                        "leagueId": 877413,
+                        "pageUrl": "/leagues/877413/overview/group?season=2022",
+                        "leagueName": "Group A",
+                        "legend": null,
+                        "table": {
+                            "all": [
+                                {
+                                    "name": "Boca Juniors",
+                                    "shortName": "Boca Juniors",
+                                    "id": 10077,
+                                    "pageUrl": "/teams/10077/overview/boca-juniors",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 2,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "5-2",
+                                    "goalConDiff": 3,
+                                    "pts": 6,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Colo Colo",
+                                    "shortName": "Colo Colo",
+                                    "id": 7815,
+                                    "pageUrl": "/teams/7815/overview/colo-colo",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 1,
+                                    "draws": 0,
+                                    "losses": 1,
+                                    "scoresStr": "2-3",
+                                    "goalConDiff": -1,
+                                    "pts": 3,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Universidad de Chile",
+                                    "shortName": "Universidad de Chile",
+                                    "id": 6310,
+                                    "pageUrl": "/teams/6310/overview/universidad-de-chile",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 2,
+                                    "scoresStr": "3-5",
+                                    "goalConDiff": -2,
+                                    "pts": 0,
+                                    "idx": 3,
+                                    "qualColor": null
+                                }
+                            ],
+                            "home": [
+                                {
+                                    "name": "Boca Juniors",
+                                    "shortName": "Boca Juniors",
+                                    "id": 10077,
+                                    "pageUrl": "/teams/10077/overview/boca-juniors",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 2,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "5-2",
+                                    "goalConDiff": 3,
+                                    "goalsScored": 5,
+                                    "pts": 6,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Colo Colo",
+                                    "shortName": "Colo Colo",
+                                    "id": 7815,
+                                    "pageUrl": "/teams/7815/overview/colo-colo",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 1,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "2-1",
+                                    "goalConDiff": 1,
+                                    "goalsScored": 2,
+                                    "pts": 3,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Universidad de Chile",
+                                    "shortName": "Universidad de Chile",
+                                    "id": 6310,
+                                    "pageUrl": "/teams/6310/overview/universidad-de-chile",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 0,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 0,
+                                    "pts": 0,
+                                    "idx": 3,
+                                    "qualColor": null
+                                }
+                            ],
+                            "away": [
+                                {
+                                    "name": "Boca Juniors",
+                                    "shortName": "Boca Juniors",
+                                    "id": 10077,
+                                    "pageUrl": "/teams/10077/overview/boca-juniors",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 0,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 0,
+                                    "pts": 0,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Universidad de Chile",
+                                    "shortName": "Universidad de Chile",
+                                    "id": 6310,
+                                    "pageUrl": "/teams/6310/overview/universidad-de-chile",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 2,
+                                    "scoresStr": "3-5",
+                                    "goalConDiff": -2,
+                                    "goalsScored": 3,
+                                    "pts": 0,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Colo Colo",
+                                    "shortName": "Colo Colo",
+                                    "id": 7815,
+                                    "pageUrl": "/teams/7815/overview/colo-colo",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 1,
+                                    "scoresStr": "0-2",
+                                    "goalConDiff": -2,
+                                    "goalsScored": 0,
+                                    "pts": 0,
+                                    "idx": 3,
+                                    "qualColor": null
+                                }
+                            ]
+                        },
+                        "ongoing": []
+                    },
+                    {
+                        "ccode": "ARG",
+                        "leagueId": 877414,
+                        "pageUrl": "/leagues/877414/overview/group-b?season=2022",
+                        "leagueName": "Group B",
+                        "legend": null,
+                        "table": {
+                            "all": [
+                                {
+                                    "name": "San Lorenzo",
+                                    "shortName": "San Lorenzo",
+                                    "id": 10083,
+                                    "pageUrl": "/teams/10083/overview/san-lorenzo",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 2,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "2-0",
+                                    "goalConDiff": 2,
+                                    "pts": 6,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Independiente",
+                                    "shortName": "Independiente",
+                                    "id": 10078,
+                                    "pageUrl": "/teams/10078/overview/independiente",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 1,
+                                    "draws": 0,
+                                    "losses": 1,
+                                    "scoresStr": "3-2",
+                                    "goalConDiff": 1,
+                                    "pts": 3,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Talleres",
+                                    "shortName": "Talleres",
+                                    "id": 10101,
+                                    "pageUrl": "/teams/10101/overview/talleres",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 2,
+                                    "scoresStr": "1-4",
+                                    "goalConDiff": -3,
+                                    "pts": 0,
+                                    "idx": 3,
+                                    "qualColor": null
+                                }
+                            ],
+                            "home": [
+                                {
+                                    "name": "San Lorenzo",
+                                    "shortName": "San Lorenzo",
+                                    "id": 10083,
+                                    "pageUrl": "/teams/10083/overview/san-lorenzo",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 0,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 0,
+                                    "pts": 0,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Independiente",
+                                    "shortName": "Independiente",
+                                    "id": 10078,
+                                    "pageUrl": "/teams/10078/overview/independiente",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 1,
+                                    "scoresStr": "0-1",
+                                    "goalConDiff": -1,
+                                    "goalsScored": 0,
+                                    "pts": 0,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Talleres",
+                                    "shortName": "Talleres",
+                                    "id": 10101,
+                                    "pageUrl": "/teams/10101/overview/talleres",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 2,
+                                    "scoresStr": "1-4",
+                                    "goalConDiff": -3,
+                                    "goalsScored": 1,
+                                    "pts": 0,
+                                    "idx": 3,
+                                    "qualColor": null
+                                }
+                            ],
+                            "away": [
+                                {
+                                    "name": "San Lorenzo",
+                                    "shortName": "San Lorenzo",
+                                    "id": 10083,
+                                    "pageUrl": "/teams/10083/overview/san-lorenzo",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 2,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "2-0",
+                                    "goalConDiff": 2,
+                                    "goalsScored": 2,
+                                    "pts": 6,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Independiente",
+                                    "shortName": "Independiente",
+                                    "id": 10078,
+                                    "pageUrl": "/teams/10078/overview/independiente",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 1,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "3-1",
+                                    "goalConDiff": 2,
+                                    "goalsScored": 3,
+                                    "pts": 3,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Talleres",
+                                    "shortName": "Talleres",
+                                    "id": 10101,
+                                    "pageUrl": "/teams/10101/overview/talleres",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 0,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 0,
+                                    "pts": 0,
+                                    "idx": 3,
+                                    "qualColor": null
+                                }
+                            ]
+                        },
+                        "ongoing": []
+                    }
+                ]
+            },
+            "tableFilterTypes": [
+                "all",
+                "home",
+                "away"
+            ],
+            "teamForm": {
+                "6310": [
+                    {
+                        "result": -1,
+                        "resultString": "L",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/7815_xsmall.png",
+                        "linkToMatch": "/matches/universidad-de-chile-vs-colo-colo/1neh3m#3799163",
+                        "date": null,
+                        "teamPageUrl": "/teams/7815/overview/colo-colo",
+                        "tooltipText": {
+                            "utcTime": "2022-01-14T23:00:00.000Z",
+                            "homeTeam": "Colo Colo",
+                            "homeTeamId": 7815,
+                            "homeScore": 2,
+                            "awayTeam": "Universidad de Chile",
+                            "awayTeamId": 6310,
+                            "awayScore": 1
+                        },
+                        "score": "2 - 1",
+                        "home": {
+                            "id": "7815",
+                            "name": "Colo Colo",
+                            "shortName": "Colo Colo",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "6310",
+                            "name": "Universidad de Chile",
+                            "shortName": "Universidad de Chile",
+                            "isOurTeam": true
+                        }
+                    },
+                    {
+                        "result": -1,
+                        "resultString": "L",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10077_xsmall.png",
+                        "linkToMatch": "/matches/universidad-de-chile-vs-boca-juniors/27y46k#3799165",
+                        "date": null,
+                        "teamPageUrl": "/teams/10077/overview/boca-juniors",
+                        "tooltipText": {
+                            "utcTime": "2022-01-21T23:15:00.000Z",
+                            "homeTeam": "Boca Juniors",
+                            "homeTeamId": 10077,
+                            "homeScore": 3,
+                            "awayTeam": "Universidad de Chile",
+                            "awayTeamId": 6310,
+                            "awayScore": 2
+                        },
+                        "score": "3 - 2",
+                        "home": {
+                            "id": "10077",
+                            "name": "Boca Juniors",
+                            "shortName": "Boca Juniors",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "6310",
+                            "name": "Universidad de Chile",
+                            "shortName": "Universidad de Chile",
+                            "isOurTeam": true
+                        }
+                    }
+                ],
+                "7815": [
+                    {
+                        "result": 1,
+                        "resultString": "W",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/6310_xsmall.png",
+                        "linkToMatch": "/matches/universidad-de-chile-vs-colo-colo/1neh3m#3799163",
+                        "date": null,
+                        "teamPageUrl": "/teams/6310/overview/universidad-de-chile",
+                        "tooltipText": {
+                            "utcTime": "2022-01-14T23:00:00.000Z",
+                            "homeTeam": "Colo Colo",
+                            "homeTeamId": 7815,
+                            "homeScore": 2,
+                            "awayTeam": "Universidad de Chile",
+                            "awayTeamId": 6310,
+                            "awayScore": 1
+                        },
+                        "score": "2 - 1",
+                        "home": {
+                            "id": "7815",
+                            "name": "Colo Colo",
+                            "shortName": "Colo Colo",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "6310",
+                            "name": "Universidad de Chile",
+                            "shortName": "Universidad de Chile",
+                            "isOurTeam": false
+                        }
+                    },
+                    {
+                        "result": -1,
+                        "resultString": "L",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10077_xsmall.png",
+                        "linkToMatch": "/matches/colo-colo-vs-boca-juniors/2nb1fl#3799164",
+                        "date": null,
+                        "teamPageUrl": "/teams/10077/overview/boca-juniors",
+                        "tooltipText": {
+                            "utcTime": "2022-01-17T23:00:00.000Z",
+                            "homeTeam": "Boca Juniors",
+                            "homeTeamId": 10077,
+                            "homeScore": 2,
+                            "awayTeam": "Colo Colo",
+                            "awayTeamId": 7815,
+                            "awayScore": 0
+                        },
+                        "score": "2 - 0",
+                        "home": {
+                            "id": "10077",
+                            "name": "Boca Juniors",
+                            "shortName": "Boca Juniors",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "7815",
+                            "name": "Colo Colo",
+                            "shortName": "Colo Colo",
+                            "isOurTeam": true
+                        }
+                    }
+                ],
+                "10077": [
+                    {
+                        "result": 1,
+                        "resultString": "W",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/7815_xsmall.png",
+                        "linkToMatch": "/matches/colo-colo-vs-boca-juniors/2nb1fl#3799164",
+                        "date": null,
+                        "teamPageUrl": "/teams/7815/overview/colo-colo",
+                        "tooltipText": {
+                            "utcTime": "2022-01-17T23:00:00.000Z",
+                            "homeTeam": "Boca Juniors",
+                            "homeTeamId": 10077,
+                            "homeScore": 2,
+                            "awayTeam": "Colo Colo",
+                            "awayTeamId": 7815,
+                            "awayScore": 0
+                        },
+                        "score": "2 - 0",
+                        "home": {
+                            "id": "10077",
+                            "name": "Boca Juniors",
+                            "shortName": "Boca Juniors",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "7815",
+                            "name": "Colo Colo",
+                            "shortName": "Colo Colo",
+                            "isOurTeam": false
+                        }
+                    },
+                    {
+                        "result": 1,
+                        "resultString": "W",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/6310_xsmall.png",
+                        "linkToMatch": "/matches/universidad-de-chile-vs-boca-juniors/27y46k#3799165",
+                        "date": null,
+                        "teamPageUrl": "/teams/6310/overview/universidad-de-chile",
+                        "tooltipText": {
+                            "utcTime": "2022-01-21T23:15:00.000Z",
+                            "homeTeam": "Boca Juniors",
+                            "homeTeamId": 10077,
+                            "homeScore": 3,
+                            "awayTeam": "Universidad de Chile",
+                            "awayTeamId": 6310,
+                            "awayScore": 2
+                        },
+                        "score": "3 - 2",
+                        "home": {
+                            "id": "10077",
+                            "name": "Boca Juniors",
+                            "shortName": "Boca Juniors",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "6310",
+                            "name": "Universidad de Chile",
+                            "shortName": "Universidad de Chile",
+                            "isOurTeam": false
+                        }
+                    },
+                    {
+                        "result": 1,
+                        "resultString": "W",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10083_xsmall.png",
+                        "linkToMatch": "/matches/boca-juniors-vs-san-lorenzo/3czzk3#3811627",
+                        "date": null,
+                        "teamPageUrl": "/teams/10083/overview/san-lorenzo",
+                        "tooltipText": {
+                            "utcTime": "2022-01-25T23:00:00.000Z",
+                            "homeTeam": "Boca Juniors",
+                            "homeTeamId": 10077,
+                            "homeScore": 1,
+                            "awayTeam": "San Lorenzo",
+                            "awayTeamId": 10083,
+                            "awayScore": 0
+                        },
+                        "score": "1 - 0",
+                        "home": {
+                            "id": "10077",
+                            "name": "Boca Juniors",
+                            "shortName": "Boca Juniors",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "10083",
+                            "name": "San Lorenzo",
+                            "shortName": "San Lorenzo",
+                            "isOurTeam": false
+                        }
+                    }
+                ],
+                "10078": [
+                    {
+                        "result": -1,
+                        "resultString": "L",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10083_xsmall.png",
+                        "linkToMatch": "/matches/independiente-vs-san-lorenzo/3d0f44#3799174",
+                        "date": null,
+                        "teamPageUrl": "/teams/10083/overview/san-lorenzo",
+                        "tooltipText": {
+                            "utcTime": "2022-01-15T23:00:00.000Z",
+                            "homeTeam": "Independiente",
+                            "homeTeamId": 10078,
+                            "homeScore": 0,
+                            "awayTeam": "San Lorenzo",
+                            "awayTeamId": 10083,
+                            "awayScore": 1
+                        },
+                        "score": "0 - 1",
+                        "home": {
+                            "id": "10078",
+                            "name": "Independiente",
+                            "shortName": "Independiente",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "10083",
+                            "name": "San Lorenzo",
+                            "shortName": "San Lorenzo",
+                            "isOurTeam": false
+                        }
+                    },
+                    {
+                        "result": 1,
+                        "resultString": "W",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10101_xsmall.png",
+                        "linkToMatch": "/matches/independiente-vs-talleres/3d879v#3799175",
+                        "date": null,
+                        "teamPageUrl": "/teams/10101/overview/talleres",
+                        "tooltipText": {
+                            "utcTime": "2022-01-18T23:00:00.000Z",
+                            "homeTeam": "Talleres",
+                            "homeTeamId": 10101,
+                            "homeScore": 1,
+                            "awayTeam": "Independiente",
+                            "awayTeamId": 10078,
+                            "awayScore": 3
+                        },
+                        "score": "1 - 3",
+                        "home": {
+                            "id": "10101",
+                            "name": "Talleres",
+                            "shortName": "Talleres",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "10078",
+                            "name": "Independiente",
+                            "shortName": "Independiente",
+                            "isOurTeam": true
+                        }
+                    }
+                ],
+                "10083": [
+                    {
+                        "result": 1,
+                        "resultString": "W",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10078_xsmall.png",
+                        "linkToMatch": "/matches/independiente-vs-san-lorenzo/3d0f44#3799174",
+                        "date": null,
+                        "teamPageUrl": "/teams/10078/overview/independiente",
+                        "tooltipText": {
+                            "utcTime": "2022-01-15T23:00:00.000Z",
+                            "homeTeam": "Independiente",
+                            "homeTeamId": 10078,
+                            "homeScore": 0,
+                            "awayTeam": "San Lorenzo",
+                            "awayTeamId": 10083,
+                            "awayScore": 1
+                        },
+                        "score": "0 - 1",
+                        "home": {
+                            "id": "10078",
+                            "name": "Independiente",
+                            "shortName": "Independiente",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "10083",
+                            "name": "San Lorenzo",
+                            "shortName": "San Lorenzo",
+                            "isOurTeam": true
+                        }
+                    },
+                    {
+                        "result": 1,
+                        "resultString": "W",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10101_xsmall.png",
+                        "linkToMatch": "/matches/san-lorenzo-vs-talleres/3dad4x#3799326",
+                        "date": null,
+                        "teamPageUrl": "/teams/10101/overview/talleres",
+                        "tooltipText": {
+                            "utcTime": "2022-01-22T23:00:00.000Z",
+                            "homeTeam": "Talleres",
+                            "homeTeamId": 10101,
+                            "homeScore": 0,
+                            "awayTeam": "San Lorenzo",
+                            "awayTeamId": 10083,
+                            "awayScore": 1
+                        },
+                        "score": "0 - 1",
+                        "home": {
+                            "id": "10101",
+                            "name": "Talleres",
+                            "shortName": "Talleres",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "10083",
+                            "name": "San Lorenzo",
+                            "shortName": "San Lorenzo",
+                            "isOurTeam": true
+                        }
+                    },
+                    {
+                        "result": -1,
+                        "resultString": "L",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10077_xsmall.png",
+                        "linkToMatch": "/matches/boca-juniors-vs-san-lorenzo/3czzk3#3811627",
+                        "date": null,
+                        "teamPageUrl": "/teams/10077/overview/boca-juniors",
+                        "tooltipText": {
+                            "utcTime": "2022-01-25T23:00:00.000Z",
+                            "homeTeam": "Boca Juniors",
+                            "homeTeamId": 10077,
+                            "homeScore": 1,
+                            "awayTeam": "San Lorenzo",
+                            "awayTeamId": 10083,
+                            "awayScore": 0
+                        },
+                        "score": "1 - 0",
+                        "home": {
+                            "id": "10077",
+                            "name": "Boca Juniors",
+                            "shortName": "Boca Juniors",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "10083",
+                            "name": "San Lorenzo",
+                            "shortName": "San Lorenzo",
+                            "isOurTeam": true
+                        }
+                    }
+                ],
+                "10101": [
+                    {
+                        "result": -1,
+                        "resultString": "L",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10078_xsmall.png",
+                        "linkToMatch": "/matches/independiente-vs-talleres/3d879v#3799175",
+                        "date": null,
+                        "teamPageUrl": "/teams/10078/overview/independiente",
+                        "tooltipText": {
+                            "utcTime": "2022-01-18T23:00:00.000Z",
+                            "homeTeam": "Talleres",
+                            "homeTeamId": 10101,
+                            "homeScore": 1,
+                            "awayTeam": "Independiente",
+                            "awayTeamId": 10078,
+                            "awayScore": 3
+                        },
+                        "score": "1 - 3",
+                        "home": {
+                            "id": "10101",
+                            "name": "Talleres",
+                            "shortName": "Talleres",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "10078",
+                            "name": "Independiente",
+                            "shortName": "Independiente",
+                            "isOurTeam": false
+                        }
+                    },
+                    {
+                        "result": -1,
+                        "resultString": "L",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10083_xsmall.png",
+                        "linkToMatch": "/matches/san-lorenzo-vs-talleres/3dad4x#3799326",
+                        "date": null,
+                        "teamPageUrl": "/teams/10083/overview/san-lorenzo",
+                        "tooltipText": {
+                            "utcTime": "2022-01-22T23:00:00.000Z",
+                            "homeTeam": "Talleres",
+                            "homeTeamId": 10101,
+                            "homeScore": 0,
+                            "awayTeam": "San Lorenzo",
+                            "awayTeamId": 10083,
+                            "awayScore": 1
+                        },
+                        "score": "0 - 1",
+                        "home": {
+                            "id": "10101",
+                            "name": "Talleres",
+                            "shortName": "Talleres",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "10083",
+                            "name": "San Lorenzo",
+                            "shortName": "San Lorenzo",
+                            "isOurTeam": false
+                        }
+                    }
+                ]
+            },
+            "nextOpponent": null,
+            "tableHeader": {
+                "staticTableHeaders": [
+                    "#",
+                    "Team",
+                    "PL",
+                    "W",
+                    "D",
+                    "L",
+                    "+/-",
+                    "GD",
+                    "PTS"
+                ],
+                "dynamicTableHeaders": [
+                    "Form"
+                ]
+            }
+        }
+    ],
+    "transfers": null,
+    "overview": {
+        "season": "2023",
+        "selectedSeason": "2022",
+        "table": [
+            {
+                "data": {
+                    "composite": true,
+                    "ccode": "ARG",
+                    "leagueId": 10075,
+                    "pageUrl": "/leagues/10075/overview/torneo-de-verano?season=2022",
+                    "leagueName": "Torneo de Verano",
+                    "legend": [],
+                    "tableFilterTypes": [
+                        "all",
+                        "home",
+                        "away"
+                    ],
+                    "tables": [
+                        {
+                            "ccode": "ARG",
+                            "leagueId": 877413,
+                            "pageUrl": "/leagues/877413/overview/group?season=2022",
+                            "leagueName": "Group A",
+                            "legend": null,
+                            "table": {
+                                "all": [
+                                    {
+                                        "name": "Boca Juniors",
+                                        "shortName": "Boca Juniors",
+                                        "id": 10077,
+                                        "pageUrl": "/teams/10077/overview/boca-juniors",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 2,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "5-2",
+                                        "goalConDiff": 3,
+                                        "pts": 6,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Colo Colo",
+                                        "shortName": "Colo Colo",
+                                        "id": 7815,
+                                        "pageUrl": "/teams/7815/overview/colo-colo",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 1,
+                                        "draws": 0,
+                                        "losses": 1,
+                                        "scoresStr": "2-3",
+                                        "goalConDiff": -1,
+                                        "pts": 3,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Universidad de Chile",
+                                        "shortName": "Universidad de Chile",
+                                        "id": 6310,
+                                        "pageUrl": "/teams/6310/overview/universidad-de-chile",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 2,
+                                        "scoresStr": "3-5",
+                                        "goalConDiff": -2,
+                                        "pts": 0,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    }
+                                ],
+                                "home": [
+                                    {
+                                        "name": "Boca Juniors",
+                                        "shortName": "Boca Juniors",
+                                        "id": 10077,
+                                        "pageUrl": "/teams/10077/overview/boca-juniors",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 2,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "5-2",
+                                        "goalConDiff": 3,
+                                        "goalsScored": 5,
+                                        "pts": 6,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Colo Colo",
+                                        "shortName": "Colo Colo",
+                                        "id": 7815,
+                                        "pageUrl": "/teams/7815/overview/colo-colo",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 1,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "2-1",
+                                        "goalConDiff": 1,
+                                        "goalsScored": 2,
+                                        "pts": 3,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Universidad de Chile",
+                                        "shortName": "Universidad de Chile",
+                                        "id": 6310,
+                                        "pageUrl": "/teams/6310/overview/universidad-de-chile",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 0,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 0,
+                                        "pts": 0,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    }
+                                ],
+                                "away": [
+                                    {
+                                        "name": "Boca Juniors",
+                                        "shortName": "Boca Juniors",
+                                        "id": 10077,
+                                        "pageUrl": "/teams/10077/overview/boca-juniors",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 0,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 0,
+                                        "pts": 0,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Universidad de Chile",
+                                        "shortName": "Universidad de Chile",
+                                        "id": 6310,
+                                        "pageUrl": "/teams/6310/overview/universidad-de-chile",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 2,
+                                        "scoresStr": "3-5",
+                                        "goalConDiff": -2,
+                                        "goalsScored": 3,
+                                        "pts": 0,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Colo Colo",
+                                        "shortName": "Colo Colo",
+                                        "id": 7815,
+                                        "pageUrl": "/teams/7815/overview/colo-colo",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 1,
+                                        "scoresStr": "0-2",
+                                        "goalConDiff": -2,
+                                        "goalsScored": 0,
+                                        "pts": 0,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    }
+                                ]
+                            },
+                            "ongoing": []
+                        },
+                        {
+                            "ccode": "ARG",
+                            "leagueId": 877414,
+                            "pageUrl": "/leagues/877414/overview/group-b?season=2022",
+                            "leagueName": "Group B",
+                            "legend": null,
+                            "table": {
+                                "all": [
+                                    {
+                                        "name": "San Lorenzo",
+                                        "shortName": "San Lorenzo",
+                                        "id": 10083,
+                                        "pageUrl": "/teams/10083/overview/san-lorenzo",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 2,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "2-0",
+                                        "goalConDiff": 2,
+                                        "pts": 6,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Independiente",
+                                        "shortName": "Independiente",
+                                        "id": 10078,
+                                        "pageUrl": "/teams/10078/overview/independiente",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 1,
+                                        "draws": 0,
+                                        "losses": 1,
+                                        "scoresStr": "3-2",
+                                        "goalConDiff": 1,
+                                        "pts": 3,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Talleres",
+                                        "shortName": "Talleres",
+                                        "id": 10101,
+                                        "pageUrl": "/teams/10101/overview/talleres",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 2,
+                                        "scoresStr": "1-4",
+                                        "goalConDiff": -3,
+                                        "pts": 0,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    }
+                                ],
+                                "home": [
+                                    {
+                                        "name": "San Lorenzo",
+                                        "shortName": "San Lorenzo",
+                                        "id": 10083,
+                                        "pageUrl": "/teams/10083/overview/san-lorenzo",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 0,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 0,
+                                        "pts": 0,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Independiente",
+                                        "shortName": "Independiente",
+                                        "id": 10078,
+                                        "pageUrl": "/teams/10078/overview/independiente",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 1,
+                                        "scoresStr": "0-1",
+                                        "goalConDiff": -1,
+                                        "goalsScored": 0,
+                                        "pts": 0,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Talleres",
+                                        "shortName": "Talleres",
+                                        "id": 10101,
+                                        "pageUrl": "/teams/10101/overview/talleres",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 2,
+                                        "scoresStr": "1-4",
+                                        "goalConDiff": -3,
+                                        "goalsScored": 1,
+                                        "pts": 0,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    }
+                                ],
+                                "away": [
+                                    {
+                                        "name": "San Lorenzo",
+                                        "shortName": "San Lorenzo",
+                                        "id": 10083,
+                                        "pageUrl": "/teams/10083/overview/san-lorenzo",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 2,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "2-0",
+                                        "goalConDiff": 2,
+                                        "goalsScored": 2,
+                                        "pts": 6,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Independiente",
+                                        "shortName": "Independiente",
+                                        "id": 10078,
+                                        "pageUrl": "/teams/10078/overview/independiente",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 1,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "3-1",
+                                        "goalConDiff": 2,
+                                        "goalsScored": 3,
+                                        "pts": 3,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Talleres",
+                                        "shortName": "Talleres",
+                                        "id": 10101,
+                                        "pageUrl": "/teams/10101/overview/talleres",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 0,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 0,
+                                        "pts": 0,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    }
+                                ]
+                            },
+                            "ongoing": []
+                        }
+                    ]
+                },
+                "tableFilterTypes": [
+                    "all",
+                    "home",
+                    "away"
+                ],
+                "teamForm": {
+                    "6310": [
+                        {
+                            "result": -1,
+                            "resultString": "L",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/7815_xsmall.png",
+                            "linkToMatch": "/matches/universidad-de-chile-vs-colo-colo/1neh3m#3799163",
+                            "date": null,
+                            "teamPageUrl": "/teams/7815/overview/colo-colo",
+                            "tooltipText": {
+                                "utcTime": "2022-01-14T23:00:00.000Z",
+                                "homeTeam": "Colo Colo",
+                                "homeTeamId": 7815,
+                                "homeScore": 2,
+                                "awayTeam": "Universidad de Chile",
+                                "awayTeamId": 6310,
+                                "awayScore": 1
+                            },
+                            "score": "2 - 1",
+                            "home": {
+                                "id": "7815",
+                                "name": "Colo Colo",
+                                "shortName": "Colo Colo",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "6310",
+                                "name": "Universidad de Chile",
+                                "shortName": "Universidad de Chile",
+                                "isOurTeam": true
+                            }
+                        },
+                        {
+                            "result": -1,
+                            "resultString": "L",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10077_xsmall.png",
+                            "linkToMatch": "/matches/universidad-de-chile-vs-boca-juniors/27y46k#3799165",
+                            "date": null,
+                            "teamPageUrl": "/teams/10077/overview/boca-juniors",
+                            "tooltipText": {
+                                "utcTime": "2022-01-21T23:15:00.000Z",
+                                "homeTeam": "Boca Juniors",
+                                "homeTeamId": 10077,
+                                "homeScore": 3,
+                                "awayTeam": "Universidad de Chile",
+                                "awayTeamId": 6310,
+                                "awayScore": 2
+                            },
+                            "score": "3 - 2",
+                            "home": {
+                                "id": "10077",
+                                "name": "Boca Juniors",
+                                "shortName": "Boca Juniors",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "6310",
+                                "name": "Universidad de Chile",
+                                "shortName": "Universidad de Chile",
+                                "isOurTeam": true
+                            }
+                        }
+                    ],
+                    "7815": [
+                        {
+                            "result": 1,
+                            "resultString": "W",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/6310_xsmall.png",
+                            "linkToMatch": "/matches/universidad-de-chile-vs-colo-colo/1neh3m#3799163",
+                            "date": null,
+                            "teamPageUrl": "/teams/6310/overview/universidad-de-chile",
+                            "tooltipText": {
+                                "utcTime": "2022-01-14T23:00:00.000Z",
+                                "homeTeam": "Colo Colo",
+                                "homeTeamId": 7815,
+                                "homeScore": 2,
+                                "awayTeam": "Universidad de Chile",
+                                "awayTeamId": 6310,
+                                "awayScore": 1
+                            },
+                            "score": "2 - 1",
+                            "home": {
+                                "id": "7815",
+                                "name": "Colo Colo",
+                                "shortName": "Colo Colo",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "6310",
+                                "name": "Universidad de Chile",
+                                "shortName": "Universidad de Chile",
+                                "isOurTeam": false
+                            }
+                        },
+                        {
+                            "result": -1,
+                            "resultString": "L",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10077_xsmall.png",
+                            "linkToMatch": "/matches/colo-colo-vs-boca-juniors/2nb1fl#3799164",
+                            "date": null,
+                            "teamPageUrl": "/teams/10077/overview/boca-juniors",
+                            "tooltipText": {
+                                "utcTime": "2022-01-17T23:00:00.000Z",
+                                "homeTeam": "Boca Juniors",
+                                "homeTeamId": 10077,
+                                "homeScore": 2,
+                                "awayTeam": "Colo Colo",
+                                "awayTeamId": 7815,
+                                "awayScore": 0
+                            },
+                            "score": "2 - 0",
+                            "home": {
+                                "id": "10077",
+                                "name": "Boca Juniors",
+                                "shortName": "Boca Juniors",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "7815",
+                                "name": "Colo Colo",
+                                "shortName": "Colo Colo",
+                                "isOurTeam": true
+                            }
+                        }
+                    ],
+                    "10077": [
+                        {
+                            "result": 1,
+                            "resultString": "W",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/7815_xsmall.png",
+                            "linkToMatch": "/matches/colo-colo-vs-boca-juniors/2nb1fl#3799164",
+                            "date": null,
+                            "teamPageUrl": "/teams/7815/overview/colo-colo",
+                            "tooltipText": {
+                                "utcTime": "2022-01-17T23:00:00.000Z",
+                                "homeTeam": "Boca Juniors",
+                                "homeTeamId": 10077,
+                                "homeScore": 2,
+                                "awayTeam": "Colo Colo",
+                                "awayTeamId": 7815,
+                                "awayScore": 0
+                            },
+                            "score": "2 - 0",
+                            "home": {
+                                "id": "10077",
+                                "name": "Boca Juniors",
+                                "shortName": "Boca Juniors",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "7815",
+                                "name": "Colo Colo",
+                                "shortName": "Colo Colo",
+                                "isOurTeam": false
+                            }
+                        },
+                        {
+                            "result": 1,
+                            "resultString": "W",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/6310_xsmall.png",
+                            "linkToMatch": "/matches/universidad-de-chile-vs-boca-juniors/27y46k#3799165",
+                            "date": null,
+                            "teamPageUrl": "/teams/6310/overview/universidad-de-chile",
+                            "tooltipText": {
+                                "utcTime": "2022-01-21T23:15:00.000Z",
+                                "homeTeam": "Boca Juniors",
+                                "homeTeamId": 10077,
+                                "homeScore": 3,
+                                "awayTeam": "Universidad de Chile",
+                                "awayTeamId": 6310,
+                                "awayScore": 2
+                            },
+                            "score": "3 - 2",
+                            "home": {
+                                "id": "10077",
+                                "name": "Boca Juniors",
+                                "shortName": "Boca Juniors",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "6310",
+                                "name": "Universidad de Chile",
+                                "shortName": "Universidad de Chile",
+                                "isOurTeam": false
+                            }
+                        },
+                        {
+                            "result": 1,
+                            "resultString": "W",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10083_xsmall.png",
+                            "linkToMatch": "/matches/boca-juniors-vs-san-lorenzo/3czzk3#3811627",
+                            "date": null,
+                            "teamPageUrl": "/teams/10083/overview/san-lorenzo",
+                            "tooltipText": {
+                                "utcTime": "2022-01-25T23:00:00.000Z",
+                                "homeTeam": "Boca Juniors",
+                                "homeTeamId": 10077,
+                                "homeScore": 1,
+                                "awayTeam": "San Lorenzo",
+                                "awayTeamId": 10083,
+                                "awayScore": 0
+                            },
+                            "score": "1 - 0",
+                            "home": {
+                                "id": "10077",
+                                "name": "Boca Juniors",
+                                "shortName": "Boca Juniors",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "10083",
+                                "name": "San Lorenzo",
+                                "shortName": "San Lorenzo",
+                                "isOurTeam": false
+                            }
+                        }
+                    ],
+                    "10078": [
+                        {
+                            "result": -1,
+                            "resultString": "L",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10083_xsmall.png",
+                            "linkToMatch": "/matches/independiente-vs-san-lorenzo/3d0f44#3799174",
+                            "date": null,
+                            "teamPageUrl": "/teams/10083/overview/san-lorenzo",
+                            "tooltipText": {
+                                "utcTime": "2022-01-15T23:00:00.000Z",
+                                "homeTeam": "Independiente",
+                                "homeTeamId": 10078,
+                                "homeScore": 0,
+                                "awayTeam": "San Lorenzo",
+                                "awayTeamId": 10083,
+                                "awayScore": 1
+                            },
+                            "score": "0 - 1",
+                            "home": {
+                                "id": "10078",
+                                "name": "Independiente",
+                                "shortName": "Independiente",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "10083",
+                                "name": "San Lorenzo",
+                                "shortName": "San Lorenzo",
+                                "isOurTeam": false
+                            }
+                        },
+                        {
+                            "result": 1,
+                            "resultString": "W",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10101_xsmall.png",
+                            "linkToMatch": "/matches/independiente-vs-talleres/3d879v#3799175",
+                            "date": null,
+                            "teamPageUrl": "/teams/10101/overview/talleres",
+                            "tooltipText": {
+                                "utcTime": "2022-01-18T23:00:00.000Z",
+                                "homeTeam": "Talleres",
+                                "homeTeamId": 10101,
+                                "homeScore": 1,
+                                "awayTeam": "Independiente",
+                                "awayTeamId": 10078,
+                                "awayScore": 3
+                            },
+                            "score": "1 - 3",
+                            "home": {
+                                "id": "10101",
+                                "name": "Talleres",
+                                "shortName": "Talleres",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "10078",
+                                "name": "Independiente",
+                                "shortName": "Independiente",
+                                "isOurTeam": true
+                            }
+                        }
+                    ],
+                    "10083": [
+                        {
+                            "result": 1,
+                            "resultString": "W",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10078_xsmall.png",
+                            "linkToMatch": "/matches/independiente-vs-san-lorenzo/3d0f44#3799174",
+                            "date": null,
+                            "teamPageUrl": "/teams/10078/overview/independiente",
+                            "tooltipText": {
+                                "utcTime": "2022-01-15T23:00:00.000Z",
+                                "homeTeam": "Independiente",
+                                "homeTeamId": 10078,
+                                "homeScore": 0,
+                                "awayTeam": "San Lorenzo",
+                                "awayTeamId": 10083,
+                                "awayScore": 1
+                            },
+                            "score": "0 - 1",
+                            "home": {
+                                "id": "10078",
+                                "name": "Independiente",
+                                "shortName": "Independiente",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "10083",
+                                "name": "San Lorenzo",
+                                "shortName": "San Lorenzo",
+                                "isOurTeam": true
+                            }
+                        },
+                        {
+                            "result": 1,
+                            "resultString": "W",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10101_xsmall.png",
+                            "linkToMatch": "/matches/san-lorenzo-vs-talleres/3dad4x#3799326",
+                            "date": null,
+                            "teamPageUrl": "/teams/10101/overview/talleres",
+                            "tooltipText": {
+                                "utcTime": "2022-01-22T23:00:00.000Z",
+                                "homeTeam": "Talleres",
+                                "homeTeamId": 10101,
+                                "homeScore": 0,
+                                "awayTeam": "San Lorenzo",
+                                "awayTeamId": 10083,
+                                "awayScore": 1
+                            },
+                            "score": "0 - 1",
+                            "home": {
+                                "id": "10101",
+                                "name": "Talleres",
+                                "shortName": "Talleres",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "10083",
+                                "name": "San Lorenzo",
+                                "shortName": "San Lorenzo",
+                                "isOurTeam": true
+                            }
+                        },
+                        {
+                            "result": -1,
+                            "resultString": "L",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10077_xsmall.png",
+                            "linkToMatch": "/matches/boca-juniors-vs-san-lorenzo/3czzk3#3811627",
+                            "date": null,
+                            "teamPageUrl": "/teams/10077/overview/boca-juniors",
+                            "tooltipText": {
+                                "utcTime": "2022-01-25T23:00:00.000Z",
+                                "homeTeam": "Boca Juniors",
+                                "homeTeamId": 10077,
+                                "homeScore": 1,
+                                "awayTeam": "San Lorenzo",
+                                "awayTeamId": 10083,
+                                "awayScore": 0
+                            },
+                            "score": "1 - 0",
+                            "home": {
+                                "id": "10077",
+                                "name": "Boca Juniors",
+                                "shortName": "Boca Juniors",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "10083",
+                                "name": "San Lorenzo",
+                                "shortName": "San Lorenzo",
+                                "isOurTeam": true
+                            }
+                        }
+                    ],
+                    "10101": [
+                        {
+                            "result": -1,
+                            "resultString": "L",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10078_xsmall.png",
+                            "linkToMatch": "/matches/independiente-vs-talleres/3d879v#3799175",
+                            "date": null,
+                            "teamPageUrl": "/teams/10078/overview/independiente",
+                            "tooltipText": {
+                                "utcTime": "2022-01-18T23:00:00.000Z",
+                                "homeTeam": "Talleres",
+                                "homeTeamId": 10101,
+                                "homeScore": 1,
+                                "awayTeam": "Independiente",
+                                "awayTeamId": 10078,
+                                "awayScore": 3
+                            },
+                            "score": "1 - 3",
+                            "home": {
+                                "id": "10101",
+                                "name": "Talleres",
+                                "shortName": "Talleres",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "10078",
+                                "name": "Independiente",
+                                "shortName": "Independiente",
+                                "isOurTeam": false
+                            }
+                        },
+                        {
+                            "result": -1,
+                            "resultString": "L",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10083_xsmall.png",
+                            "linkToMatch": "/matches/san-lorenzo-vs-talleres/3dad4x#3799326",
+                            "date": null,
+                            "teamPageUrl": "/teams/10083/overview/san-lorenzo",
+                            "tooltipText": {
+                                "utcTime": "2022-01-22T23:00:00.000Z",
+                                "homeTeam": "Talleres",
+                                "homeTeamId": 10101,
+                                "homeScore": 0,
+                                "awayTeam": "San Lorenzo",
+                                "awayTeamId": 10083,
+                                "awayScore": 1
+                            },
+                            "score": "0 - 1",
+                            "home": {
+                                "id": "10101",
+                                "name": "Talleres",
+                                "shortName": "Talleres",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "10083",
+                                "name": "San Lorenzo",
+                                "shortName": "San Lorenzo",
+                                "isOurTeam": false
+                            }
+                        }
+                    ]
+                },
+                "nextOpponent": null,
+                "tableHeader": {
+                    "staticTableHeaders": [
+                        "#",
+                        "Team",
+                        "PL",
+                        "W",
+                        "D",
+                        "L",
+                        "+/-",
+                        "GD",
+                        "PTS"
+                    ],
+                    "dynamicTableHeaders": [
+                        "Form"
+                    ]
+                }
+            }
+        ],
+        "topPlayers": {
+            "byRating": {
+                "seeAllLink": "/leagues/10075/stats/season/17294/players/rating/torneo-de-verano"
+            },
+            "byGoals": {
+                "players": [
+                    {
+                        "id": 1053392,
+                        "name": "Alan Velasco",
+                        "teamId": 10078,
+                        "teamName": "Independiente",
+                        "goals": 2,
+                        "value": 2,
+                        "stat": {
+                            "name": "goals",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#EC1C24",
+                            "lightMode": "#EC1C24",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 1110044,
+                        "name": "Exequiel Zeballos",
+                        "teamId": 10077,
+                        "teamName": "Boca Juniors",
+                        "goals": 2,
+                        "value": 2,
+                        "stat": {
+                            "name": "goals",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#004890",
+                            "lightMode": "#00458a",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 1215735,
+                        "name": "Luis Vazquez",
+                        "teamId": 10077,
+                        "teamName": "Boca Juniors",
+                        "goals": 2,
+                        "value": 2,
+                        "stat": {
+                            "name": "goals",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#004890",
+                            "lightMode": "#00458a",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "seeAllLink": "/leagues/10075/stats/season/17294/players/goals/torneo-de-verano"
+            },
+            "byAssists": {
+                "seeAllLink": "/leagues/10075/stats/season/17294/players/goal_assist/torneo-de-verano"
+            },
+            "seeAllUrl": "stats"
+        },
+        "hasTotw": false,
+        "leagueOverviewMatches": [
+            {
+                "id": "3799163",
+                "pageUrl": "/matches/universidad-de-chile-vs-colo-colo/1neh3m#3799163",
+                "opponent": {
+                    "id": "7815",
+                    "name": "Colo Colo",
+                    "score": 2
+                },
+                "home": {
+                    "id": "7815",
+                    "name": "Colo Colo",
+                    "score": 2
+                },
+                "away": {
+                    "id": "6310",
+                    "name": "Universidad de Chile",
+                    "score": 1
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2022-01-15T00:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "2 - 1",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "3799174",
+                "pageUrl": "/matches/independiente-vs-san-lorenzo/3d0f44#3799174",
+                "opponent": {
+                    "id": "10078",
+                    "name": "Independiente",
+                    "score": 0
+                },
+                "home": {
+                    "id": "10078",
+                    "name": "Independiente",
+                    "score": 0
+                },
+                "away": {
+                    "id": "10083",
+                    "name": "San Lorenzo",
+                    "score": 1
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2022-01-16T00:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 1",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "3799164",
+                "pageUrl": "/matches/colo-colo-vs-boca-juniors/2nb1fl#3799164",
+                "opponent": {
+                    "id": "10077",
+                    "name": "Boca Juniors",
+                    "score": 2
+                },
+                "home": {
+                    "id": "10077",
+                    "name": "Boca Juniors",
+                    "score": 2
+                },
+                "away": {
+                    "id": "7815",
+                    "name": "Colo Colo",
+                    "score": 0
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2022-01-18T00:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "2 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "3799175",
+                "pageUrl": "/matches/independiente-vs-talleres/3d879v#3799175",
+                "opponent": {
+                    "id": "10101",
+                    "name": "Talleres",
+                    "score": 1
+                },
+                "home": {
+                    "id": "10101",
+                    "name": "Talleres",
+                    "score": 1
+                },
+                "away": {
+                    "id": "10078",
+                    "name": "Independiente",
+                    "score": 3
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2022-01-19T00:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "1 - 3",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "3799165",
+                "pageUrl": "/matches/universidad-de-chile-vs-boca-juniors/27y46k#3799165",
+                "opponent": {
+                    "id": "10077",
+                    "name": "Boca Juniors",
+                    "score": 3
+                },
+                "home": {
+                    "id": "10077",
+                    "name": "Boca Juniors",
+                    "score": 3
+                },
+                "away": {
+                    "id": "6310",
+                    "name": "Universidad de Chile",
+                    "score": 2
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2022-01-22T00:15:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "3 - 2",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "3799326",
+                "pageUrl": "/matches/san-lorenzo-vs-talleres/3dad4x#3799326",
+                "opponent": {
+                    "id": "10101",
+                    "name": "Talleres",
+                    "score": 0
+                },
+                "home": {
+                    "id": "10101",
+                    "name": "Talleres",
+                    "score": 0
+                },
+                "away": {
+                    "id": "10083",
+                    "name": "San Lorenzo",
+                    "score": 1
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2022-01-23T00:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 1",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "3811627",
+                "pageUrl": "/matches/boca-juniors-vs-san-lorenzo/3czzk3#3811627",
+                "opponent": {
+                    "id": "10077",
+                    "name": "Boca Juniors",
+                    "score": 1
+                },
+                "home": {
+                    "id": "10077",
+                    "name": "Boca Juniors",
+                    "score": 1
+                },
+                "away": {
+                    "id": "10083",
+                    "name": "San Lorenzo",
+                    "score": 0
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2022-01-26T00:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "1 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            }
+        ],
+        "hasOngoingMatch": false,
+        "shotMap": null,
+        "matches": {
+            "firstUnplayedMatch": null,
+            "allMatches": [
+                {
+                    "round": "1",
+                    "roundName": 1,
+                    "pageUrl": "/matches/universidad-de-chile-vs-colo-colo/1neh3m#3799163",
+                    "id": "3799163",
+                    "home": {
+                        "name": "Colo Colo",
+                        "shortName": "Colo Colo",
+                        "id": "7815"
+                    },
+                    "away": {
+                        "name": "Universidad de Chile",
+                        "shortName": "Universidad de Chile",
+                        "id": "6310"
+                    },
+                    "group": "A",
+                    "status": {
+                        "utcTime": "2022-01-15T00:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "2 - 1",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "1",
+                    "roundName": 1,
+                    "pageUrl": "/matches/independiente-vs-san-lorenzo/3d0f44#3799174",
+                    "id": "3799174",
+                    "home": {
+                        "name": "Independiente",
+                        "shortName": "Independiente",
+                        "id": "10078"
+                    },
+                    "away": {
+                        "name": "San Lorenzo",
+                        "shortName": "San Lorenzo",
+                        "id": "10083"
+                    },
+                    "group": "B",
+                    "status": {
+                        "utcTime": "2022-01-16T00:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "0 - 1",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "2",
+                    "roundName": 2,
+                    "pageUrl": "/matches/colo-colo-vs-boca-juniors/2nb1fl#3799164",
+                    "id": "3799164",
+                    "home": {
+                        "name": "Boca Juniors",
+                        "shortName": "Boca Juniors",
+                        "id": "10077"
+                    },
+                    "away": {
+                        "name": "Colo Colo",
+                        "shortName": "Colo Colo",
+                        "id": "7815"
+                    },
+                    "group": "A",
+                    "status": {
+                        "utcTime": "2022-01-18T00:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "2 - 0",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "2",
+                    "roundName": 2,
+                    "pageUrl": "/matches/independiente-vs-talleres/3d879v#3799175",
+                    "id": "3799175",
+                    "home": {
+                        "name": "Talleres",
+                        "shortName": "Talleres",
+                        "id": "10101"
+                    },
+                    "away": {
+                        "name": "Independiente",
+                        "shortName": "Independiente",
+                        "id": "10078"
+                    },
+                    "group": "B",
+                    "status": {
+                        "utcTime": "2022-01-19T00:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "1 - 3",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "3",
+                    "roundName": 3,
+                    "pageUrl": "/matches/universidad-de-chile-vs-boca-juniors/27y46k#3799165",
+                    "id": "3799165",
+                    "home": {
+                        "name": "Boca Juniors",
+                        "shortName": "Boca Juniors",
+                        "id": "10077"
+                    },
+                    "away": {
+                        "name": "Universidad de Chile",
+                        "shortName": "Universidad de Chile",
+                        "id": "6310"
+                    },
+                    "group": "A",
+                    "status": {
+                        "utcTime": "2022-01-22T00:15:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "3 - 2",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "3",
+                    "roundName": 3,
+                    "pageUrl": "/matches/san-lorenzo-vs-talleres/3dad4x#3799326",
+                    "id": "3799326",
+                    "home": {
+                        "name": "Talleres",
+                        "shortName": "Talleres",
+                        "id": "10101"
+                    },
+                    "away": {
+                        "name": "San Lorenzo",
+                        "shortName": "San Lorenzo",
+                        "id": "10083"
+                    },
+                    "group": "B",
+                    "status": {
+                        "utcTime": "2022-01-23T00:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "0 - 1",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "final",
+                    "roundName": "Final",
+                    "pageUrl": "/matches/boca-juniors-vs-san-lorenzo/3czzk3#3811627",
+                    "id": "3811627",
+                    "home": {
+                        "name": "Boca Juniors",
+                        "shortName": "Boca Juniors",
+                        "id": "10077"
+                    },
+                    "away": {
+                        "name": "San Lorenzo",
+                        "shortName": "San Lorenzo",
+                        "id": "10083"
+                    },
+                    "status": {
+                        "utcTime": "2022-01-26T00:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "1 - 0",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                }
+            ],
+            "hasOngoingMatch": false,
+            "fixtureInfo": {
+                "activeRound": {
+                    "roundId": "final",
+                    "localizedKey": "finalTournament"
+                },
+                "rounds": [
+                    {
+                        "roundId": "1",
+                        "localizedKey": "round_fmt"
+                    },
+                    {
+                        "roundId": "2",
+                        "localizedKey": "round_fmt"
+                    },
+                    {
+                        "roundId": "3",
+                        "localizedKey": "round_fmt"
+                    },
+                    {
+                        "roundId": "final",
+                        "localizedKey": "finalTournament"
+                    }
+                ],
+                "teams": [
+                    {
+                        "id": 10077,
+                        "name": "Boca Juniors"
+                    },
+                    {
+                        "id": 7815,
+                        "name": "Colo Colo"
+                    },
+                    {
+                        "id": 10078,
+                        "name": "Independiente"
+                    },
+                    {
+                        "id": 10083,
+                        "name": "San Lorenzo"
+                    },
+                    {
+                        "id": 10101,
+                        "name": "Talleres"
+                    },
+                    {
+                        "id": 6310,
+                        "name": "Universidad de Chile"
+                    }
+                ],
+                "groups": [
+                    "A",
+                    "B"
+                ]
+            }
+        }
+    },
+    "stats": {
+        "players": [
+            {
+                "header": "Top scorer",
+                "participant": {
+                    "id": 1053392,
+                    "name": "Alan Velasco",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 10078,
+                    "teamName": "Independiente",
+                    "value": 2,
+                    "stat": {
+                        "name": "goals",
+                        "value": 2,
+                        "format": "number",
+                        "fractions": 0
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/17294/goals.json",
+                "topThree": [
+                    {
+                        "id": 1053392,
+                        "name": "Alan Velasco",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10078,
+                        "teamName": "Independiente",
+                        "value": 2,
+                        "stat": {
+                            "name": "goals",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#EC1C24",
+                            "lightMode": "#EC1C24",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 1110044,
+                        "name": "Exequiel Zeballos",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10077,
+                        "teamName": "Boca Juniors",
+                        "value": 2,
+                        "stat": {
+                            "name": "goals",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#004890",
+                            "lightMode": "#00458a",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 1215735,
+                        "name": "Luis Vazquez",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10077,
+                        "teamName": "Boca Juniors",
+                        "value": 2,
+                        "stat": {
+                            "name": "goals",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#004890",
+                            "lightMode": "#00458a",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 1,
+                "name": "goals",
+                "localizedTitleId": "goals_title",
+                "category": "Top Stat"
+            },
+            {
+                "header": "Red cards",
+                "participant": {
+                    "id": 688667,
+                    "name": "Camilo Moya",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 6310,
+                    "teamName": "Universidad de Chile",
+                    "value": 1,
+                    "stat": {
+                        "name": "red_card",
+                        "value": 1,
+                        "format": "number",
+                        "fractions": 0
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/17294/red_card.json",
+                "topThree": [
+                    {
+                        "id": 688667,
+                        "name": "Camilo Moya",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 6310,
+                        "teamName": "Universidad de Chile",
+                        "value": 1,
+                        "stat": {
+                            "name": "red_card",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#0056a1",
+                            "lightMode": "#083060",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 1201408,
+                        "name": "Julian Malatini",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10101,
+                        "teamName": "Talleres",
+                        "value": 1,
+                        "stat": {
+                            "name": "red_card",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#424f86",
+                            "lightMode": "#1B2F62",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 34,
+                "name": "red_card",
+                "localizedTitleId": "red_cards",
+                "category": "Discipline"
+            }
+        ],
+        "teams": [
+            {
+                "header": "Goals per match",
+                "participant": {
+                    "id": 0,
+                    "name": "Boca Juniors",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 10077,
+                    "teamName": "Boca Juniors",
+                    "value": 2,
+                    "stat": {
+                        "name": "goals_team_match",
+                        "value": 2,
+                        "format": "fraction",
+                        "fractions": 1
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/17294/goals_team_match.json",
+                "topThree": [
+                    {
+                        "id": 0,
+                        "name": "Boca Juniors",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10077,
+                        "teamName": "Boca Juniors",
+                        "value": 2,
+                        "stat": {
+                            "name": "goals_team_match",
+                            "value": 2,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#004890",
+                            "lightMode": "#00458a",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Independiente",
+                        "rank": 2,
+                        "ccode": null,
+                        "teamId": 10078,
+                        "teamName": "Independiente",
+                        "value": 1.5,
+                        "stat": {
+                            "name": "goals_team_match",
+                            "value": 1.5,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#EC1C24",
+                            "lightMode": "#EC1C24",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Universidad de Chile",
+                        "rank": 2,
+                        "ccode": null,
+                        "teamId": 6310,
+                        "teamName": "Universidad de Chile",
+                        "value": 1.5,
+                        "stat": {
+                            "name": "goals_team_match",
+                            "value": 1.5,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#0056a1",
+                            "lightMode": "#083060",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 36,
+                "name": "goals_team_match",
+                "localizedTitleId": "goals_team_match_title",
+                "category": "Top Stat"
+            },
+            {
+                "header": "Goals conceded per match",
+                "participant": {
+                    "id": 0,
+                    "name": "San Lorenzo",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 10083,
+                    "teamName": "San Lorenzo",
+                    "value": 0.3,
+                    "stat": {
+                        "name": "goals_conceded_team_match",
+                        "value": 0.3,
+                        "format": "fraction",
+                        "fractions": 1
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/17294/goals_conceded_team_match.json",
+                "topThree": [
+                    {
+                        "id": 0,
+                        "name": "San Lorenzo",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10083,
+                        "teamName": "San Lorenzo",
+                        "value": 0.3,
+                        "stat": {
+                            "name": "goals_conceded_team_match",
+                            "value": 0.3,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#255885",
+                            "lightMode": "#163856",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Boca Juniors",
+                        "rank": 2,
+                        "ccode": null,
+                        "teamId": 10077,
+                        "teamName": "Boca Juniors",
+                        "value": 0.7,
+                        "stat": {
+                            "name": "goals_conceded_team_match",
+                            "value": 0.7,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#004890",
+                            "lightMode": "#00458a",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Independiente",
+                        "rank": 3,
+                        "ccode": null,
+                        "teamId": 10078,
+                        "teamName": "Independiente",
+                        "value": 1,
+                        "stat": {
+                            "name": "goals_conceded_team_match",
+                            "value": 1,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#EC1C24",
+                            "lightMode": "#EC1C24",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 37,
+                "name": "goals_conceded_team_match",
+                "localizedTitleId": "goals_conceded_team_match_title",
+                "category": "Top Stat"
+            },
+            {
+                "header": "Clean sheets",
+                "participant": {
+                    "id": 0,
+                    "name": "Boca Juniors",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 10077,
+                    "teamName": "Boca Juniors",
+                    "value": 2,
+                    "stat": {
+                        "name": "clean_sheet_team",
+                        "value": 2,
+                        "format": "number",
+                        "fractions": 0
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/17294/clean_sheet_team.json",
+                "topThree": [
+                    {
+                        "id": 0,
+                        "name": "Boca Juniors",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10077,
+                        "teamName": "Boca Juniors",
+                        "value": 2,
+                        "stat": {
+                            "name": "clean_sheet_team",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#004890",
+                            "lightMode": "#00458a",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "San Lorenzo",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10083,
+                        "teamName": "San Lorenzo",
+                        "value": 2,
+                        "stat": {
+                            "name": "clean_sheet_team",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#255885",
+                            "lightMode": "#163856",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 39,
+                "name": "clean_sheet_team",
+                "localizedTitleId": "clean_sheet_team_title",
+                "category": "Top Stat"
+            },
+            {
+                "header": "Red cards",
+                "participant": {
+                    "id": 0,
+                    "name": "Talleres",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 10101,
+                    "teamName": "Talleres",
+                    "value": 1,
+                    "stat": {
+                        "name": "total_red_card_team",
+                        "value": 1,
+                        "format": "number",
+                        "fractions": 0
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/17294/total_red_card_team.json",
+                "topThree": [
+                    {
+                        "id": 0,
+                        "name": "Talleres",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10101,
+                        "teamName": "Talleres",
+                        "value": 1,
+                        "stat": {
+                            "name": "total_red_card_team",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#424f86",
+                            "lightMode": "#1B2F62",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Universidad de Chile",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 6310,
+                        "teamName": "Universidad de Chile",
+                        "value": 1,
+                        "stat": {
+                            "name": "total_red_card_team",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#0056a1",
+                            "lightMode": "#083060",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 60,
+                "name": "total_red_card_team",
+                "localizedTitleId": "red_cards",
+                "category": "Discipline"
+            }
+        ],
+        "seasonStatLinks": [
+            {
+                "Name": "2023",
+                "CountryCode": "ARG",
+                "RelativePath": "stats/10075/season/18629/topstats.json",
+                "League": "Torneo de Verano",
+                "StageId": 0,
+                "TemplateId": 10075,
+                "TournamentId": 18629
+            },
+            {
+                "Name": "2022",
+                "CountryCode": "ARG",
+                "RelativePath": "stats/10075/season/17294/topstats.json",
+                "League": "Torneo de Verano",
+                "StageId": 0,
+                "TemplateId": 10075,
+                "TournamentId": 17294
+            },
+            {
+                "Name": "2020",
+                "CountryCode": "ARG",
+                "RelativePath": "stats/10075/season/14910/topstats.json",
+                "League": "Torneo de Verano",
+                "StageId": 0,
+                "TemplateId": 10075,
+                "TournamentId": 14910
+            },
+            {
+                "Name": "2019",
+                "CountryCode": "ARG",
+                "RelativePath": "stats/10075/season/14911/topstats.json",
+                "League": "Torneo de Verano",
+                "StageId": 0,
+                "TemplateId": 10075,
+                "TournamentId": 14911
+            }
+        ],
+        "seasonsWithLinks": [
+            "2023",
+            "2022",
+            "2020",
+            "2019"
+        ]
+    },
+    "fixtures": {
+        "firstUnplayedMatch": null,
+        "allMatches": [
+            {
+                "round": "1",
+                "roundName": 1,
+                "pageUrl": "/matches/universidad-de-chile-vs-colo-colo/1neh3m#3799163",
+                "id": "3799163",
+                "home": {
+                    "name": "Colo Colo",
+                    "shortName": "Colo Colo",
+                    "id": "7815"
+                },
+                "away": {
+                    "name": "Universidad de Chile",
+                    "shortName": "Universidad de Chile",
+                    "id": "6310"
+                },
+                "group": "A",
+                "status": {
+                    "utcTime": "2022-01-15T00:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "2 - 1",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "1",
+                "roundName": 1,
+                "pageUrl": "/matches/independiente-vs-san-lorenzo/3d0f44#3799174",
+                "id": "3799174",
+                "home": {
+                    "name": "Independiente",
+                    "shortName": "Independiente",
+                    "id": "10078"
+                },
+                "away": {
+                    "name": "San Lorenzo",
+                    "shortName": "San Lorenzo",
+                    "id": "10083"
+                },
+                "group": "B",
+                "status": {
+                    "utcTime": "2022-01-16T00:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 1",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "2",
+                "roundName": 2,
+                "pageUrl": "/matches/colo-colo-vs-boca-juniors/2nb1fl#3799164",
+                "id": "3799164",
+                "home": {
+                    "name": "Boca Juniors",
+                    "shortName": "Boca Juniors",
+                    "id": "10077"
+                },
+                "away": {
+                    "name": "Colo Colo",
+                    "shortName": "Colo Colo",
+                    "id": "7815"
+                },
+                "group": "A",
+                "status": {
+                    "utcTime": "2022-01-18T00:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "2 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "2",
+                "roundName": 2,
+                "pageUrl": "/matches/independiente-vs-talleres/3d879v#3799175",
+                "id": "3799175",
+                "home": {
+                    "name": "Talleres",
+                    "shortName": "Talleres",
+                    "id": "10101"
+                },
+                "away": {
+                    "name": "Independiente",
+                    "shortName": "Independiente",
+                    "id": "10078"
+                },
+                "group": "B",
+                "status": {
+                    "utcTime": "2022-01-19T00:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "1 - 3",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "3",
+                "roundName": 3,
+                "pageUrl": "/matches/universidad-de-chile-vs-boca-juniors/27y46k#3799165",
+                "id": "3799165",
+                "home": {
+                    "name": "Boca Juniors",
+                    "shortName": "Boca Juniors",
+                    "id": "10077"
+                },
+                "away": {
+                    "name": "Universidad de Chile",
+                    "shortName": "Universidad de Chile",
+                    "id": "6310"
+                },
+                "group": "A",
+                "status": {
+                    "utcTime": "2022-01-22T00:15:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "3 - 2",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "3",
+                "roundName": 3,
+                "pageUrl": "/matches/san-lorenzo-vs-talleres/3dad4x#3799326",
+                "id": "3799326",
+                "home": {
+                    "name": "Talleres",
+                    "shortName": "Talleres",
+                    "id": "10101"
+                },
+                "away": {
+                    "name": "San Lorenzo",
+                    "shortName": "San Lorenzo",
+                    "id": "10083"
+                },
+                "group": "B",
+                "status": {
+                    "utcTime": "2022-01-23T00:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 1",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "final",
+                "roundName": "Final",
+                "pageUrl": "/matches/boca-juniors-vs-san-lorenzo/3czzk3#3811627",
+                "id": "3811627",
+                "home": {
+                    "name": "Boca Juniors",
+                    "shortName": "Boca Juniors",
+                    "id": "10077"
+                },
+                "away": {
+                    "name": "San Lorenzo",
+                    "shortName": "San Lorenzo",
+                    "id": "10083"
+                },
+                "status": {
+                    "utcTime": "2022-01-26T00:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "1 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            }
+        ],
+        "hasOngoingMatch": false,
+        "fixtureInfo": {
+            "activeRound": {
+                "roundId": "final",
+                "localizedKey": "finalTournament"
+            },
+            "rounds": [
+                {
+                    "roundId": "1",
+                    "localizedKey": "round_fmt"
+                },
+                {
+                    "roundId": "2",
+                    "localizedKey": "round_fmt"
+                },
+                {
+                    "roundId": "3",
+                    "localizedKey": "round_fmt"
+                },
+                {
+                    "roundId": "final",
+                    "localizedKey": "finalTournament"
+                }
+            ],
+            "teams": [
+                {
+                    "id": 10077,
+                    "name": "Boca Juniors"
+                },
+                {
+                    "id": 7815,
+                    "name": "Colo Colo"
+                },
+                {
+                    "id": 10078,
+                    "name": "Independiente"
+                },
+                {
+                    "id": 10083,
+                    "name": "San Lorenzo"
+                },
+                {
+                    "id": 10101,
+                    "name": "Talleres"
+                },
+                {
+                    "id": 6310,
+                    "name": "Universidad de Chile"
+                }
+            ],
+            "groups": [
+                "A",
+                "B"
+            ]
+        }
+    },
+    "playoff": null,
+    "seasons": []
+}

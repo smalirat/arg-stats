@@ -1,0 +1,3316 @@
+{
+    "tabs": [
+        "overview",
+        "table",
+        "fixtures",
+        "stats",
+        "transfers"
+    ],
+    "allAvailableSeasons": [
+        "2023",
+        "2022",
+        "2020",
+        "2019"
+    ],
+    "details": {
+        "id": 10075,
+        "type": "league",
+        "name": "Torneo de Verano",
+        "selectedSeason": "2023",
+        "latestSeason": "2023",
+        "shortName": "Torneo de Verano",
+        "country": "ARG",
+        "gender": "male",
+        "faqJSONLD": null,
+        "breadcrumbJSONLD": {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://www.fotmob.com"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Torneo de Verano",
+                    "item": "https://www.fotmob.com/leagues/10075/overview/torneo-de-verano"
+                }
+            ]
+        },
+        "canSyncCalendar": true,
+        "leagueColor": "#333333",
+        "dataProvider": "enet",
+        "seopath": "torneo-de-verano"
+    },
+    "seostr": "torneo-de-verano",
+    "QAData": [],
+    "table": [
+        {
+            "data": {
+                "composite": true,
+                "ccode": "ARG",
+                "leagueId": 10075,
+                "pageUrl": "/leagues/10075/overview/torneo-de-verano?season=2023",
+                "leagueName": "Torneo de Verano",
+                "legend": [],
+                "tableFilterTypes": [
+                    "all",
+                    "home",
+                    "away"
+                ],
+                "tables": [
+                    {
+                        "ccode": "ARG",
+                        "leagueId": 883461,
+                        "pageUrl": "/leagues/883461/overview/group-b?season=2023",
+                        "leagueName": "Group B",
+                        "legend": null,
+                        "table": {
+                            "all": [
+                                {
+                                    "name": "Central Norte",
+                                    "shortName": "Central Norte",
+                                    "id": 213597,
+                                    "pageUrl": "/teams/213597/overview/central-norte",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 2,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "3-0",
+                                    "goalConDiff": 3,
+                                    "pts": 6,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Gimnasia Jujuy",
+                                    "shortName": "Gimnasia Jujuy",
+                                    "id": 10095,
+                                    "pageUrl": "/teams/10095/overview/gimnasia-jujuy",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 2,
+                                    "losses": 0,
+                                    "scoresStr": "1-1",
+                                    "goalConDiff": 0,
+                                    "pts": 2,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "San Martin de Tucuman",
+                                    "shortName": "San Martin de Tucuman",
+                                    "id": 146371,
+                                    "pageUrl": "/teams/146371/overview/san-martin-de-tucuman",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 1,
+                                    "losses": 1,
+                                    "scoresStr": "0-1",
+                                    "goalConDiff": -1,
+                                    "pts": 1,
+                                    "idx": 3,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Juventud Antoniana",
+                                    "shortName": "Juventud Antoniana",
+                                    "id": 213600,
+                                    "pageUrl": "/teams/213600/overview/juventud-antoniana",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 1,
+                                    "losses": 1,
+                                    "scoresStr": "1-3",
+                                    "goalConDiff": -2,
+                                    "pts": 1,
+                                    "idx": 4,
+                                    "qualColor": null
+                                }
+                            ],
+                            "home": [
+                                {
+                                    "name": "Central Norte",
+                                    "shortName": "Central Norte",
+                                    "id": 213597,
+                                    "pageUrl": "/teams/213597/overview/central-norte",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 1,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "1-0",
+                                    "goalConDiff": 1,
+                                    "goalsScored": 1,
+                                    "pts": 3,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Gimnasia Jujuy",
+                                    "shortName": "Gimnasia Jujuy",
+                                    "id": 10095,
+                                    "pageUrl": "/teams/10095/overview/gimnasia-jujuy",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 0,
+                                    "draws": 1,
+                                    "losses": 0,
+                                    "scoresStr": "1-1",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 1,
+                                    "pts": 1,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "San Martin de Tucuman",
+                                    "shortName": "San Martin de Tucuman",
+                                    "id": 146371,
+                                    "pageUrl": "/teams/146371/overview/san-martin-de-tucuman",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 0,
+                                    "draws": 1,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 0,
+                                    "pts": 1,
+                                    "idx": 3,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Juventud Antoniana",
+                                    "shortName": "Juventud Antoniana",
+                                    "id": 213600,
+                                    "pageUrl": "/teams/213600/overview/juventud-antoniana",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 1,
+                                    "scoresStr": "0-2",
+                                    "goalConDiff": -2,
+                                    "goalsScored": 0,
+                                    "pts": 0,
+                                    "idx": 4,
+                                    "qualColor": null
+                                }
+                            ],
+                            "away": [
+                                {
+                                    "name": "Central Norte",
+                                    "shortName": "Central Norte",
+                                    "id": 213597,
+                                    "pageUrl": "/teams/213597/overview/central-norte",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 1,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "2-0",
+                                    "goalConDiff": 2,
+                                    "goalsScored": 2,
+                                    "pts": 3,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Juventud Antoniana",
+                                    "shortName": "Juventud Antoniana",
+                                    "id": 213600,
+                                    "pageUrl": "/teams/213600/overview/juventud-antoniana",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 0,
+                                    "draws": 1,
+                                    "losses": 0,
+                                    "scoresStr": "1-1",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 1,
+                                    "pts": 1,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Gimnasia Jujuy",
+                                    "shortName": "Gimnasia Jujuy",
+                                    "id": 10095,
+                                    "pageUrl": "/teams/10095/overview/gimnasia-jujuy",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 0,
+                                    "draws": 1,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 0,
+                                    "pts": 1,
+                                    "idx": 3,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "San Martin de Tucuman",
+                                    "shortName": "San Martin de Tucuman",
+                                    "id": 146371,
+                                    "pageUrl": "/teams/146371/overview/san-martin-de-tucuman",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 1,
+                                    "scoresStr": "0-1",
+                                    "goalConDiff": -1,
+                                    "goalsScored": 0,
+                                    "pts": 0,
+                                    "idx": 4,
+                                    "qualColor": null
+                                }
+                            ]
+                        },
+                        "ongoing": []
+                    },
+                    {
+                        "ccode": "ARG",
+                        "leagueId": 883460,
+                        "pageUrl": "/leagues/883460/overview/group?season=2023",
+                        "leagueName": "Group A",
+                        "legend": null,
+                        "table": {
+                            "all": [
+                                {
+                                    "name": "Independiente",
+                                    "shortName": "Independiente",
+                                    "id": 10078,
+                                    "pageUrl": "/teams/10078/overview/independiente",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 1,
+                                    "draws": 1,
+                                    "losses": 0,
+                                    "scoresStr": "2-0",
+                                    "goalConDiff": 2,
+                                    "pts": 4,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Boca Juniors",
+                                    "shortName": "Boca Juniors",
+                                    "id": 10077,
+                                    "pageUrl": "/teams/10077/overview/boca-juniors",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 2,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "pts": 2,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Everton CD",
+                                    "shortName": "Everton CD",
+                                    "id": 1890,
+                                    "pageUrl": "/teams/1890/overview/everton-cd",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 1,
+                                    "losses": 1,
+                                    "scoresStr": "0-2",
+                                    "goalConDiff": -2,
+                                    "pts": 1,
+                                    "idx": 3,
+                                    "qualColor": null
+                                }
+                            ],
+                            "home": [
+                                {
+                                    "name": "Independiente",
+                                    "shortName": "Independiente",
+                                    "id": 10078,
+                                    "pageUrl": "/teams/10078/overview/independiente",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 1,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "2-0",
+                                    "goalConDiff": 2,
+                                    "goalsScored": 2,
+                                    "pts": 3,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Boca Juniors",
+                                    "shortName": "Boca Juniors",
+                                    "id": 10077,
+                                    "pageUrl": "/teams/10077/overview/boca-juniors",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 2,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 0,
+                                    "pts": 2,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Everton CD",
+                                    "shortName": "Everton CD",
+                                    "id": 1890,
+                                    "pageUrl": "/teams/1890/overview/everton-cd",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 0,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 0,
+                                    "pts": 0,
+                                    "idx": 3,
+                                    "qualColor": null
+                                }
+                            ],
+                            "away": [
+                                {
+                                    "name": "Independiente",
+                                    "shortName": "Independiente",
+                                    "id": 10078,
+                                    "pageUrl": "/teams/10078/overview/independiente",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 1,
+                                    "wins": 0,
+                                    "draws": 1,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 0,
+                                    "pts": 1,
+                                    "idx": 1,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Everton CD",
+                                    "shortName": "Everton CD",
+                                    "id": 1890,
+                                    "pageUrl": "/teams/1890/overview/everton-cd",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 2,
+                                    "wins": 0,
+                                    "draws": 1,
+                                    "losses": 1,
+                                    "scoresStr": "0-2",
+                                    "goalConDiff": -2,
+                                    "goalsScored": 0,
+                                    "pts": 1,
+                                    "idx": 2,
+                                    "qualColor": null
+                                },
+                                {
+                                    "name": "Boca Juniors",
+                                    "shortName": "Boca Juniors",
+                                    "id": 10077,
+                                    "pageUrl": "/teams/10077/overview/boca-juniors",
+                                    "deduction": null,
+                                    "ongoing": null,
+                                    "played": 0,
+                                    "wins": 0,
+                                    "draws": 0,
+                                    "losses": 0,
+                                    "scoresStr": "0-0",
+                                    "goalConDiff": 0,
+                                    "goalsScored": 0,
+                                    "pts": 0,
+                                    "idx": 3,
+                                    "qualColor": null
+                                }
+                            ]
+                        },
+                        "ongoing": []
+                    }
+                ],
+                "annualTable": null,
+                "averagesTable": null
+            },
+            "tableFilterTypes": [
+                "all",
+                "home",
+                "away"
+            ],
+            "teamForm": {
+                "1890": [
+                    {
+                        "result": -1,
+                        "resultString": "L",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10078_xsmall.png",
+                        "linkToMatch": "/matches/everton-cd-vs-independiente/16n5qa#4092606",
+                        "date": null,
+                        "teamPageUrl": "/teams/10078/overview/independiente",
+                        "tooltipText": {
+                            "utcTime": "2023-01-12T00:30:00Z",
+                            "homeTeam": "Independiente",
+                            "homeTeamId": 10078,
+                            "homeScore": 2,
+                            "awayTeam": "Everton CD",
+                            "awayTeamId": 1890,
+                            "awayScore": 0
+                        },
+                        "score": "2 - 0",
+                        "home": {
+                            "id": "10078",
+                            "name": "Independiente",
+                            "shortName": "Independiente",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "1890",
+                            "name": "Everton CD",
+                            "shortName": "Everton CD",
+                            "isOurTeam": true
+                        }
+                    },
+                    {
+                        "result": 0,
+                        "resultString": "D",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10077_xsmall.png",
+                        "linkToMatch": "/matches/everton-cd-vs-boca-juniors/16mwhu#4092601",
+                        "date": null,
+                        "teamPageUrl": "/teams/10077/overview/boca-juniors",
+                        "tooltipText": {
+                            "utcTime": "2023-01-14T00:30:00Z",
+                            "homeTeam": "Boca Juniors",
+                            "homeTeamId": 10077,
+                            "homeScore": 0,
+                            "awayTeam": "Everton CD",
+                            "awayTeamId": 1890,
+                            "awayScore": 0
+                        },
+                        "score": "0 - 0",
+                        "home": {
+                            "id": "10077",
+                            "name": "Boca Juniors",
+                            "shortName": "Boca Juniors",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "1890",
+                            "name": "Everton CD",
+                            "shortName": "Everton CD",
+                            "isOurTeam": true
+                        }
+                    }
+                ],
+                "10077": [
+                    {
+                        "result": 0,
+                        "resultString": "D",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10078_xsmall.png",
+                        "linkToMatch": "/matches/boca-juniors-vs-independiente/3cxts8#4092600",
+                        "date": null,
+                        "teamPageUrl": "/teams/10078/overview/independiente",
+                        "tooltipText": {
+                            "utcTime": "2023-01-08T00:30:00Z",
+                            "homeTeam": "Boca Juniors",
+                            "homeTeamId": 10077,
+                            "homeScore": 0,
+                            "awayTeam": "Independiente",
+                            "awayTeamId": 10078,
+                            "awayScore": 0
+                        },
+                        "score": "0 - 0",
+                        "home": {
+                            "id": "10077",
+                            "name": "Boca Juniors",
+                            "shortName": "Boca Juniors",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "10078",
+                            "name": "Independiente",
+                            "shortName": "Independiente",
+                            "isOurTeam": false
+                        }
+                    },
+                    {
+                        "result": 0,
+                        "resultString": "D",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/1890_xsmall.png",
+                        "linkToMatch": "/matches/everton-cd-vs-boca-juniors/16mwhu#4092601",
+                        "date": null,
+                        "teamPageUrl": "/teams/1890/overview/everton-cd",
+                        "tooltipText": {
+                            "utcTime": "2023-01-14T00:30:00Z",
+                            "homeTeam": "Boca Juniors",
+                            "homeTeamId": 10077,
+                            "homeScore": 0,
+                            "awayTeam": "Everton CD",
+                            "awayTeamId": 1890,
+                            "awayScore": 0
+                        },
+                        "score": "0 - 0",
+                        "home": {
+                            "id": "10077",
+                            "name": "Boca Juniors",
+                            "shortName": "Boca Juniors",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "1890",
+                            "name": "Everton CD",
+                            "shortName": "Everton CD",
+                            "isOurTeam": false
+                        }
+                    }
+                ],
+                "10078": [
+                    {
+                        "result": 0,
+                        "resultString": "D",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10077_xsmall.png",
+                        "linkToMatch": "/matches/boca-juniors-vs-independiente/3cxts8#4092600",
+                        "date": null,
+                        "teamPageUrl": "/teams/10077/overview/boca-juniors",
+                        "tooltipText": {
+                            "utcTime": "2023-01-08T00:30:00Z",
+                            "homeTeam": "Boca Juniors",
+                            "homeTeamId": 10077,
+                            "homeScore": 0,
+                            "awayTeam": "Independiente",
+                            "awayTeamId": 10078,
+                            "awayScore": 0
+                        },
+                        "score": "0 - 0",
+                        "home": {
+                            "id": "10077",
+                            "name": "Boca Juniors",
+                            "shortName": "Boca Juniors",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "10078",
+                            "name": "Independiente",
+                            "shortName": "Independiente",
+                            "isOurTeam": true
+                        }
+                    },
+                    {
+                        "result": 1,
+                        "resultString": "W",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/1890_xsmall.png",
+                        "linkToMatch": "/matches/everton-cd-vs-independiente/16n5qa#4092606",
+                        "date": null,
+                        "teamPageUrl": "/teams/1890/overview/everton-cd",
+                        "tooltipText": {
+                            "utcTime": "2023-01-12T00:30:00Z",
+                            "homeTeam": "Independiente",
+                            "homeTeamId": 10078,
+                            "homeScore": 2,
+                            "awayTeam": "Everton CD",
+                            "awayTeamId": 1890,
+                            "awayScore": 0
+                        },
+                        "score": "2 - 0",
+                        "home": {
+                            "id": "10078",
+                            "name": "Independiente",
+                            "shortName": "Independiente",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "1890",
+                            "name": "Everton CD",
+                            "shortName": "Everton CD",
+                            "isOurTeam": false
+                        }
+                    }
+                ],
+                "10095": [
+                    {
+                        "result": 0,
+                        "resultString": "D",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/213600_xsmall.png",
+                        "linkToMatch": "/matches/gimnasia-jujuy-vs-juventud-antoniana/bhsajnc#4092602",
+                        "date": null,
+                        "teamPageUrl": "/teams/213600/overview/juventud-antoniana",
+                        "tooltipText": {
+                            "utcTime": "2023-01-15T21:00:00Z",
+                            "homeTeam": "Gimnasia Jujuy",
+                            "homeTeamId": 10095,
+                            "homeScore": 1,
+                            "awayTeam": "Juventud Antoniana",
+                            "awayTeamId": 213600,
+                            "awayScore": 1
+                        },
+                        "score": "1 - 1",
+                        "home": {
+                            "id": "10095",
+                            "name": "Gimnasia Jujuy",
+                            "shortName": "Gimnasia Jujuy",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "213600",
+                            "name": "Juventud Antoniana",
+                            "shortName": "Juventud Antoniana",
+                            "isOurTeam": false
+                        }
+                    },
+                    {
+                        "result": 0,
+                        "resultString": "D",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/146371_xsmall.png",
+                        "linkToMatch": "/matches/gimnasia-jujuy-vs-san-martin-de-tucuman/5mfzqke#4092603",
+                        "date": null,
+                        "teamPageUrl": "/teams/146371/overview/san-martin-de-tucuman",
+                        "tooltipText": {
+                            "utcTime": "2023-01-18T22:00:00Z",
+                            "homeTeam": "San Martin de Tucuman",
+                            "homeTeamId": 146371,
+                            "homeScore": 0,
+                            "awayTeam": "Gimnasia Jujuy",
+                            "awayTeamId": 10095,
+                            "awayScore": 0
+                        },
+                        "score": "0 - 0",
+                        "home": {
+                            "id": "146371",
+                            "name": "San Martin de Tucuman",
+                            "shortName": "San Martin de Tucuman",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "10095",
+                            "name": "Gimnasia Jujuy",
+                            "shortName": "Gimnasia Jujuy",
+                            "isOurTeam": true
+                        }
+                    }
+                ],
+                "146371": [
+                    {
+                        "result": 0,
+                        "resultString": "D",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10095_xsmall.png",
+                        "linkToMatch": "/matches/gimnasia-jujuy-vs-san-martin-de-tucuman/5mfzqke#4092603",
+                        "date": null,
+                        "teamPageUrl": "/teams/10095/overview/gimnasia-jujuy",
+                        "tooltipText": {
+                            "utcTime": "2023-01-18T22:00:00Z",
+                            "homeTeam": "San Martin de Tucuman",
+                            "homeTeamId": 146371,
+                            "homeScore": 0,
+                            "awayTeam": "Gimnasia Jujuy",
+                            "awayTeamId": 10095,
+                            "awayScore": 0
+                        },
+                        "score": "0 - 0",
+                        "home": {
+                            "id": "146371",
+                            "name": "San Martin de Tucuman",
+                            "shortName": "San Martin de Tucuman",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "10095",
+                            "name": "Gimnasia Jujuy",
+                            "shortName": "Gimnasia Jujuy",
+                            "isOurTeam": false
+                        }
+                    },
+                    {
+                        "result": -1,
+                        "resultString": "L",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/213597_xsmall.png",
+                        "linkToMatch": "/matches/san-martin-de-tucuman-vs-central-norte/trhmf71#4092604",
+                        "date": null,
+                        "teamPageUrl": "/teams/213597/overview/central-norte",
+                        "tooltipText": {
+                            "utcTime": "2023-01-22T21:00:00Z",
+                            "homeTeam": "Central Norte",
+                            "homeTeamId": 213597,
+                            "homeScore": 1,
+                            "awayTeam": "San Martin de Tucuman",
+                            "awayTeamId": 146371,
+                            "awayScore": 0
+                        },
+                        "score": "1 - 0",
+                        "home": {
+                            "id": "213597",
+                            "name": "Central Norte",
+                            "shortName": "Central Norte",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "146371",
+                            "name": "San Martin de Tucuman",
+                            "shortName": "San Martin de Tucuman",
+                            "isOurTeam": true
+                        }
+                    }
+                ],
+                "213597": [
+                    {
+                        "result": 1,
+                        "resultString": "W",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/146371_xsmall.png",
+                        "linkToMatch": "/matches/san-martin-de-tucuman-vs-central-norte/trhmf71#4092604",
+                        "date": null,
+                        "teamPageUrl": "/teams/146371/overview/san-martin-de-tucuman",
+                        "tooltipText": {
+                            "utcTime": "2023-01-22T21:00:00Z",
+                            "homeTeam": "Central Norte",
+                            "homeTeamId": 213597,
+                            "homeScore": 1,
+                            "awayTeam": "San Martin de Tucuman",
+                            "awayTeamId": 146371,
+                            "awayScore": 0
+                        },
+                        "score": "1 - 0",
+                        "home": {
+                            "id": "213597",
+                            "name": "Central Norte",
+                            "shortName": "Central Norte",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "146371",
+                            "name": "San Martin de Tucuman",
+                            "shortName": "San Martin de Tucuman",
+                            "isOurTeam": false
+                        }
+                    },
+                    {
+                        "result": 1,
+                        "resultString": "W",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/213600_xsmall.png",
+                        "linkToMatch": "/matches/central-norte-vs-juventud-antoniana/15x3c5mr#4092605",
+                        "date": null,
+                        "teamPageUrl": "/teams/213600/overview/juventud-antoniana",
+                        "tooltipText": {
+                            "utcTime": "2023-01-29T21:00:00Z",
+                            "homeTeam": "Juventud Antoniana",
+                            "homeTeamId": 213600,
+                            "homeScore": 0,
+                            "awayTeam": "Central Norte",
+                            "awayTeamId": 213597,
+                            "awayScore": 2
+                        },
+                        "score": "0 - 2",
+                        "home": {
+                            "id": "213600",
+                            "name": "Juventud Antoniana",
+                            "shortName": "Juventud Antoniana",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "213597",
+                            "name": "Central Norte",
+                            "shortName": "Central Norte",
+                            "isOurTeam": true
+                        }
+                    }
+                ],
+                "213600": [
+                    {
+                        "result": 0,
+                        "resultString": "D",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10095_xsmall.png",
+                        "linkToMatch": "/matches/gimnasia-jujuy-vs-juventud-antoniana/bhsajnc#4092602",
+                        "date": null,
+                        "teamPageUrl": "/teams/10095/overview/gimnasia-jujuy",
+                        "tooltipText": {
+                            "utcTime": "2023-01-15T21:00:00Z",
+                            "homeTeam": "Gimnasia Jujuy",
+                            "homeTeamId": 10095,
+                            "homeScore": 1,
+                            "awayTeam": "Juventud Antoniana",
+                            "awayTeamId": 213600,
+                            "awayScore": 1
+                        },
+                        "score": "1 - 1",
+                        "home": {
+                            "id": "10095",
+                            "name": "Gimnasia Jujuy",
+                            "shortName": "Gimnasia Jujuy",
+                            "isOurTeam": false
+                        },
+                        "away": {
+                            "id": "213600",
+                            "name": "Juventud Antoniana",
+                            "shortName": "Juventud Antoniana",
+                            "isOurTeam": true
+                        }
+                    },
+                    {
+                        "result": -1,
+                        "resultString": "L",
+                        "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/213597_xsmall.png",
+                        "linkToMatch": "/matches/central-norte-vs-juventud-antoniana/15x3c5mr#4092605",
+                        "date": null,
+                        "teamPageUrl": "/teams/213597/overview/central-norte",
+                        "tooltipText": {
+                            "utcTime": "2023-01-29T21:00:00Z",
+                            "homeTeam": "Juventud Antoniana",
+                            "homeTeamId": 213600,
+                            "homeScore": 0,
+                            "awayTeam": "Central Norte",
+                            "awayTeamId": 213597,
+                            "awayScore": 2
+                        },
+                        "score": "0 - 2",
+                        "home": {
+                            "id": "213600",
+                            "name": "Juventud Antoniana",
+                            "shortName": "Juventud Antoniana",
+                            "isOurTeam": true
+                        },
+                        "away": {
+                            "id": "213597",
+                            "name": "Central Norte",
+                            "shortName": "Central Norte",
+                            "isOurTeam": false
+                        }
+                    }
+                ]
+            },
+            "nextOpponent": null,
+            "tableHeader": {
+                "staticTableHeaders": [
+                    "#",
+                    "Team",
+                    "PL",
+                    "W",
+                    "D",
+                    "L",
+                    "+/-",
+                    "GD",
+                    "PTS"
+                ],
+                "dynamicTableHeaders": [
+                    "Form"
+                ]
+            }
+        }
+    ],
+    "transfers": {
+        "type": "league",
+        "data": [
+            {
+                "name": "Isaac Monti",
+                "playerId": 1607038,
+                "position": {
+                    "label": "CB",
+                    "key": "centerback_short"
+                },
+                "transferDate": "2026-01-14T07:11:37Z",
+                "transferText": [
+                    null,
+                    null,
+                    null
+                ],
+                "fromClub": "Gimnasia y Tiro",
+                "fromClubFullName": "Gimnasia y Tiro",
+                "fromClubId": 276511,
+                "toClub": "Juventud Antoniana",
+                "toClubFullName": "Juventud Antoniana",
+                "toClubId": 213600,
+                "fee": {
+                    "feeText": "free transfer",
+                    "localizedFeeText": "transfer_type_free_transfer"
+                },
+                "amountEuroEstimated": null,
+                "transferType": {
+                    "text": "contract",
+                    "localizationKey": "contract"
+                },
+                "contractExtension": false,
+                "onLoan": false,
+                "fromDate": "2026-01-12T23:00:00Z",
+                "toDate": "2026-12-30T23:00:00Z",
+                "marketValue": 172070
+            }
+        ]
+    },
+    "overview": {
+        "season": "2023",
+        "selectedSeason": "2023",
+        "table": [
+            {
+                "data": {
+                    "composite": true,
+                    "ccode": "ARG",
+                    "leagueId": 10075,
+                    "pageUrl": "/leagues/10075/overview/torneo-de-verano?season=2023",
+                    "leagueName": "Torneo de Verano",
+                    "legend": [],
+                    "tableFilterTypes": [
+                        "all",
+                        "home",
+                        "away"
+                    ],
+                    "tables": [
+                        {
+                            "ccode": "ARG",
+                            "leagueId": 883461,
+                            "pageUrl": "/leagues/883461/overview/group-b?season=2023",
+                            "leagueName": "Group B",
+                            "legend": null,
+                            "table": {
+                                "all": [
+                                    {
+                                        "name": "Central Norte",
+                                        "shortName": "Central Norte",
+                                        "id": 213597,
+                                        "pageUrl": "/teams/213597/overview/central-norte",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 2,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "3-0",
+                                        "goalConDiff": 3,
+                                        "pts": 6,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Gimnasia Jujuy",
+                                        "shortName": "Gimnasia Jujuy",
+                                        "id": 10095,
+                                        "pageUrl": "/teams/10095/overview/gimnasia-jujuy",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 2,
+                                        "losses": 0,
+                                        "scoresStr": "1-1",
+                                        "goalConDiff": 0,
+                                        "pts": 2,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "San Martin de Tucuman",
+                                        "shortName": "San Martin de Tucuman",
+                                        "id": 146371,
+                                        "pageUrl": "/teams/146371/overview/san-martin-de-tucuman",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 1,
+                                        "losses": 1,
+                                        "scoresStr": "0-1",
+                                        "goalConDiff": -1,
+                                        "pts": 1,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Juventud Antoniana",
+                                        "shortName": "Juventud Antoniana",
+                                        "id": 213600,
+                                        "pageUrl": "/teams/213600/overview/juventud-antoniana",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 1,
+                                        "losses": 1,
+                                        "scoresStr": "1-3",
+                                        "goalConDiff": -2,
+                                        "pts": 1,
+                                        "idx": 4,
+                                        "qualColor": null
+                                    }
+                                ],
+                                "home": [
+                                    {
+                                        "name": "Central Norte",
+                                        "shortName": "Central Norte",
+                                        "id": 213597,
+                                        "pageUrl": "/teams/213597/overview/central-norte",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 1,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "1-0",
+                                        "goalConDiff": 1,
+                                        "goalsScored": 1,
+                                        "pts": 3,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Gimnasia Jujuy",
+                                        "shortName": "Gimnasia Jujuy",
+                                        "id": 10095,
+                                        "pageUrl": "/teams/10095/overview/gimnasia-jujuy",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 0,
+                                        "draws": 1,
+                                        "losses": 0,
+                                        "scoresStr": "1-1",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 1,
+                                        "pts": 1,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "San Martin de Tucuman",
+                                        "shortName": "San Martin de Tucuman",
+                                        "id": 146371,
+                                        "pageUrl": "/teams/146371/overview/san-martin-de-tucuman",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 0,
+                                        "draws": 1,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 0,
+                                        "pts": 1,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Juventud Antoniana",
+                                        "shortName": "Juventud Antoniana",
+                                        "id": 213600,
+                                        "pageUrl": "/teams/213600/overview/juventud-antoniana",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 1,
+                                        "scoresStr": "0-2",
+                                        "goalConDiff": -2,
+                                        "goalsScored": 0,
+                                        "pts": 0,
+                                        "idx": 4,
+                                        "qualColor": null
+                                    }
+                                ],
+                                "away": [
+                                    {
+                                        "name": "Central Norte",
+                                        "shortName": "Central Norte",
+                                        "id": 213597,
+                                        "pageUrl": "/teams/213597/overview/central-norte",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 1,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "2-0",
+                                        "goalConDiff": 2,
+                                        "goalsScored": 2,
+                                        "pts": 3,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Juventud Antoniana",
+                                        "shortName": "Juventud Antoniana",
+                                        "id": 213600,
+                                        "pageUrl": "/teams/213600/overview/juventud-antoniana",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 0,
+                                        "draws": 1,
+                                        "losses": 0,
+                                        "scoresStr": "1-1",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 1,
+                                        "pts": 1,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Gimnasia Jujuy",
+                                        "shortName": "Gimnasia Jujuy",
+                                        "id": 10095,
+                                        "pageUrl": "/teams/10095/overview/gimnasia-jujuy",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 0,
+                                        "draws": 1,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 0,
+                                        "pts": 1,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "San Martin de Tucuman",
+                                        "shortName": "San Martin de Tucuman",
+                                        "id": 146371,
+                                        "pageUrl": "/teams/146371/overview/san-martin-de-tucuman",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 1,
+                                        "scoresStr": "0-1",
+                                        "goalConDiff": -1,
+                                        "goalsScored": 0,
+                                        "pts": 0,
+                                        "idx": 4,
+                                        "qualColor": null
+                                    }
+                                ]
+                            },
+                            "ongoing": []
+                        },
+                        {
+                            "ccode": "ARG",
+                            "leagueId": 883460,
+                            "pageUrl": "/leagues/883460/overview/group?season=2023",
+                            "leagueName": "Group A",
+                            "legend": null,
+                            "table": {
+                                "all": [
+                                    {
+                                        "name": "Independiente",
+                                        "shortName": "Independiente",
+                                        "id": 10078,
+                                        "pageUrl": "/teams/10078/overview/independiente",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 1,
+                                        "draws": 1,
+                                        "losses": 0,
+                                        "scoresStr": "2-0",
+                                        "goalConDiff": 2,
+                                        "pts": 4,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Boca Juniors",
+                                        "shortName": "Boca Juniors",
+                                        "id": 10077,
+                                        "pageUrl": "/teams/10077/overview/boca-juniors",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 2,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "pts": 2,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Everton CD",
+                                        "shortName": "Everton CD",
+                                        "id": 1890,
+                                        "pageUrl": "/teams/1890/overview/everton-cd",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 1,
+                                        "losses": 1,
+                                        "scoresStr": "0-2",
+                                        "goalConDiff": -2,
+                                        "pts": 1,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    }
+                                ],
+                                "home": [
+                                    {
+                                        "name": "Independiente",
+                                        "shortName": "Independiente",
+                                        "id": 10078,
+                                        "pageUrl": "/teams/10078/overview/independiente",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 1,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "2-0",
+                                        "goalConDiff": 2,
+                                        "goalsScored": 2,
+                                        "pts": 3,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Boca Juniors",
+                                        "shortName": "Boca Juniors",
+                                        "id": 10077,
+                                        "pageUrl": "/teams/10077/overview/boca-juniors",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 2,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 0,
+                                        "pts": 2,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Everton CD",
+                                        "shortName": "Everton CD",
+                                        "id": 1890,
+                                        "pageUrl": "/teams/1890/overview/everton-cd",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 0,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 0,
+                                        "pts": 0,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    }
+                                ],
+                                "away": [
+                                    {
+                                        "name": "Independiente",
+                                        "shortName": "Independiente",
+                                        "id": 10078,
+                                        "pageUrl": "/teams/10078/overview/independiente",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 1,
+                                        "wins": 0,
+                                        "draws": 1,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 0,
+                                        "pts": 1,
+                                        "idx": 1,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Everton CD",
+                                        "shortName": "Everton CD",
+                                        "id": 1890,
+                                        "pageUrl": "/teams/1890/overview/everton-cd",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 2,
+                                        "wins": 0,
+                                        "draws": 1,
+                                        "losses": 1,
+                                        "scoresStr": "0-2",
+                                        "goalConDiff": -2,
+                                        "goalsScored": 0,
+                                        "pts": 1,
+                                        "idx": 2,
+                                        "qualColor": null
+                                    },
+                                    {
+                                        "name": "Boca Juniors",
+                                        "shortName": "Boca Juniors",
+                                        "id": 10077,
+                                        "pageUrl": "/teams/10077/overview/boca-juniors",
+                                        "deduction": null,
+                                        "ongoing": null,
+                                        "played": 0,
+                                        "wins": 0,
+                                        "draws": 0,
+                                        "losses": 0,
+                                        "scoresStr": "0-0",
+                                        "goalConDiff": 0,
+                                        "goalsScored": 0,
+                                        "pts": 0,
+                                        "idx": 3,
+                                        "qualColor": null
+                                    }
+                                ]
+                            },
+                            "ongoing": []
+                        }
+                    ],
+                    "annualTable": null,
+                    "averagesTable": null
+                },
+                "tableFilterTypes": [
+                    "all",
+                    "home",
+                    "away"
+                ],
+                "teamForm": {
+                    "1890": [
+                        {
+                            "result": -1,
+                            "resultString": "L",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10078_xsmall.png",
+                            "linkToMatch": "/matches/everton-cd-vs-independiente/16n5qa#4092606",
+                            "date": null,
+                            "teamPageUrl": "/teams/10078/overview/independiente",
+                            "tooltipText": {
+                                "utcTime": "2023-01-12T00:30:00Z",
+                                "homeTeam": "Independiente",
+                                "homeTeamId": 10078,
+                                "homeScore": 2,
+                                "awayTeam": "Everton CD",
+                                "awayTeamId": 1890,
+                                "awayScore": 0
+                            },
+                            "score": "2 - 0",
+                            "home": {
+                                "id": "10078",
+                                "name": "Independiente",
+                                "shortName": "Independiente",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "1890",
+                                "name": "Everton CD",
+                                "shortName": "Everton CD",
+                                "isOurTeam": true
+                            }
+                        },
+                        {
+                            "result": 0,
+                            "resultString": "D",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10077_xsmall.png",
+                            "linkToMatch": "/matches/everton-cd-vs-boca-juniors/16mwhu#4092601",
+                            "date": null,
+                            "teamPageUrl": "/teams/10077/overview/boca-juniors",
+                            "tooltipText": {
+                                "utcTime": "2023-01-14T00:30:00Z",
+                                "homeTeam": "Boca Juniors",
+                                "homeTeamId": 10077,
+                                "homeScore": 0,
+                                "awayTeam": "Everton CD",
+                                "awayTeamId": 1890,
+                                "awayScore": 0
+                            },
+                            "score": "0 - 0",
+                            "home": {
+                                "id": "10077",
+                                "name": "Boca Juniors",
+                                "shortName": "Boca Juniors",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "1890",
+                                "name": "Everton CD",
+                                "shortName": "Everton CD",
+                                "isOurTeam": true
+                            }
+                        }
+                    ],
+                    "10077": [
+                        {
+                            "result": 0,
+                            "resultString": "D",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10078_xsmall.png",
+                            "linkToMatch": "/matches/boca-juniors-vs-independiente/3cxts8#4092600",
+                            "date": null,
+                            "teamPageUrl": "/teams/10078/overview/independiente",
+                            "tooltipText": {
+                                "utcTime": "2023-01-08T00:30:00Z",
+                                "homeTeam": "Boca Juniors",
+                                "homeTeamId": 10077,
+                                "homeScore": 0,
+                                "awayTeam": "Independiente",
+                                "awayTeamId": 10078,
+                                "awayScore": 0
+                            },
+                            "score": "0 - 0",
+                            "home": {
+                                "id": "10077",
+                                "name": "Boca Juniors",
+                                "shortName": "Boca Juniors",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "10078",
+                                "name": "Independiente",
+                                "shortName": "Independiente",
+                                "isOurTeam": false
+                            }
+                        },
+                        {
+                            "result": 0,
+                            "resultString": "D",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/1890_xsmall.png",
+                            "linkToMatch": "/matches/everton-cd-vs-boca-juniors/16mwhu#4092601",
+                            "date": null,
+                            "teamPageUrl": "/teams/1890/overview/everton-cd",
+                            "tooltipText": {
+                                "utcTime": "2023-01-14T00:30:00Z",
+                                "homeTeam": "Boca Juniors",
+                                "homeTeamId": 10077,
+                                "homeScore": 0,
+                                "awayTeam": "Everton CD",
+                                "awayTeamId": 1890,
+                                "awayScore": 0
+                            },
+                            "score": "0 - 0",
+                            "home": {
+                                "id": "10077",
+                                "name": "Boca Juniors",
+                                "shortName": "Boca Juniors",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "1890",
+                                "name": "Everton CD",
+                                "shortName": "Everton CD",
+                                "isOurTeam": false
+                            }
+                        }
+                    ],
+                    "10078": [
+                        {
+                            "result": 0,
+                            "resultString": "D",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10077_xsmall.png",
+                            "linkToMatch": "/matches/boca-juniors-vs-independiente/3cxts8#4092600",
+                            "date": null,
+                            "teamPageUrl": "/teams/10077/overview/boca-juniors",
+                            "tooltipText": {
+                                "utcTime": "2023-01-08T00:30:00Z",
+                                "homeTeam": "Boca Juniors",
+                                "homeTeamId": 10077,
+                                "homeScore": 0,
+                                "awayTeam": "Independiente",
+                                "awayTeamId": 10078,
+                                "awayScore": 0
+                            },
+                            "score": "0 - 0",
+                            "home": {
+                                "id": "10077",
+                                "name": "Boca Juniors",
+                                "shortName": "Boca Juniors",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "10078",
+                                "name": "Independiente",
+                                "shortName": "Independiente",
+                                "isOurTeam": true
+                            }
+                        },
+                        {
+                            "result": 1,
+                            "resultString": "W",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/1890_xsmall.png",
+                            "linkToMatch": "/matches/everton-cd-vs-independiente/16n5qa#4092606",
+                            "date": null,
+                            "teamPageUrl": "/teams/1890/overview/everton-cd",
+                            "tooltipText": {
+                                "utcTime": "2023-01-12T00:30:00Z",
+                                "homeTeam": "Independiente",
+                                "homeTeamId": 10078,
+                                "homeScore": 2,
+                                "awayTeam": "Everton CD",
+                                "awayTeamId": 1890,
+                                "awayScore": 0
+                            },
+                            "score": "2 - 0",
+                            "home": {
+                                "id": "10078",
+                                "name": "Independiente",
+                                "shortName": "Independiente",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "1890",
+                                "name": "Everton CD",
+                                "shortName": "Everton CD",
+                                "isOurTeam": false
+                            }
+                        }
+                    ],
+                    "10095": [
+                        {
+                            "result": 0,
+                            "resultString": "D",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/213600_xsmall.png",
+                            "linkToMatch": "/matches/gimnasia-jujuy-vs-juventud-antoniana/bhsajnc#4092602",
+                            "date": null,
+                            "teamPageUrl": "/teams/213600/overview/juventud-antoniana",
+                            "tooltipText": {
+                                "utcTime": "2023-01-15T21:00:00Z",
+                                "homeTeam": "Gimnasia Jujuy",
+                                "homeTeamId": 10095,
+                                "homeScore": 1,
+                                "awayTeam": "Juventud Antoniana",
+                                "awayTeamId": 213600,
+                                "awayScore": 1
+                            },
+                            "score": "1 - 1",
+                            "home": {
+                                "id": "10095",
+                                "name": "Gimnasia Jujuy",
+                                "shortName": "Gimnasia Jujuy",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "213600",
+                                "name": "Juventud Antoniana",
+                                "shortName": "Juventud Antoniana",
+                                "isOurTeam": false
+                            }
+                        },
+                        {
+                            "result": 0,
+                            "resultString": "D",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/146371_xsmall.png",
+                            "linkToMatch": "/matches/gimnasia-jujuy-vs-san-martin-de-tucuman/5mfzqke#4092603",
+                            "date": null,
+                            "teamPageUrl": "/teams/146371/overview/san-martin-de-tucuman",
+                            "tooltipText": {
+                                "utcTime": "2023-01-18T22:00:00Z",
+                                "homeTeam": "San Martin de Tucuman",
+                                "homeTeamId": 146371,
+                                "homeScore": 0,
+                                "awayTeam": "Gimnasia Jujuy",
+                                "awayTeamId": 10095,
+                                "awayScore": 0
+                            },
+                            "score": "0 - 0",
+                            "home": {
+                                "id": "146371",
+                                "name": "San Martin de Tucuman",
+                                "shortName": "San Martin de Tucuman",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "10095",
+                                "name": "Gimnasia Jujuy",
+                                "shortName": "Gimnasia Jujuy",
+                                "isOurTeam": true
+                            }
+                        }
+                    ],
+                    "146371": [
+                        {
+                            "result": 0,
+                            "resultString": "D",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10095_xsmall.png",
+                            "linkToMatch": "/matches/gimnasia-jujuy-vs-san-martin-de-tucuman/5mfzqke#4092603",
+                            "date": null,
+                            "teamPageUrl": "/teams/10095/overview/gimnasia-jujuy",
+                            "tooltipText": {
+                                "utcTime": "2023-01-18T22:00:00Z",
+                                "homeTeam": "San Martin de Tucuman",
+                                "homeTeamId": 146371,
+                                "homeScore": 0,
+                                "awayTeam": "Gimnasia Jujuy",
+                                "awayTeamId": 10095,
+                                "awayScore": 0
+                            },
+                            "score": "0 - 0",
+                            "home": {
+                                "id": "146371",
+                                "name": "San Martin de Tucuman",
+                                "shortName": "San Martin de Tucuman",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "10095",
+                                "name": "Gimnasia Jujuy",
+                                "shortName": "Gimnasia Jujuy",
+                                "isOurTeam": false
+                            }
+                        },
+                        {
+                            "result": -1,
+                            "resultString": "L",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/213597_xsmall.png",
+                            "linkToMatch": "/matches/san-martin-de-tucuman-vs-central-norte/trhmf71#4092604",
+                            "date": null,
+                            "teamPageUrl": "/teams/213597/overview/central-norte",
+                            "tooltipText": {
+                                "utcTime": "2023-01-22T21:00:00Z",
+                                "homeTeam": "Central Norte",
+                                "homeTeamId": 213597,
+                                "homeScore": 1,
+                                "awayTeam": "San Martin de Tucuman",
+                                "awayTeamId": 146371,
+                                "awayScore": 0
+                            },
+                            "score": "1 - 0",
+                            "home": {
+                                "id": "213597",
+                                "name": "Central Norte",
+                                "shortName": "Central Norte",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "146371",
+                                "name": "San Martin de Tucuman",
+                                "shortName": "San Martin de Tucuman",
+                                "isOurTeam": true
+                            }
+                        }
+                    ],
+                    "213597": [
+                        {
+                            "result": 1,
+                            "resultString": "W",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/146371_xsmall.png",
+                            "linkToMatch": "/matches/san-martin-de-tucuman-vs-central-norte/trhmf71#4092604",
+                            "date": null,
+                            "teamPageUrl": "/teams/146371/overview/san-martin-de-tucuman",
+                            "tooltipText": {
+                                "utcTime": "2023-01-22T21:00:00Z",
+                                "homeTeam": "Central Norte",
+                                "homeTeamId": 213597,
+                                "homeScore": 1,
+                                "awayTeam": "San Martin de Tucuman",
+                                "awayTeamId": 146371,
+                                "awayScore": 0
+                            },
+                            "score": "1 - 0",
+                            "home": {
+                                "id": "213597",
+                                "name": "Central Norte",
+                                "shortName": "Central Norte",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "146371",
+                                "name": "San Martin de Tucuman",
+                                "shortName": "San Martin de Tucuman",
+                                "isOurTeam": false
+                            }
+                        },
+                        {
+                            "result": 1,
+                            "resultString": "W",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/213600_xsmall.png",
+                            "linkToMatch": "/matches/central-norte-vs-juventud-antoniana/15x3c5mr#4092605",
+                            "date": null,
+                            "teamPageUrl": "/teams/213600/overview/juventud-antoniana",
+                            "tooltipText": {
+                                "utcTime": "2023-01-29T21:00:00Z",
+                                "homeTeam": "Juventud Antoniana",
+                                "homeTeamId": 213600,
+                                "homeScore": 0,
+                                "awayTeam": "Central Norte",
+                                "awayTeamId": 213597,
+                                "awayScore": 2
+                            },
+                            "score": "0 - 2",
+                            "home": {
+                                "id": "213600",
+                                "name": "Juventud Antoniana",
+                                "shortName": "Juventud Antoniana",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "213597",
+                                "name": "Central Norte",
+                                "shortName": "Central Norte",
+                                "isOurTeam": true
+                            }
+                        }
+                    ],
+                    "213600": [
+                        {
+                            "result": 0,
+                            "resultString": "D",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/10095_xsmall.png",
+                            "linkToMatch": "/matches/gimnasia-jujuy-vs-juventud-antoniana/bhsajnc#4092602",
+                            "date": null,
+                            "teamPageUrl": "/teams/10095/overview/gimnasia-jujuy",
+                            "tooltipText": {
+                                "utcTime": "2023-01-15T21:00:00Z",
+                                "homeTeam": "Gimnasia Jujuy",
+                                "homeTeamId": 10095,
+                                "homeScore": 1,
+                                "awayTeam": "Juventud Antoniana",
+                                "awayTeamId": 213600,
+                                "awayScore": 1
+                            },
+                            "score": "1 - 1",
+                            "home": {
+                                "id": "10095",
+                                "name": "Gimnasia Jujuy",
+                                "shortName": "Gimnasia Jujuy",
+                                "isOurTeam": false
+                            },
+                            "away": {
+                                "id": "213600",
+                                "name": "Juventud Antoniana",
+                                "shortName": "Juventud Antoniana",
+                                "isOurTeam": true
+                            }
+                        },
+                        {
+                            "result": -1,
+                            "resultString": "L",
+                            "imageUrl": "https://images.fotmob.com/image_resources/logo/teamlogo/213597_xsmall.png",
+                            "linkToMatch": "/matches/central-norte-vs-juventud-antoniana/15x3c5mr#4092605",
+                            "date": null,
+                            "teamPageUrl": "/teams/213597/overview/central-norte",
+                            "tooltipText": {
+                                "utcTime": "2023-01-29T21:00:00Z",
+                                "homeTeam": "Juventud Antoniana",
+                                "homeTeamId": 213600,
+                                "homeScore": 0,
+                                "awayTeam": "Central Norte",
+                                "awayTeamId": 213597,
+                                "awayScore": 2
+                            },
+                            "score": "0 - 2",
+                            "home": {
+                                "id": "213600",
+                                "name": "Juventud Antoniana",
+                                "shortName": "Juventud Antoniana",
+                                "isOurTeam": true
+                            },
+                            "away": {
+                                "id": "213597",
+                                "name": "Central Norte",
+                                "shortName": "Central Norte",
+                                "isOurTeam": false
+                            }
+                        }
+                    ]
+                },
+                "nextOpponent": null,
+                "tableHeader": {
+                    "staticTableHeaders": [
+                        "#",
+                        "Team",
+                        "PL",
+                        "W",
+                        "D",
+                        "L",
+                        "+/-",
+                        "GD",
+                        "PTS"
+                    ],
+                    "dynamicTableHeaders": [
+                        "Form"
+                    ]
+                }
+            }
+        ],
+        "topPlayers": {
+            "byRating": {
+                "seeAllLink": "/leagues/10075/stats/season/18629/players/rating/torneo-de-verano"
+            },
+            "byGoals": {
+                "players": [
+                    {
+                        "id": 856640,
+                        "name": "Alfredo Pussetto",
+                        "teamId": 213597,
+                        "teamName": "Central Norte",
+                        "goals": 1,
+                        "value": 1,
+                        "stat": {
+                            "name": "goals",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#DDDDDD",
+                            "lightMode": "#333333",
+                            "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 615931,
+                        "name": "Fernando Brandan",
+                        "teamId": 10095,
+                        "teamName": "Gimnasia Jujuy",
+                        "goals": 1,
+                        "value": 1,
+                        "stat": {
+                            "name": "goals",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#185880",
+                            "lightMode": "#185880",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 1436371,
+                        "name": "Martin Vera",
+                        "teamId": 213597,
+                        "teamName": "Central Norte",
+                        "goals": 1,
+                        "value": 1,
+                        "stat": {
+                            "name": "goals",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#DDDDDD",
+                            "lightMode": "#333333",
+                            "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "seeAllLink": "/leagues/10075/stats/season/18629/players/goals/torneo-de-verano"
+            },
+            "byAssists": {
+                "seeAllLink": "/leagues/10075/stats/season/18629/players/goal_assist/torneo-de-verano"
+            },
+            "seeAllUrl": "stats"
+        },
+        "hasTotw": false,
+        "leagueOverviewMatches": [
+            {
+                "id": "4092600",
+                "pageUrl": "/matches/boca-juniors-vs-independiente/3cxts8#4092600",
+                "opponent": {
+                    "id": "10077",
+                    "name": "Boca Juniors",
+                    "score": 0
+                },
+                "home": {
+                    "id": "10077",
+                    "name": "Boca Juniors",
+                    "score": 0
+                },
+                "away": {
+                    "id": "10078",
+                    "name": "Independiente",
+                    "score": 0
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2023-01-08T00:30:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "4092606",
+                "pageUrl": "/matches/everton-cd-vs-independiente/16n5qa#4092606",
+                "opponent": {
+                    "id": "10078",
+                    "name": "Independiente",
+                    "score": 2
+                },
+                "home": {
+                    "id": "10078",
+                    "name": "Independiente",
+                    "score": 2
+                },
+                "away": {
+                    "id": "1890",
+                    "name": "Everton CD",
+                    "score": 0
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2023-01-12T00:30:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "2 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "4092601",
+                "pageUrl": "/matches/everton-cd-vs-boca-juniors/16mwhu#4092601",
+                "opponent": {
+                    "id": "10077",
+                    "name": "Boca Juniors",
+                    "score": 0
+                },
+                "home": {
+                    "id": "10077",
+                    "name": "Boca Juniors",
+                    "score": 0
+                },
+                "away": {
+                    "id": "1890",
+                    "name": "Everton CD",
+                    "score": 0
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2023-01-14T00:30:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "4092602",
+                "pageUrl": "/matches/gimnasia-jujuy-vs-juventud-antoniana/bhsajnc#4092602",
+                "opponent": {
+                    "id": "10095",
+                    "name": "Gimnasia Jujuy",
+                    "score": 1
+                },
+                "home": {
+                    "id": "10095",
+                    "name": "Gimnasia Jujuy",
+                    "score": 1
+                },
+                "away": {
+                    "id": "213600",
+                    "name": "Juventud Antoniana",
+                    "score": 1
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2023-01-15T21:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "1 - 1",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "4092603",
+                "pageUrl": "/matches/gimnasia-jujuy-vs-san-martin-de-tucuman/5mfzqke#4092603",
+                "opponent": {
+                    "id": "146371",
+                    "name": "San Martin de Tucuman",
+                    "score": 0
+                },
+                "home": {
+                    "id": "146371",
+                    "name": "San Martin de Tucuman",
+                    "score": 0
+                },
+                "away": {
+                    "id": "10095",
+                    "name": "Gimnasia Jujuy",
+                    "score": 0
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2023-01-18T22:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "4092604",
+                "pageUrl": "/matches/san-martin-de-tucuman-vs-central-norte/trhmf71#4092604",
+                "opponent": {
+                    "id": "213597",
+                    "name": "Central Norte",
+                    "score": 1
+                },
+                "home": {
+                    "id": "213597",
+                    "name": "Central Norte",
+                    "score": 1
+                },
+                "away": {
+                    "id": "146371",
+                    "name": "San Martin de Tucuman",
+                    "score": 0
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2023-01-22T21:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "1 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "id": "4092605",
+                "pageUrl": "/matches/central-norte-vs-juventud-antoniana/15x3c5mr#4092605",
+                "opponent": {
+                    "id": "213600",
+                    "name": "Juventud Antoniana",
+                    "score": 0
+                },
+                "home": {
+                    "id": "213600",
+                    "name": "Juventud Antoniana",
+                    "score": 0
+                },
+                "away": {
+                    "id": "213597",
+                    "name": "Central Norte",
+                    "score": 2
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2023-01-29T21:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 2",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            }
+        ],
+        "hasOngoingMatch": false,
+        "shotMap": null,
+        "matches": {
+            "firstUnplayedMatch": null,
+            "allMatches": [
+                {
+                    "round": "1",
+                    "roundName": 1,
+                    "pageUrl": "/matches/boca-juniors-vs-independiente/3cxts8#4092600",
+                    "id": "4092600",
+                    "home": {
+                        "name": "Boca Juniors",
+                        "shortName": "Boca Juniors",
+                        "id": "10077"
+                    },
+                    "away": {
+                        "name": "Independiente",
+                        "shortName": "Independiente",
+                        "id": "10078"
+                    },
+                    "group": "A",
+                    "status": {
+                        "utcTime": "2023-01-08T00:30:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "0 - 0",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "2",
+                    "roundName": 2,
+                    "pageUrl": "/matches/everton-cd-vs-independiente/16n5qa#4092606",
+                    "id": "4092606",
+                    "home": {
+                        "name": "Independiente",
+                        "shortName": "Independiente",
+                        "id": "10078"
+                    },
+                    "away": {
+                        "name": "Everton CD",
+                        "shortName": "Everton CD",
+                        "id": "1890"
+                    },
+                    "group": "A",
+                    "status": {
+                        "utcTime": "2023-01-12T00:30:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "2 - 0",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "3",
+                    "roundName": 3,
+                    "pageUrl": "/matches/everton-cd-vs-boca-juniors/16mwhu#4092601",
+                    "id": "4092601",
+                    "home": {
+                        "name": "Boca Juniors",
+                        "shortName": "Boca Juniors",
+                        "id": "10077"
+                    },
+                    "away": {
+                        "name": "Everton CD",
+                        "shortName": "Everton CD",
+                        "id": "1890"
+                    },
+                    "group": "A",
+                    "status": {
+                        "utcTime": "2023-01-14T00:30:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "0 - 0",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "1",
+                    "roundName": 1,
+                    "pageUrl": "/matches/gimnasia-jujuy-vs-juventud-antoniana/bhsajnc#4092602",
+                    "id": "4092602",
+                    "home": {
+                        "name": "Gimnasia Jujuy",
+                        "shortName": "Gimnasia Jujuy",
+                        "id": "10095"
+                    },
+                    "away": {
+                        "name": "Juventud Antoniana",
+                        "shortName": "Juventud Antoniana",
+                        "id": "213600"
+                    },
+                    "group": "B",
+                    "status": {
+                        "utcTime": "2023-01-15T21:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "1 - 1",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "2",
+                    "roundName": 2,
+                    "pageUrl": "/matches/gimnasia-jujuy-vs-san-martin-de-tucuman/5mfzqke#4092603",
+                    "id": "4092603",
+                    "home": {
+                        "name": "San Martin de Tucuman",
+                        "shortName": "San Martin de Tucuman",
+                        "id": "146371"
+                    },
+                    "away": {
+                        "name": "Gimnasia Jujuy",
+                        "shortName": "Gimnasia Jujuy",
+                        "id": "10095"
+                    },
+                    "group": "B",
+                    "status": {
+                        "utcTime": "2023-01-18T22:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "0 - 0",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "3",
+                    "roundName": 3,
+                    "pageUrl": "/matches/san-martin-de-tucuman-vs-central-norte/trhmf71#4092604",
+                    "id": "4092604",
+                    "home": {
+                        "name": "Central Norte",
+                        "shortName": "Central Norte",
+                        "id": "213597"
+                    },
+                    "away": {
+                        "name": "San Martin de Tucuman",
+                        "shortName": "San Martin de Tucuman",
+                        "id": "146371"
+                    },
+                    "group": "B",
+                    "status": {
+                        "utcTime": "2023-01-22T21:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "1 - 0",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                },
+                {
+                    "round": "4",
+                    "roundName": 4,
+                    "pageUrl": "/matches/central-norte-vs-juventud-antoniana/15x3c5mr#4092605",
+                    "id": "4092605",
+                    "home": {
+                        "name": "Juventud Antoniana",
+                        "shortName": "Juventud Antoniana",
+                        "id": "213600"
+                    },
+                    "away": {
+                        "name": "Central Norte",
+                        "shortName": "Central Norte",
+                        "id": "213597"
+                    },
+                    "group": "B",
+                    "status": {
+                        "utcTime": "2023-01-29T21:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "0 - 2",
+                        "reason": {
+                            "short": "FT",
+                            "shortKey": "fulltime_short",
+                            "long": "Full-Time",
+                            "longKey": "finished"
+                        }
+                    }
+                }
+            ],
+            "hasOngoingMatch": false,
+            "fixtureInfo": {
+                "activeRound": {
+                    "roundId": "4",
+                    "localizedKey": "round_fmt"
+                },
+                "rounds": [
+                    {
+                        "roundId": "1",
+                        "localizedKey": "round_fmt"
+                    },
+                    {
+                        "roundId": "2",
+                        "localizedKey": "round_fmt"
+                    },
+                    {
+                        "roundId": "3",
+                        "localizedKey": "round_fmt"
+                    },
+                    {
+                        "roundId": "4",
+                        "localizedKey": "round_fmt"
+                    }
+                ],
+                "teams": [
+                    {
+                        "id": 10077,
+                        "name": "Boca Juniors"
+                    },
+                    {
+                        "id": 213597,
+                        "name": "Central Norte"
+                    },
+                    {
+                        "id": 1890,
+                        "name": "Everton CD"
+                    },
+                    {
+                        "id": 10095,
+                        "name": "Gimnasia Jujuy"
+                    },
+                    {
+                        "id": 10078,
+                        "name": "Independiente"
+                    },
+                    {
+                        "id": 213600,
+                        "name": "Juventud Antoniana"
+                    },
+                    {
+                        "id": 146371,
+                        "name": "San Martin de Tucuman"
+                    }
+                ],
+                "groups": [
+                    "A",
+                    "B"
+                ]
+            }
+        }
+    },
+    "stats": {
+        "players": [
+            {
+                "header": "Top scorer",
+                "participant": {
+                    "id": 856640,
+                    "name": "Alfredo Pussetto",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 213597,
+                    "teamName": "Central Norte",
+                    "value": 1,
+                    "stat": {
+                        "name": "goals",
+                        "value": 1,
+                        "format": "number",
+                        "fractions": 0
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/18629/goals.json",
+                "topThree": [
+                    {
+                        "id": 856640,
+                        "name": "Alfredo Pussetto",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 213597,
+                        "teamName": "Central Norte",
+                        "value": 1,
+                        "stat": {
+                            "name": "goals",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#DDDDDD",
+                            "lightMode": "#333333",
+                            "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 615931,
+                        "name": "Fernando Brandan",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10095,
+                        "teamName": "Gimnasia Jujuy",
+                        "value": 1,
+                        "stat": {
+                            "name": "goals",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#185880",
+                            "lightMode": "#185880",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 1436371,
+                        "name": "Martin Vera",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 213597,
+                        "teamName": "Central Norte",
+                        "value": 1,
+                        "stat": {
+                            "name": "goals",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#DDDDDD",
+                            "lightMode": "#333333",
+                            "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 1,
+                "name": "goals",
+                "localizedTitleId": "goals_title",
+                "category": "Top Stat"
+            },
+            {
+                "header": "Red cards",
+                "participant": {
+                    "id": 1432991,
+                    "name": "Matias Castro",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 1890,
+                    "teamName": "Everton CD",
+                    "value": 1,
+                    "stat": {
+                        "name": "red_card",
+                        "value": 1,
+                        "format": "number",
+                        "fractions": 0
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/18629/red_card.json",
+                "topThree": [
+                    {
+                        "id": 1432991,
+                        "name": "Matias Castro",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 1890,
+                        "teamName": "Everton CD",
+                        "value": 1,
+                        "stat": {
+                            "name": "red_card",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#00589d",
+                            "lightMode": "#103860",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 907723,
+                        "name": "Sergio Barreto",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10078,
+                        "teamName": "Independiente",
+                        "value": 1,
+                        "stat": {
+                            "name": "red_card",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#EC1C24",
+                            "lightMode": "#EC1C24",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 34,
+                "name": "red_card",
+                "localizedTitleId": "red_cards",
+                "category": "Discipline"
+            }
+        ],
+        "teams": [
+            {
+                "header": "Goals per match",
+                "participant": {
+                    "id": 0,
+                    "name": "Central Norte",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 213597,
+                    "teamName": "Central Norte",
+                    "value": 1.5,
+                    "stat": {
+                        "name": "goals_team_match",
+                        "value": 1.5,
+                        "format": "fraction",
+                        "fractions": 1
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/18629/goals_team_match.json",
+                "topThree": [
+                    {
+                        "id": 0,
+                        "name": "Central Norte",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 213597,
+                        "teamName": "Central Norte",
+                        "value": 1.5,
+                        "stat": {
+                            "name": "goals_team_match",
+                            "value": 1.5,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#DDDDDD",
+                            "lightMode": "#333333",
+                            "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Independiente",
+                        "rank": 2,
+                        "ccode": null,
+                        "teamId": 10078,
+                        "teamName": "Independiente",
+                        "value": 1,
+                        "stat": {
+                            "name": "goals_team_match",
+                            "value": 1,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#EC1C24",
+                            "lightMode": "#EC1C24",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Gimnasia Jujuy",
+                        "rank": 3,
+                        "ccode": null,
+                        "teamId": 10095,
+                        "teamName": "Gimnasia Jujuy",
+                        "value": 0.5,
+                        "stat": {
+                            "name": "goals_team_match",
+                            "value": 0.5,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#185880",
+                            "lightMode": "#185880",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 36,
+                "name": "goals_team_match",
+                "localizedTitleId": "goals_team_match_title",
+                "category": "Top Stat"
+            },
+            {
+                "header": "Goals conceded per match",
+                "participant": {
+                    "id": 0,
+                    "name": "Independiente",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 10078,
+                    "teamName": "Independiente",
+                    "value": 0,
+                    "stat": {
+                        "name": "goals_conceded_team_match",
+                        "value": 0,
+                        "format": "fraction",
+                        "fractions": 1
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/18629/goals_conceded_team_match.json",
+                "topThree": [
+                    {
+                        "id": 0,
+                        "name": "Independiente",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10078,
+                        "teamName": "Independiente",
+                        "value": 0,
+                        "stat": {
+                            "name": "goals_conceded_team_match",
+                            "value": 0,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#EC1C24",
+                            "lightMode": "#EC1C24",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Central Norte",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 213597,
+                        "teamName": "Central Norte",
+                        "value": 0,
+                        "stat": {
+                            "name": "goals_conceded_team_match",
+                            "value": 0,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#DDDDDD",
+                            "lightMode": "#333333",
+                            "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Boca Juniors",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10077,
+                        "teamName": "Boca Juniors",
+                        "value": 0,
+                        "stat": {
+                            "name": "goals_conceded_team_match",
+                            "value": 0,
+                            "format": "fraction",
+                            "fractions": 1
+                        },
+                        "teamColors": {
+                            "darkMode": "#004890",
+                            "lightMode": "#00458a",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 37,
+                "name": "goals_conceded_team_match",
+                "localizedTitleId": "goals_conceded_team_match_title",
+                "category": "Top Stat"
+            },
+            {
+                "header": "Clean sheets",
+                "participant": {
+                    "id": 0,
+                    "name": "Boca Juniors",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 10077,
+                    "teamName": "Boca Juniors",
+                    "value": 2,
+                    "stat": {
+                        "name": "clean_sheet_team",
+                        "value": 2,
+                        "format": "number",
+                        "fractions": 0
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/18629/clean_sheet_team.json",
+                "topThree": [
+                    {
+                        "id": 0,
+                        "name": "Boca Juniors",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10077,
+                        "teamName": "Boca Juniors",
+                        "value": 2,
+                        "stat": {
+                            "name": "clean_sheet_team",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#004890",
+                            "lightMode": "#00458a",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Central Norte",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 213597,
+                        "teamName": "Central Norte",
+                        "value": 2,
+                        "stat": {
+                            "name": "clean_sheet_team",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#DDDDDD",
+                            "lightMode": "#333333",
+                            "fontDarkMode": "rgba(29, 29, 29, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Independiente",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10078,
+                        "teamName": "Independiente",
+                        "value": 2,
+                        "stat": {
+                            "name": "clean_sheet_team",
+                            "value": 2,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#EC1C24",
+                            "lightMode": "#EC1C24",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 39,
+                "name": "clean_sheet_team",
+                "localizedTitleId": "clean_sheet_team_title",
+                "category": "Top Stat"
+            },
+            {
+                "header": "Red cards",
+                "participant": {
+                    "id": 0,
+                    "name": "Everton CD",
+                    "rank": 1,
+                    "ccode": null,
+                    "teamId": 1890,
+                    "teamName": "Everton CD",
+                    "value": 1,
+                    "stat": {
+                        "name": "total_red_card_team",
+                        "value": 1,
+                        "format": "number",
+                        "fractions": 0
+                    }
+                },
+                "fetchAllUrl": "https://data.fotmob.com/stats/10075/season/18629/total_red_card_team.json",
+                "topThree": [
+                    {
+                        "id": 0,
+                        "name": "Everton CD",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 1890,
+                        "teamName": "Everton CD",
+                        "value": 1,
+                        "stat": {
+                            "name": "total_red_card_team",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#00589d",
+                            "lightMode": "#103860",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    },
+                    {
+                        "id": 0,
+                        "name": "Independiente",
+                        "rank": 1,
+                        "ccode": null,
+                        "teamId": 10078,
+                        "teamName": "Independiente",
+                        "value": 1,
+                        "stat": {
+                            "name": "total_red_card_team",
+                            "value": 1,
+                            "format": "number",
+                            "fractions": 0
+                        },
+                        "teamColors": {
+                            "darkMode": "#EC1C24",
+                            "lightMode": "#EC1C24",
+                            "fontDarkMode": "rgba(255, 255, 255, 1.0)",
+                            "fontLightMode": "rgba(255, 255, 255, 1.0)"
+                        }
+                    }
+                ],
+                "order": 60,
+                "name": "total_red_card_team",
+                "localizedTitleId": "red_cards",
+                "category": "Discipline"
+            }
+        ],
+        "seasonStatLinks": [
+            {
+                "Name": "2023",
+                "CountryCode": "ARG",
+                "RelativePath": "stats/10075/season/18629/topstats.json",
+                "League": "Torneo de Verano",
+                "StageId": 0,
+                "TemplateId": 10075,
+                "TournamentId": 18629
+            },
+            {
+                "Name": "2022",
+                "CountryCode": "ARG",
+                "RelativePath": "stats/10075/season/17294/topstats.json",
+                "League": "Torneo de Verano",
+                "StageId": 0,
+                "TemplateId": 10075,
+                "TournamentId": 17294
+            },
+            {
+                "Name": "2020",
+                "CountryCode": "ARG",
+                "RelativePath": "stats/10075/season/14910/topstats.json",
+                "League": "Torneo de Verano",
+                "StageId": 0,
+                "TemplateId": 10075,
+                "TournamentId": 14910
+            },
+            {
+                "Name": "2019",
+                "CountryCode": "ARG",
+                "RelativePath": "stats/10075/season/14911/topstats.json",
+                "League": "Torneo de Verano",
+                "StageId": 0,
+                "TemplateId": 10075,
+                "TournamentId": 14911
+            }
+        ],
+        "seasonsWithLinks": [
+            "2023",
+            "2022",
+            "2020",
+            "2019"
+        ]
+    },
+    "fixtures": {
+        "firstUnplayedMatch": null,
+        "allMatches": [
+            {
+                "round": "1",
+                "roundName": 1,
+                "pageUrl": "/matches/boca-juniors-vs-independiente/3cxts8#4092600",
+                "id": "4092600",
+                "home": {
+                    "name": "Boca Juniors",
+                    "shortName": "Boca Juniors",
+                    "id": "10077"
+                },
+                "away": {
+                    "name": "Independiente",
+                    "shortName": "Independiente",
+                    "id": "10078"
+                },
+                "group": "A",
+                "status": {
+                    "utcTime": "2023-01-08T00:30:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "2",
+                "roundName": 2,
+                "pageUrl": "/matches/everton-cd-vs-independiente/16n5qa#4092606",
+                "id": "4092606",
+                "home": {
+                    "name": "Independiente",
+                    "shortName": "Independiente",
+                    "id": "10078"
+                },
+                "away": {
+                    "name": "Everton CD",
+                    "shortName": "Everton CD",
+                    "id": "1890"
+                },
+                "group": "A",
+                "status": {
+                    "utcTime": "2023-01-12T00:30:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "2 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "3",
+                "roundName": 3,
+                "pageUrl": "/matches/everton-cd-vs-boca-juniors/16mwhu#4092601",
+                "id": "4092601",
+                "home": {
+                    "name": "Boca Juniors",
+                    "shortName": "Boca Juniors",
+                    "id": "10077"
+                },
+                "away": {
+                    "name": "Everton CD",
+                    "shortName": "Everton CD",
+                    "id": "1890"
+                },
+                "group": "A",
+                "status": {
+                    "utcTime": "2023-01-14T00:30:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "1",
+                "roundName": 1,
+                "pageUrl": "/matches/gimnasia-jujuy-vs-juventud-antoniana/bhsajnc#4092602",
+                "id": "4092602",
+                "home": {
+                    "name": "Gimnasia Jujuy",
+                    "shortName": "Gimnasia Jujuy",
+                    "id": "10095"
+                },
+                "away": {
+                    "name": "Juventud Antoniana",
+                    "shortName": "Juventud Antoniana",
+                    "id": "213600"
+                },
+                "group": "B",
+                "status": {
+                    "utcTime": "2023-01-15T21:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "1 - 1",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "2",
+                "roundName": 2,
+                "pageUrl": "/matches/gimnasia-jujuy-vs-san-martin-de-tucuman/5mfzqke#4092603",
+                "id": "4092603",
+                "home": {
+                    "name": "San Martin de Tucuman",
+                    "shortName": "San Martin de Tucuman",
+                    "id": "146371"
+                },
+                "away": {
+                    "name": "Gimnasia Jujuy",
+                    "shortName": "Gimnasia Jujuy",
+                    "id": "10095"
+                },
+                "group": "B",
+                "status": {
+                    "utcTime": "2023-01-18T22:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "3",
+                "roundName": 3,
+                "pageUrl": "/matches/san-martin-de-tucuman-vs-central-norte/trhmf71#4092604",
+                "id": "4092604",
+                "home": {
+                    "name": "Central Norte",
+                    "shortName": "Central Norte",
+                    "id": "213597"
+                },
+                "away": {
+                    "name": "San Martin de Tucuman",
+                    "shortName": "San Martin de Tucuman",
+                    "id": "146371"
+                },
+                "group": "B",
+                "status": {
+                    "utcTime": "2023-01-22T21:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "1 - 0",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            },
+            {
+                "round": "4",
+                "roundName": 4,
+                "pageUrl": "/matches/central-norte-vs-juventud-antoniana/15x3c5mr#4092605",
+                "id": "4092605",
+                "home": {
+                    "name": "Juventud Antoniana",
+                    "shortName": "Juventud Antoniana",
+                    "id": "213600"
+                },
+                "away": {
+                    "name": "Central Norte",
+                    "shortName": "Central Norte",
+                    "id": "213597"
+                },
+                "group": "B",
+                "status": {
+                    "utcTime": "2023-01-29T21:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 2",
+                    "reason": {
+                        "short": "FT",
+                        "shortKey": "fulltime_short",
+                        "long": "Full-Time",
+                        "longKey": "finished"
+                    }
+                }
+            }
+        ],
+        "hasOngoingMatch": false,
+        "fixtureInfo": {
+            "activeRound": {
+                "roundId": "4",
+                "localizedKey": "round_fmt"
+            },
+            "rounds": [
+                {
+                    "roundId": "1",
+                    "localizedKey": "round_fmt"
+                },
+                {
+                    "roundId": "2",
+                    "localizedKey": "round_fmt"
+                },
+                {
+                    "roundId": "3",
+                    "localizedKey": "round_fmt"
+                },
+                {
+                    "roundId": "4",
+                    "localizedKey": "round_fmt"
+                }
+            ],
+            "teams": [
+                {
+                    "id": 10077,
+                    "name": "Boca Juniors"
+                },
+                {
+                    "id": 213597,
+                    "name": "Central Norte"
+                },
+                {
+                    "id": 1890,
+                    "name": "Everton CD"
+                },
+                {
+                    "id": 10095,
+                    "name": "Gimnasia Jujuy"
+                },
+                {
+                    "id": 10078,
+                    "name": "Independiente"
+                },
+                {
+                    "id": 213600,
+                    "name": "Juventud Antoniana"
+                },
+                {
+                    "id": 146371,
+                    "name": "San Martin de Tucuman"
+                }
+            ],
+            "groups": [
+                "A",
+                "B"
+            ]
+        }
+    },
+    "playoff": null,
+    "seasons": []
+}

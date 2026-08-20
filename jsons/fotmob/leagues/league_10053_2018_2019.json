@@ -1,0 +1,173 @@
+{
+    "tabs": [
+        "overview",
+        "seasons"
+    ],
+    "allAvailableSeasons": [
+        "2025",
+        "2024",
+        "2023",
+        "2020",
+        "2022",
+        "2021",
+        "2018/2019"
+    ],
+    "details": {
+        "id": 10053,
+        "type": "league",
+        "name": "Trofeo de Campeones",
+        "selectedSeason": "2018/2019",
+        "latestSeason": "2025",
+        "shortName": "Trofeo de Campeones",
+        "country": "ARG",
+        "gender": "male",
+        "faqJSONLD": null,
+        "breadcrumbJSONLD": {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://www.fotmob.com"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Trofeo de Campeones",
+                    "item": "https://www.fotmob.com/leagues/10053/overview/trofeo-de-campeones"
+                }
+            ]
+        },
+        "canSyncCalendar": false,
+        "leagueColor": "#333333",
+        "dataProvider": "enet",
+        "seopath": "trofeo-de-campeones"
+    },
+    "seostr": "trofeo-de-campeones",
+    "QAData": [],
+    "table": null,
+    "transfers": null,
+    "overview": {
+        "season": "2025",
+        "selectedSeason": "2018/2019",
+        "table": null,
+        "topPlayers": {
+            "byRating": {
+                "seeAllLink": "/leagues/10053/stats/season//players/rating/trofeo-de-campeones"
+            },
+            "byGoals": {
+                "seeAllLink": "/leagues/10053/stats/season//players/goals/trofeo-de-campeones"
+            },
+            "byAssists": {
+                "seeAllLink": "/leagues/10053/stats/season//players/goal_assist/trofeo-de-campeones"
+            },
+            "seeAllUrl": "stats"
+        },
+        "hasTotw": false,
+        "hasOngoingMatch": false,
+        "shotMap": null,
+        "playoff": null,
+        "matches": {
+            "hasOngoingMatch": false
+        }
+    },
+    "stats": {},
+    "fixtures": {
+        "hasOngoingMatch": false
+    },
+    "playoff": null,
+    "seasons": [
+        {
+            "seasonName": "2025",
+            "winner": {
+                "id": 10094,
+                "seasonName": "2025",
+                "name": "Estudiantes",
+                "winner": true
+            },
+            "loser": {
+                "id": 10089,
+                "seasonName": "2025",
+                "name": "Club Atletico Platense",
+                "winner": false
+            }
+        },
+        {
+            "seasonName": "2024",
+            "winner": {
+                "id": 10094,
+                "seasonName": "2024",
+                "name": "Estudiantes",
+                "winner": true
+            },
+            "loser": {
+                "id": 10079,
+                "seasonName": "2024",
+                "name": "Velez Sarsfield",
+                "winner": false
+            }
+        },
+        {
+            "seasonName": "2023",
+            "winner": {
+                "id": 10076,
+                "seasonName": "2023",
+                "name": "River Plate",
+                "winner": true
+            },
+            "loser": {
+                "id": 10084,
+                "seasonName": "2023",
+                "name": "Rosario Central",
+                "winner": false
+            }
+        },
+        {
+            "seasonName": "2022",
+            "winner": {
+                "id": 10080,
+                "seasonName": "2022",
+                "name": "Racing Club",
+                "winner": true
+            },
+            "loser": {
+                "id": 10077,
+                "seasonName": "2022",
+                "name": "Boca Juniors",
+                "winner": false
+            }
+        },
+        {
+            "seasonName": "2021",
+            "winner": {
+                "id": 10076,
+                "seasonName": "2021",
+                "name": "River Plate",
+                "winner": true
+            },
+            "loser": {
+                "id": 10088,
+                "seasonName": "2021",
+                "name": "Colon",
+                "winner": false
+            }
+        },
+        {
+            "seasonName": "2019",
+            "winner": {
+                "id": 10080,
+                "seasonName": "2019",
+                "name": "Racing Club",
+                "winner": true
+            },
+            "loser": {
+                "id": 89396,
+                "seasonName": "2019",
+                "name": "Tigre",
+                "winner": false
+            }
+        }
+    ]
+}

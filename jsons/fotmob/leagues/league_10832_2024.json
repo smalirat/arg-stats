@@ -1,0 +1,245 @@
+{
+    "tabs": [
+        "overview",
+        "fixtures",
+        "seasons"
+    ],
+    "allAvailableSeasons": [
+        "2025",
+        "2024"
+    ],
+    "details": {
+        "id": 10832,
+        "type": "league",
+        "name": "Supercopa Internacional",
+        "selectedSeason": "2024",
+        "latestSeason": "2025",
+        "shortName": "Supercopa Internacional",
+        "country": "ARG",
+        "gender": "male",
+        "faqJSONLD": null,
+        "breadcrumbJSONLD": {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://www.fotmob.com"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Supercopa Internacional",
+                    "item": "https://www.fotmob.com/leagues/10832/overview/supercopa-internacional"
+                }
+            ]
+        },
+        "canSyncCalendar": false,
+        "leagueColor": "#333333",
+        "dataProvider": "enet",
+        "seopath": "supercopa-internacional"
+    },
+    "seostr": "supercopa-internacional",
+    "QAData": [],
+    "table": null,
+    "transfers": null,
+    "overview": {
+        "season": "2025",
+        "selectedSeason": "2024",
+        "table": null,
+        "topPlayers": {
+            "byRating": {
+                "seeAllLink": "/leagues/10832/stats/season//players/rating/supercopa-internacional"
+            },
+            "byGoals": {
+                "seeAllLink": "/leagues/10832/stats/season//players/goals/supercopa-internacional"
+            },
+            "byAssists": {
+                "seeAllLink": "/leagues/10832/stats/season//players/goal_assist/supercopa-internacional"
+            },
+            "seeAllUrl": "stats"
+        },
+        "hasTotw": false,
+        "leagueOverviewMatches": [
+            {
+                "id": "4745103",
+                "pageUrl": "/matches/river-plate-vs-talleres/3d7c4u#4745103",
+                "opponent": {
+                    "id": "10076",
+                    "name": "River Plate",
+                    "score": 0
+                },
+                "home": {
+                    "id": "10076",
+                    "name": "River Plate",
+                    "score": 0
+                },
+                "away": {
+                    "id": "10101",
+                    "name": "Talleres",
+                    "score": 0
+                },
+                "displayTournament": true,
+                "notStarted": false,
+                "tournament": {
+                    "stage": ""
+                },
+                "status": {
+                    "utcTime": "2025-03-05T23:00:00Z",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 0",
+                    "reason": {
+                        "short": "Pen",
+                        "shortKey": "penalties_short",
+                        "long": "After penalties",
+                        "longKey": "afterpenalties"
+                    }
+                }
+            }
+        ],
+        "hasOngoingMatch": false,
+        "shotMap": null,
+        "playoff": null,
+        "matches": {
+            "firstUnplayedMatch": null,
+            "allMatches": [
+                {
+                    "round": "final",
+                    "roundName": "Final",
+                    "pageUrl": "/matches/river-plate-vs-talleres/3d7c4u#4745103",
+                    "id": "4745103",
+                    "home": {
+                        "name": "River Plate",
+                        "shortName": "River Plate",
+                        "id": "10076"
+                    },
+                    "away": {
+                        "name": "Talleres",
+                        "shortName": "Talleres",
+                        "id": "10101"
+                    },
+                    "status": {
+                        "utcTime": "2025-03-05T23:00:00Z",
+                        "timezone": "",
+                        "finished": true,
+                        "started": true,
+                        "cancelled": false,
+                        "awarded": false,
+                        "scoreStr": "0 - 0",
+                        "reason": {
+                            "short": "Pen",
+                            "shortKey": "penalties_short",
+                            "long": "After penalties",
+                            "longKey": "afterpenalties"
+                        }
+                    }
+                }
+            ],
+            "hasOngoingMatch": false,
+            "fixtureInfo": {
+                "rounds": [],
+                "teams": [
+                    {
+                        "id": 10076,
+                        "name": "River Plate"
+                    },
+                    {
+                        "id": 10101,
+                        "name": "Talleres"
+                    }
+                ],
+                "groups": []
+            }
+        }
+    },
+    "stats": {},
+    "fixtures": {
+        "firstUnplayedMatch": null,
+        "allMatches": [
+            {
+                "round": "final",
+                "roundName": "Final",
+                "pageUrl": "/matches/river-plate-vs-talleres/3d7c4u#4745103",
+                "id": "4745103",
+                "home": {
+                    "name": "River Plate",
+                    "shortName": "River Plate",
+                    "id": "10076"
+                },
+                "away": {
+                    "name": "Talleres",
+                    "shortName": "Talleres",
+                    "id": "10101"
+                },
+                "status": {
+                    "utcTime": "2025-03-05T23:00:00Z",
+                    "timezone": "",
+                    "finished": true,
+                    "started": true,
+                    "cancelled": false,
+                    "awarded": false,
+                    "scoreStr": "0 - 0",
+                    "reason": {
+                        "short": "Pen",
+                        "shortKey": "penalties_short",
+                        "long": "After penalties",
+                        "longKey": "afterpenalties"
+                    }
+                }
+            }
+        ],
+        "hasOngoingMatch": false,
+        "fixtureInfo": {
+            "rounds": [],
+            "teams": [
+                {
+                    "id": 10076,
+                    "name": "River Plate"
+                },
+                {
+                    "id": 10101,
+                    "name": "Talleres"
+                }
+            ],
+            "groups": []
+        }
+    },
+    "playoff": null,
+    "seasons": [
+        {
+            "seasonName": "2024",
+            "winner": {
+                "id": 10101,
+                "seasonName": "2024",
+                "name": "Talleres",
+                "winner": true
+            },
+            "loser": {
+                "id": 10076,
+                "seasonName": "2024",
+                "name": "River Plate",
+                "winner": false
+            }
+        },
+        {
+            "seasonName": "2023",
+            "winner": {
+                "id": 10080,
+                "seasonName": "2023",
+                "name": "Racing Club",
+                "winner": true
+            },
+            "loser": {
+                "id": 10077,
+                "seasonName": "2023",
+                "name": "Boca Juniors",
+                "winner": false
+            }
+        }
+    ]
+}
