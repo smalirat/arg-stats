@@ -1,0 +1,62 @@
+---
+const { ediciones = [] } = Astro.props;
+
+// Filtramos para que no se repitan los nombres (ej: que no salga "Liga Profesional" 3 veces por cada año)
+const torneosUnicos = [...new Set(ediciones.map((e: any) => e.nombre_torneo))];
+---
+
+<header class="w-full font-sans border-b-2 border-[#0f5231]">
+  <!-- Top Bar (Estilo Sports Reference) -->
+  <div class="bg-[#333] text-[#ccc] text-xs py-1.5 px-4 flex gap-4">
+    <span class="font-bold text-[#e6b31e]">ArgStats Reference ®</span>
+    <a href="#" class="hover:text-white">Partidos</a>
+    <a href="#" class="hover:text-white">Equipos</a>
+    <a href="#" class="hover:text-white">Jugadores</a>
+  </div>
+
+  <!-- Main Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-4 bg-white">
+    <div class="flex items-center gap-2 mb-3 sm:mb-0">
+      <div class="text-4xl text-[#0f5231]">⚽</div>
+      <a href="/" class="text-4xl font-bold text-gray-800 tracking-tighter">ARG<span class="text-[#0f5231]">STATS</span></a>
+    </div>
+    <div class="flex w-full max-w-lg">
+      <input 
+        type="text" 
+        placeholder="Buscar jugador, equipo, torneo..." 
+        class="w-full border border-gray-400 px-3 py-1.5 focus:outline-none focus:border-[#0f5231] text-sm"
+      >
+      <button class="bg-[#0f5231] text-white px-5 py-1.5 font-bold hover:bg-[#0a3a22] transition-colors">
+        Search
+      </button>
+    </div>
+  </div>
+
+  <!-- Nav Bar -->
+  <nav class="bg-[#f2f2f2] border-t border-gray-300 flex flex-wrap text-sm font-semibold text-gray-700">
+    <div class="relative group">
+      <!-- Botón Desplegable -->
+      <button class="flex items-center gap-2 px-5 py-2.5 hover:bg-[#e5e5e5] cursor-default">
+         🇦🇷 Argentina ▾
+      </button>
+      
+      <!-- Menú Desplegable (Ventanita Verde) -->
+      <div class="absolute left-0 top-full hidden group-hover:flex flex-col bg-[#144933] text-white w-64 shadow-xl z-50">
+        <div class="px-4 py-2 border-b border-[#1f664a] text-xs font-bold text-green-300 uppercase flex justify-between items-center">
+          <span>🇦🇷 Competiciones</span>
+          <span>˄</span>
+        </div>
+        {torneosUnicos.map((t) => (
+          <a href="#" class="px-4 py-2.5 hover:bg-[#0a3a22] border-b border-[#1f664a] last:border-0 font-medium transition-colors">
+            {t}
+          </a>
+        ))}
+      </div>
+    </div>
+    
+    <a href="#" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Jugadores</a>
+    <a href="#" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Clubes</a>
+    <a href="#" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Partidos</a>
+    <a href="#" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Historial</a>
+  </nav>
+</header>

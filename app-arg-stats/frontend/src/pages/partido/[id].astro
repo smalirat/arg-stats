@@ -2,84 +2,16 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SectionCard from "../../components/SectionCard.astro";
 
-export function getStaticPaths() {
-  return [101, 102, 103, 104, 105, 106, 107].map((id) => ({ params: { id: String(id) } }));
-}
-
 const { id } = Astro.params;
 
-// ── MOCK DATA ──────────────────────────────────────────────
-const partido = {
-  partido_id: 101,
-  torneo: "Liga Profesional 2025",
-  fecha: "2025-08-17",
-  estado: "Finalizado",
-  estadio: "Estadio Monumental",
-  local: { equipo_id: 1, nombre: "River Plate", goles: 2 },
-  visitante: { equipo_id: 2, nombre: "Boca Juniors", goles: 1 },
-};
+const response = await fetch(`http://localhost:3000/api/partidos/${id}`);
+const data = await response.json();
 
-const alineacionLocal = {
-  titulares: [
-    { jugador_id: 101, nombre: "F. Armani", posicion: "ARQ", camiseta: 1 },
-    { jugador_id: 102, nombre: "M. Casco", posicion: "DEF", camiseta: 4 },
-    { jugador_id: 103, nombre: "G. Pezzella", posicion: "DEF", camiseta: 6 },
-    { jugador_id: 104, nombre: "L. González Pirez", posicion: "DEF", camiseta: 3 },
-    { jugador_id: 111, nombre: "A. Sant'Anna", posicion: "DEF", camiseta: 2 },
-    { jugador_id: 109, nombre: "R. Aliendro", posicion: "MED", camiseta: 5 },
-    { jugador_id: 107, nombre: "I. Fernández", posicion: "MED", camiseta: 8 },
-    { jugador_id: 106, nombre: "M. Lanzini", posicion: "MED", camiseta: 10 },
-    { jugador_id: 108, nombre: "S. Driussi", posicion: "DEL", camiseta: 7 },
-    { jugador_id: 105, nombre: "M. Borja", posicion: "DEL", camiseta: 9 },
-    { jugador_id: 110, nombre: "F. Colidio", posicion: "DEL", camiseta: 11 },
-  ],
-  suplentes: [
-    { jugador_id: 112, nombre: "E. Centurión", posicion: "ARQ", camiseta: 12 },
-    { jugador_id: 113, nombre: "K. Mammana", posicion: "DEF", camiseta: 15 },
-    { jugador_id: 114, nombre: "N. De La Cruz", posicion: "MED", camiseta: 20 },
-    { jugador_id: 115, nombre: "P. Solari", posicion: "DEL", camiseta: 17 },
-  ],
-};
+const partido = data.partido;
+const alineacionLocal = data.alineacionLocal;
+const alineacionVisitante = data.alineacionVisitante;
+const eventos = data.eventos || [];
 
-const alineacionVisitante = {
-  titulares: [
-    { jugador_id: 201, nombre: "S. Marchín", posicion: "ARQ", camiseta: 1 },
-    { jugador_id: 202, nombre: "L. Advíncula", posicion: "DEF", camiseta: 17 },
-    { jugador_id: 203, nombre: "A. Herrera", posicion: "DEF", camiseta: 5 },
-    { jugador_id: 204, nombre: "N. Valentini", posicion: "DEF", camiseta: 6 },
-    { jugador_id: 205, nombre: "M. Saracchi", posicion: "DEF", camiseta: 3 },
-    { jugador_id: 206, nombre: "E. Fernández", posicion: "MED", camiseta: 8 },
-    { jugador_id: 207, nombre: "G. Gil", posicion: "MED", camiseta: 5 },
-    { jugador_id: 208, nombre: "K. Sosa", posicion: "MED", camiseta: 10 },
-    { jugador_id: 209, nombre: "E. Cavani", posicion: "DEL", camiseta: 9 },
-    { jugador_id: 210, nombre: "M. Merentiel", posicion: "DEL", camiseta: 11 },
-    { jugador_id: 211, nombre: "L. Langoni", posicion: "DEL", camiseta: 7 },
-  ],
-  suplentes: [
-    { jugador_id: 212, nombre: "J. García", posicion: "ARQ", camiseta: 12 },
-    { jugador_id: 213, nombre: "B. Rojo", posicion: "DEF", camiseta: 6 },
-    { jugador_id: 214, nombre: "A. Varela", posicion: "MED", camiseta: 20 },
-    { jugador_id: 215, nombre: "D. Brey", posicion: "DEL", camiseta: 19 },
-  ],
-};
-
-const eventos = [
-  { evento_id: 1, minuto: 12, tipo: "Gol", equipo: "local", jugador: "M. Borja", detalle: "Gol de cabeza tras centro de Driussi" },
-  { evento_id: 2, minuto: 28, tipo: "Tarjeta Amarilla", equipo: "visitante", jugador: "E. Fernández", detalle: "Falta dura sobre Aliendro" },
-  { evento_id: 3, minuto: 34, tipo: "Gol", equipo: "visitante", jugador: "E. Cavani", detalle: "Definición cruzada tras pase de Langoni" },
-  { evento_id: 4, minuto: 45, tipo: "Sustitución", equipo: "local", jugador: "F. Colidio → P. Solari", detalle: "Cambio táctico" },
-  { evento_id: 5, minuto: 67, tipo: "Gol", equipo: "local", jugador: "S. Driussi", detalle: "Remate desde fuera del área al palo izquierdo" },
-  { evento_id: 6, minuto: 78, tipo: "Tarjeta Roja", equipo: "visitante", jugador: "G. Gil", detalle: "Doble amarilla por falta sobre Lanzini" },
-  { evento_id: 7, minuto: 90, tipo: "Tarjeta Amarilla", equipo: "local", jugador: "R. Aliendro", detalle: "Pérdida de tiempo" },
-];
-
-const tipoIcono: Record<string, string> = {
-  "Gol": "⚽",
-  "Tarjeta Amarilla": "🟨",
-  "Tarjeta Roja": "🟥",
-  "Sustitución": "🔄",
-};
-// ────────────────────────────────────────────────────────────
 ---
 
 <BaseLayout title={`${partido.local.nombre} ${partido.local.goles} - ${partido.visitante.goles} ${partido.visitante.nombre} — ArgStats`}>

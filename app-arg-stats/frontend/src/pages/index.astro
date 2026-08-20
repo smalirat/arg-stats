@@ -1,83 +1,141 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import SectionCard from "../components/SectionCard.astro";
-import MatchCard from "../components/MatchCard.astro";
-import TeamCard from "../components/TeamCard.astro";
+import SiteHeader from "../components/SiteHeader.astro";
 
-// ── MOCK DATA ──────────────────────────────────────────────
-const ediciones = [
-  { edicion_id: 1, nombre_torneo: "Liga Profesional 2025", temporada: "2025", pais: "Argentina", estado: "En curso" },
-  { edicion_id: 2, nombre_torneo: "Copa Argentina 2025", temporada: "2025", pais: "Argentina", estado: "En curso" },
-  { edicion_id: 3, nombre_torneo: "Copa Libertadores 2025", temporada: "2025", pais: "Sudamérica", estado: "En curso" },
-  { edicion_id: 4, nombre_torneo: "Liga Profesional 2024", temporada: "2024", pais: "Argentina", estado: "Finalizado" },
-  { edicion_id: 5, nombre_torneo: "Copa Sudamericana 2024", temporada: "2024", pais: "Sudamérica", estado: "Finalizado" },
-  { edicion_id: 6, nombre_torneo: "Primera Nacional 2025", temporada: "2025", pais: "Argentina", estado: "En curso" },
-];
+export const prerender = false;
 
-const ultimosPartidos = [
-  { partido_id: 101, fecha: "2025-08-17", torneo: "Liga Profesional", local: "River Plate", visitante: "Boca Juniors", goles_local: 2, goles_visitante: 1, estado: "Finalizado" },
-  { partido_id: 102, fecha: "2025-08-17", torneo: "Liga Profesional", local: "Racing Club", visitante: "Independiente", goles_local: 0, goles_visitante: 0, estado: "Finalizado" },
-  { partido_id: 103, fecha: "2025-08-18", torneo: "Copa Argentina", local: "San Lorenzo", visitante: "Huracán", goles_local: 3, goles_visitante: 2, estado: "Finalizado" },
-  { partido_id: 104, fecha: "2025-08-19", torneo: "Liga Profesional", local: "Estudiantes", visitante: "Gimnasia", goles_local: 1, goles_visitante: 1, estado: "Finalizado" },
-  { partido_id: 105, fecha: "2025-08-20", torneo: "Copa Libertadores", local: "Vélez", visitante: "Flamengo", goles_local: null, goles_visitante: null, estado: "Próximo" },
-  { partido_id: 106, fecha: "2025-08-20", torneo: "Liga Profesional", local: "Talleres", visitante: "Belgrano", goles_local: null, goles_visitante: null, estado: "Próximo" },
-];
+const response = await fetch('http://localhost:3000/api/home');
+const json = await response.json();
 
-const equiposDestacados = [
-  { equipo_id: 1, nombre_fuente: "Club Atlético River Plate", nombre_corto: "River Plate" },
-  { equipo_id: 2, nombre_fuente: "Club Atlético Boca Juniors", nombre_corto: "Boca Juniors" },
-  { equipo_id: 3, nombre_fuente: "Racing Club", nombre_corto: "Racing" },
-  { equipo_id: 4, nombre_fuente: "Club Atlético Independiente", nombre_corto: "Independiente" },
-  { equipo_id: 5, nombre_fuente: "Club Atlético San Lorenzo", nombre_corto: "San Lorenzo" },
-  { equipo_id: 6, nombre_fuente: "Club Atlético Huracán", nombre_corto: "Huracán" },
-  { equipo_id: 7, nombre_fuente: "Estudiantes de La Plata", nombre_corto: "Estudiantes" },
-  { equipo_id: 8, nombre_fuente: "Club de Gimnasia y Esgrima La Plata", nombre_corto: "Gimnasia" },
-];
-// ────────────────────────────────────────────────────────────
+const homeData = json.data || {};
+
+const ediciones = homeData.ediciones || [];
+const ultimosPartidos = homeData.ultimosPartidos || [];
+const equiposDestacados = homeData.equiposDestacados || [];
+
 ---
 
-<BaseLayout>
-  <!-- Hero -->
-  <section class="mb-8 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 px-6 py-10 sm:px-10 sm:py-14 text-white">
-    <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">
-      Estadísticas históricas del fútbol argentino
-    </h1>
-    <p class="mt-3 max-w-2xl text-slate-300 text-base sm:text-lg">
-      Datos avanzados, métricas xG, alineaciones, eventos y momentum de cada partido. Inspirado en FBref, optimizado para el fútbol argentino.
+<BaseLayout title="ArgStats - Estadísticas de Fútbol Argentino">
+  
+  <!-- Inyectamos nuestro nuevo Header estilo FBref y le pasamos las ediciones -->
+  <SiteHeader ediciones={ediciones} />
+
+  <main class="max-w-[1200px] mx-auto px-2 sm:px-4 py-6 font-sans">
+    
+    <!-- Subtítulo estilo referencia -->
+    <p class="text-sm text-gray-800 mb-6 border-b border-gray-300 pb-2">
+      <strong>Estadísticas e Historia del Fútbol Argentino:</strong> Estadísticas, resultados y archivos históricos para competiciones, clubes y jugadores nacionales.
     </p>
-    <div class="mt-6 flex flex-wrap gap-3">
-      <a href="/torneo/1" class="rounded-lg bg-accent-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent-700 transition-colors">
-        Ver torneos
-      </a>
-      <a href="/partido/101" class="rounded-lg border border-slate-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-white/10 transition-colors">
-        Explorar partidos
-      </a>
-    </div>
-  </section>
 
-  <SectionCard title="Ediciones disponibles" subtitle="Torneos activos y finalizados">
-    <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {ediciones.map((e) => (
-        <a href={`/torneo/${e.edicion_id}`} class="group rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:shadow-md hover:border-accent-300">
-          <div class="flex items-start justify-between">
-            <div>
-              <h3 class="font-semibold text-slate-900 group-hover:text-accent-700">{e.nombre_torneo}</h3>
-              <p class="text-sm text-slate-500">{e.pais} · Temporada {e.temporada}</p>
-            </div>
-            <span class={`rounded-full px-2.5 py-1 text-xs font-medium ${e.estado === "En curso" ? "bg-accent-50 text-accent-700" : "bg-slate-100 text-slate-500"}`}>
-              {e.estado}
-            </span>
+    <!-- Disposición en 3 Columnas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+
+      <!-- COLUMNA 1: Últimos Partidos -->
+      <div class="border border-gray-300 bg-white">
+        <div class="bg-[#0f5231] text-white font-bold px-3 py-1.5 text-sm">
+          Partidos Recientes
+        </div>
+        <div class="p-3">
+          <div class="space-y-4">
+            {ultimosPartidos.map((p: any) => (
+              <div class="text-sm border-b border-gray-100 pb-3 last:border-0 last:pb-0">
+                <div class="text-xs text-gray-500 mb-1 font-medium">
+                  {p.fecha_utc ? new Date(p.fecha_utc).toLocaleDateString() : 'Sin fecha'} · {p.estado}
+                </div>
+                <div class="flex justify-between items-center mb-0.5">
+                  <!-- CORRECCIÓN: Leemos la columna plana de la vista SQL -->
+                  <span class="font-medium text-gray-800">{p.local_nombre_corto || p.local_nombre_fuente || 'Local'}</span>
+                  <span class="font-bold bg-gray-100 px-2 py-0.5 rounded">{p.goles_local ?? '-'}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <!-- CORRECCIÓN: Leemos la columna plana de la vista SQL -->
+                  <span class="font-medium text-gray-800">{p.visitante_nombre_corto || p.visitante_nombre_fuente || 'Visitante'}</span>
+                  <span class="font-bold bg-gray-100 px-2 py-0.5 rounded">{p.goles_visitante ?? '-'}</span>
+                </div>
+                <a href={`/partido/${p.partido_id}`} class="text-[#2a6496] hover:bg-[#2a6496] hover:text-white text-xs mt-2 inline-block px-1 rounded transition-colors">
+                  Ficha del partido &rarr;
+                </a>
+              </div>
+            ))}
           </div>
-        </a>
-      ))}
+        </div>
+      </div>
+
+      <!-- COLUMNA 2: Equipos (Clubes) -->
+      <div class="border border-gray-300 bg-white">
+        <div class="bg-[#0f5231] text-white font-bold px-3 py-1.5 text-sm">
+          Clubes Primera División
+        </div>
+        <div class="p-3">
+          <div class="grid grid-cols-2 gap-x-2 gap-y-3">
+            {equiposDestacados.map((eq: any) => {
+              // Calculamos un nombre seguro para evitar que el slice() rompa
+              const nombreSeguro = eq.nombre_corto || eq.nombre_fuente || 'ARG';
+              return (
+                <a href={`/equipo/${eq.equipo_id}`} class="flex items-center gap-2 group">
+                  <div class="w-7 h-7 bg-gray-100 border border-gray-200 text-[#0f5231] text-[10px] font-bold flex items-center justify-center rounded group-hover:bg-[#0f5231] group-hover:text-white transition-colors">
+                    {nombreSeguro.slice(0, 3).toUpperCase()}
+                  </div>
+                  <span class="text-sm text-[#2a6496] group-hover:underline font-medium truncate">
+                    {nombreSeguro}
+                  </span>
+                </a>
+              )
+            })}
+          </div>
+          
+          <div class="mt-5 border-t border-gray-200 pt-3">
+             <label class="block text-xs font-bold text-gray-700 mb-1">Buscar club directo:</label>
+             <select class="w-full text-sm border border-gray-300 p-1.5 focus:outline-none focus:border-[#0f5231]">
+               <option>Seleccionar club...</option>
+               {equiposDestacados.map((eq: any) => (
+                 <option value={eq.equipo_id}>{eq.nombre_fuente}</option>
+               ))}
+             </select>
+             <button class="mt-2 bg-[#0f5231] text-white text-sm font-bold px-3 py-1 rounded-sm w-full hover:bg-[#0a3a22]">Ir</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMNA 3: Archivo Histórico (Ediciones DB) -->
+      <div class="border border-gray-300 bg-white">
+        <div class="bg-[#0f5231] text-white font-bold px-3 py-1.5 text-sm">
+          Archivo Histórico ArgStats
+        </div>
+        
+        <!-- Bloque estilo Banner/Anuncio pero funcional -->
+        <div class="bg-gray-100 border-b border-gray-300 p-4 text-center">
+          <h3 class="font-bold text-gray-800 text-sm mb-1">La base de datos definitiva</h3>
+          <p class="text-xs text-gray-600 mb-3">Explorá el historial de competiciones, posiciones y resultados minuto a minuto.</p>
+          <a href="#" class="bg-[#0f5231] text-white text-xs font-bold px-4 py-2 rounded-sm hover:bg-[#0a3a22] inline-block">
+            Explorar torneos
+          </a>
+        </div>
+
+        <div class="p-3">
+          <h4 class="font-bold text-gray-800 text-sm mb-2 border-b border-gray-200 pb-1">Ediciones Registradas</h4>
+          <ul class="space-y-1.5 text-sm mb-4">
+            {ediciones.map((ed: any) => (
+              <li class="flex justify-between items-center">
+                <a href={`/torneo/${ed.edicion_id}`} class="text-[#2a6496] hover:bg-[#2a6496] hover:text-white px-1 rounded transition-colors font-medium">
+                  {ed.nombre_torneo}
+                </a>
+                <span class="text-gray-500 text-xs font-mono">{ed.temporada}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div class="bg-[#f0edf7] border border-[#d3cce3] p-3 rounded-sm text-xs text-gray-800 mt-4">
+            <strong class="block mb-1 text-[#4a3b72]">Métricas disponibles:</strong>
+            <ul class="list-disc pl-4 space-y-1">
+              <li>Expected Goals (xG) y Asistencias (xA).</li>
+              <li>Radiografía de momentum por partido.</li>
+              <li>Historial de alineaciones y tarjetas.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </SectionCard>
-
-  <SectionCard title="Últimos partidos" subtitle="Resultados recientes y próximos encuentros">
-    <MatchCard matches={ultimosPartidos} />
-  </SectionCard>
-
-  <SectionCard title="Equipos destacados" subtitle="Clubes del fútbol argentino">
-    <TeamCard teams={equiposDestacados} />
-  </SectionCard>
+  </main>
 </BaseLayout>
