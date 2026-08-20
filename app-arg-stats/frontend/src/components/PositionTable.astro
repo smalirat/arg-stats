@@ -1,0 +1,91 @@
+---
+interface StandingsRow {
+  posicion: number;
+  equipo_id: number;
+  nombre_corto: string;
+  pj: number;
+  g: number;
+  e: number;
+  p: number;
+  gf: number;
+  gc: number;
+  dif: number;
+  pts: number;
+}
+
+interface Props {
+  rows: StandingsRow[];
+}
+
+const { rows } = Astro.props;
+---
+
+<div class="table-scroll overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+  <table class="w-full text-sm">
+    <thead>
+      <tr class="sticky top-0 z-10 bg-slate-800 text-slate-100">
+        <th class="px-3 py-2.5 text-center font-semibold w-10">#</th>
+        <th class="px-3 py-2.5 text-left font-semibold">Equipo</th>
+        <th class="px-3 py-2.5 text-center font-semibold">PJ</th>
+        <th class="px-3 py-2.5 text-center font-semibold">G</th>
+        <th class="px-3 py-2.5 text-center font-semibold">E</th>
+        <th class="px-3 py-2.5 text-center font-semibold">P</th>
+        <th class="px-3 py-2.5 text-center font-semibold">GF</th>
+        <th class="px-3 py-2.5 text-center font-semibold">GC</th>
+        <th class="px-3 py-2.5 text-center font-semibold">DIF</th>
+        <th class="px-3 py-2.5 text-center font-semibold">PTS</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row, i) => {
+          const zoneClass =
+            row.posicion <= 4
+              ? "border-l-4 border-l-accent-500"
+              : row.posicion >= rows.length - 3
+              ? "border-l-4 border-l-red-400"
+              : "border-l-4 border-l-transparent";
+          return (
+            <tr
+              class={`border-t border-slate-100 transition-colors hover:bg-accent-50/60 ${
+                i % 2 === 1 ? "bg-slate-50/60" : "bg-white"
+              } ${zoneClass}`}
+            >
+              <td class="px-3 py-2.5 text-center font-semibold text-slate-500">
+                {row.posicion}
+              </td>
+              <td class="px-3 py-2.5">
+                <a
+                  href={`/equipo/${row.equipo_id}`}
+                  class="font-medium text-slate-900 hover:text-accent-700 hover:underline"
+                >
+                  {row.nombre_corto}
+                </a>
+              </td>
+              <td class="px-3 py-2.5 text-center text-slate-500">{row.pj}</td>
+              <td class="px-3 py-2.5 text-center text-slate-600">{row.g}</td>
+              <td class="px-3 py-2.5 text-center text-slate-600">{row.e}</td>
+              <td class="px-3 py-2.5 text-center text-slate-600">{row.p}</td>
+              <td class="px-3 py-2.5 text-center text-slate-600">{row.gf}</td>
+              <td class="px-3 py-2.5 text-center text-slate-600">{row.gc}</td>
+              <td
+                class={`px-3 py-2.5 text-center font-medium ${
+                  row.dif > 0
+                    ? "text-accent-600"
+                    : row.dif < 0
+                    ? "text-red-500"
+                    : "text-slate-500"
+                }`}
+              >
+                {row.dif > 0 ? `+${row.dif}` : row.dif}
+              </td>
+              <td class="px-3 py-2.5 text-center font-bold text-slate-900">
+                {row.pts}
+              </td>
+            </tr>
+          );
+        })
+      }
+    </tbody>
+  </table>
+</div>

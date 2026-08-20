@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionCard from "../../components/SectionCard.astro";
+import PositionTable from "../../components/PositionTable.astro";
+import MatchCard from "../../components/MatchCard.astro";
+
+export function getStaticPaths() {
+  return [1, 2, 3, 4, 5, 6].map((id) => ({ params: { id: String(id) } }));
+}
+
+const { id } = Astro.params;
+
+// ── MOCK DATA ──────────────────────────────────────────────
+const edicion = {
+  edicion_id: 1,
+  nombre_torneo: "Liga Profesional 2025",
+  temporada: "2025",
+  pais: "Argentina",
+  estado: "En curso",
+  fecha_actual: 12,
+  fecha_total: 27,
+};
+
+const posiciones = [
+  { posicion: 1, equipo_id: 1, nombre_corto: "River Plate", pj: 12, g: 8, e: 3, p: 1, gf: 24, gc: 8, dif: 16, pts: 27 },
+  { posicion: 2, equipo_id: 7, nombre_corto: "Estudiantes", pj: 12, g: 7, e: 4, p: 1, gf: 19, gc: 7, dif: 12, pts: 25 },
+  { posicion: 3, equipo_id: 2, nombre_corto: "Boca Juniors", pj: 12, g: 7, e: 3, p: 2, gf: 18, gc: 10, dif: 8, pts: 24 },
+  { posicion: 4, equipo_id: 5, nombre_corto: "San Lorenzo", pj: 12, g: 6, e: 4, p: 2, gf: 16, gc: 9, dif: 7, pts: 22 },
+  { posicion: 5, equipo_id: 3, nombre_corto: "Racing", pj: 12, g: 6, e: 3, p: 3, gf: 17, gc: 12, dif: 5, pts: 21 },
+  { posicion: 6, equipo_id: 4, nombre_corto: "Independiente", pj: 12, g: 5, e: 5, p: 2, gf: 14, gc: 11, dif: 3, pts: 20 },
+  { posicion: 7, equipo_id: 6, nombre_corto: "Huracán", pj: 12, g: 5, e: 4, p: 3, gf: 13, gc: 12, dif: 1, pts: 19 },
+  { posicion: 8, equipo_id: 8, nombre_corto: "Gimnasia", pj: 12, g: 4, e: 5, p: 3, gf: 11, gc: 12, dif: -1, pts: 17 },
+  { posicion: 9, equipo_id: 9, nombre_corto: "Vélez", pj: 12, g: 4, e: 4, p: 4, gf: 12, gc: 13, dif: -1, pts: 16 },
+  { posicion: 10, equipo_id: 10, nombre_corto: "Talleres", pj: 12, g: 3, e: 6, p: 3, gf: 10, gc: 11, dif: -1, pts: 15 },
+  { posicion: 11, equipo_id: 11, nombre_corto: "Belgrano", pj: 12, g: 3, e: 4, p: 5, gf: 9, gc: 14, dif: -5, pts: 13 },
+  { posicion: 12, equipo_id: 12, nombre_corto: "Rosario Central", pj: 12, g: 2, e: 5, p: 5, gf: 8, gc: 15, dif: -7, pts: 11 },
+];
+
+const partidos = [
+  { partido_id: 101, fecha: "2025-08-17", torneo: "Liga Profesional", local: "River Plate", visitante: "Boca Juniors", goles_local: 2, goles_visitante: 1, estado: "Finalizado" },
+  { partido_id: 102, fecha: "2025-08-17", torneo: "Liga Profesional", local: "Racing", visitante: "Independiente", goles_local: 0, goles_visitante: 0, estado: "Finalizado" },
+  { partido_id: 103, fecha: "2025-08-18", torneo: "Liga Profesional", local: "San Lorenzo", visitante: "Huracán", goles_local: 3, goles_visitante: 2, estado: "Finalizado" },
+  { partido_id: 104, fecha: "2025-08-19", torneo: "Liga Profesional", local: "Estudiantes", visitante: "Gimnasia", goles_local: 1, goles_visitante: 1, estado: "Finalizado" },
+  { partido_id: 105, fecha: "2025-08-20", torneo: "Liga Profesional", local: "Vélez", visitante: "Talleres", goles_local: null, goles_visitante: null, estado: "Próximo" },
+  { partido_id: 106, fecha: "2025-08-20", torneo: "Liga Profesional", local: "Belgrano", visitante: "Rosario Central", goles_local: null, goles_visitante: null, estado: "Próximo" },
+];
+// ────────────────────────────────────────────────────────────
+---
+
+<BaseLayout title={`${edicion.nombre_torneo} — ArgStats`}>
+  <!-- Breadcrumb + título -->
+  <div class="mb-6">
+    <a href="/" class="text-sm text-slate-500 hover:text-accent-700">&larr; Inicio</a>
+    <div class="mt-2 flex flex-wrap items-center gap-3">
+      <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">{edicion.nombre_torneo}</h1>
+      <span class={`rounded-full px-3 py-1 text-xs font-medium ${edicion.estado === "En curso" ? "bg-accent-50 text-accent-700" : "bg-slate-100 text-slate-500"}`}>
+        {edicion.estado}
+      </span>
+    </div>
+    <p class="mt-1 text-sm text-slate-500">
+      {edicion.pais} · Temporada {edicion.temporada} · Fecha {edicion.fecha_actual} de {edicion.fecha_total}
+    </p>
+  </div>
+
+  <SectionCard title="Tabla de posiciones" subtitle="Ordenado por puntos · Verde = zona de clasificación, Rojo = descenso">
+    <PositionTable rows={posiciones} />
+  </SectionCard>
+
+  <SectionCard title="Partidos de la edición" subtitle="Resultados y próximos encuentros">
+    <MatchCard matches={partidos} />
+  </SectionCard>
+</BaseLayout>
