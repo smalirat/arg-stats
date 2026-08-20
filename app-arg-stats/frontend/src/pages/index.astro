@@ -1,0 +1,42 @@
+---
+import Header from '../components/Header.astro';
+
+// Petición al backend
+const response = await fetch('http://localhost:3000/api/equipos/test-db');
+const data = await response.json();
+
+const equipos = data.status === 'success' ? data.data : [];
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>ArgStats - Inicio</title>
+  </head>
+  <body style="font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px;">
+    <Header />
+    
+    <h2>Listado de Equipos</h2>
+    
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr style="border-bottom: 2px solid #333;">
+          <th style="padding: 8px;">ID Supabase</th>
+          <th style="padding: 8px;">Nombre</th>
+          <th style="padding: 8px;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {equipos.map((equipo) => (
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 8px; color: #555;">{equipo.equipo_id}</td>
+            <td style="padding: 8px; font-weight: bold;">{equipo.nombre_fuente}</td>
+            <td style="padding: 8px;">
+              <a href={`/equipo/${equipo.equipo_id}`} style="color: #0066cc;">Ver detalle &rarr;</a>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </body>
+</html>
