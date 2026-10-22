@@ -1,0 +1,72 @@
+---
+// Resultados del buscador del header: clubes, jugadores y torneos (?q=)
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Escudo from "../components/Escudo.astro";
+import TablaJugadores from "../components/TablaJugadores.astro";
+import { API_URL } from "../lib/api";
+import { urlEquipo, urlTorneo } from "../lib/urls";
+
+const q = Astro.url.searchParams.get("q")?.trim() ?? "";
+
+const response = await fetch(`${API_URL}/api/buscar?q=${encodeURIComponent(q)}`);
+// La API responde { status, data }
+const { data = {} } = await response.json();
+const clubes = data.clubes || [];
+const jugadores = data.jugadores || [];
+const torneos = data.torneos || [];
+const total = clubes.length + jugadores.length + torneos.length;
+---
+
+<BaseLayout title={`Búsqueda: "${q}" — ArgStats`}>
+  <div class="font-sans text-sm text-gray-800 space-y-4">
+    <section class="border border-gray-300 bg-white px-4 py-3">
+      <h1 class="text-2xl font-bold text-gray-900">Resultados para "{q}"</h1>
+      <p class="text-gray-600">
+        {q.length < 2
+          ? "Escribí al menos 2 letras."
+          : total
+            ? `${clubes.length} clubes · ${jugadores.length} jugadores · ${torneos.length} torneos`
+            : "No encontramos nada con ese nombre."}
+      </p>
+    </section>
+
+    {clubes.length > 0 && (
+      <section class="border border-gray-300 bg-white">
+        <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Clubes</h2>
+        <ul>
+          {clubes.map((c: any) => (
+            <li class="flex items-center justify-between gap-2 px-3 py-1.5 border-b border-gray-200 last:border-0">
+              <a href={urlEquipo(c)} class="flex items-center gap-2 text-[#2a6496] hover:underline">
+                <Escudo equipo={c} size={18} /> {c.nombre}
+              </a>
+              <span class="text-xs text-gray-500">{c.competicion} · {c.desde === c.hasta ? c.desde : `${c.desde}–${c.hasta}`}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {jugadores.length > 0 && (
+      <section class="border border-gray-300 bg-white overflow-x-auto">
+        <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Jugadores</h2>
+        <TablaJugadores jugadores={jugadores} />
+      </section>
+    )}
+
+    {torneos.length > 0 && (
+      <section class="border border-gray-300 bg-white">
+        <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Torneos</h2>
+        <ul>
+          {torneos.map((t: any) => (
+            <li class="px-3 py-1.5 border-b border-gray-200 last:border-0">
+              <span class="font-semibold text-gray-900">{t.nombre}</span>
+              <span class="ml-2 inline-flex flex-wrap gap-x-2">
+                {t.ediciones.map((e: any) => <a href={urlTorneo(e)} class="text-[#2a6496] hover:underline">{e.temporada}</a>)}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+</BaseLayout>

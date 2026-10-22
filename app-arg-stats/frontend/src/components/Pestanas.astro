@@ -1,0 +1,22 @@
+---
+// Barra de pestañas de una página (estilo FBref): la activa resaltada en verde
+interface Props {
+  pestanas: { etiqueta: string; href: string; activa: boolean }[];
+}
+
+const { pestanas } = Astro.props;
+---
+
+<nav class="flex flex-wrap border-b-2 border-[#0f5231] bg-[#f2f2f2] text-sm font-semibold mb-4">
+  {pestanas.map((p) => (
+    <a
+      href={p.href}
+      aria-current={p.activa ? "page" : undefined}
+      class={p.activa
+        ? "px-4 py-2 bg-[#0f5231] text-white"
+        : "px-4 py-2 text-gray-700 hover:bg-[#e5e5e5]"}
+    >
+      {p.etiqueta}
+    </a>
+  ))}
+</nav>

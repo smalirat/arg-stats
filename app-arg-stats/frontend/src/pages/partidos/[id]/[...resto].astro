@@ -1,0 +1,364 @@
+---
+// Página de partido: /partidos/{id}/{local-vs-visitante}
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Escudo from "../../../components/Escudo.astro";
+import { API_URL } from "../../../lib/api";
+import { urlEquipo, urlJugador, urlPartido, urlTorneo } from "../../../lib/urls";
+import { colorPuntaje, fechaLarga, hora, ronda as nombreRonda } from "../../../lib/formato";
+import { t } from "../../../lib/traducciones";
+
+const { id } = Astro.params;
+if (!/^\d+$/.test(id ?? "")) return Astro.rewrite("/404");
+
+const response = await fetch(`${API_URL}/api/partidos/${id}`);
+if (response.status === 404) return Astro.rewrite("/404");
+// La API responde { status, data }
+const { data = {} } = await response.json();
+
+const p = data.partido || {};
+
+// URL canónica (como FotMob): si el slug no coincide, se redirige
+const canonica = urlPartido(p);
+if (decodeURI(Astro.url.pathname).replace(/\/$/, "") !== canonica) return Astro.redirect(canonica, 301);
+
+const eventos = data.eventos || [];
+const alineaciones = data.alineaciones;
+const estadisticas = data.estadisticas || [];
+const tiros = data.tiros || [];
+const momentum = data.momentum || [];
+const jugadores = data.jugadores || { local: [], visitante: [] };
+
+const torneo = { edicion_id: p.edicion_id, nombre_torneo: p.competicion, temporada: p.temporada };
+const estado = p.terminado
+  ? (p.estado === "Pen" ? "Final (penales)" : p.estado === "AET" ? "Final (alargue)" : "Final")
+  : p.estado && p.estado !== "N/A" ? p.estado : "Programado";
+
+// Goleadores debajo de cada equipo
+const goles = eventos.filter((e: any) => e.tipo === "Goal");
+const goleadores = (lado: string) => goles.filter((e: any) => e.lado === lado);
+
+const iconoEvento = (e: any) =>
+  e.tipo === "Goal" ? "⚽" : e.tipo === "MissedPenalty" ? "✖" : e.detalle === "Red" ? "🟥" : e.detalle === "YellowRed" ? "🟨🟥" : "🟨";
+const textoEvento = (e: any) =>
+  e.tipo === "Goal" ? (e.detalle === "Own goal" ? "Gol en contra" : e.detalle === "Penalty" ? "Gol de penal" : "Gol")
+  : e.tipo === "MissedPenalty" ? "Penal errado"
+  : e.detalle === "Red" ? "Roja" : e.detalle === "YellowRed" ? "Doble amarilla" : "Amarilla";
+
+// Alineaciones en la cancha: el local de izquierda a derecha, el visitante espejado
+const posicionesEnCancha = (lineas: any[][], esLocal: boolean) =>
+  lineas.flatMap((linea, k) =>
+    linea.map((j, i) => {
+      const x = 5 + (lineas.length > 1 ? k * (42 / (lineas.length - 1)) : 0);
+      const y = ((i + 1) / (linea.length + 1)) * 100;
+      return { ...j, x: esLocal ? x : 100 - x, y: esLocal ? y : 100 - y };
+    })
+  );
+const enCancha = alineaciones
+  ? [
+      ...posicionesEnCancha(alineaciones.local.lineas, true).map((j) => ({ ...j, lado: "local" })),
+      ...posicionesEnCancha(alineaciones.visitante.lineas, false).map((j) => ({ ...j, lado: "visitante" })),
+    ]
+  : [];
+
+// Barras de estadísticas: solo si los dos valores son numéricos
+const numero = (v: any) => (v == null ? NaN : parseFloat(String(v)));
+const proporcion = (f: any) => {
+  const a = numero(f.local), b = numero(f.visitante);
+  if (Number.isNaN(a) || Number.isNaN(b) || a + b <= 0) return null;
+  return (a / (a + b)) * 100;
+};
+
+// Mapa de tiros: cada equipo ataca hacia un arco (el visitante se espeja)
+const COLOR = { local: "#0f5231", visitante: "#1f6fb2" };
+const tirosEnCancha = tiros.map((s: any) => ({
+  ...s,
+  cx: s.lado === "local" ? s.x : 105 - s.x,
+  cy: s.lado === "local" ? s.y : 68 - s.y,
+  r: 0.8 + (s.xg ?? 0) * 4,
+}));
+const xgTotal = (lado: string) => tiros.filter((s: any) => s.lado === lado).reduce((a: number, s: any) => a + (s.xg ?? 0), 0).toFixed(2);
+
+// Momentum: barras por minuto (positivo = local, negativo = visitante)
+const maxMinuto = Math.max(90, ...momentum.map((m: any) => m.minuto));
+---
+
+<BaseLayout title={`${p.local?.nombre} vs ${p.visitante?.nombre} — ArgStats`}>
+  <div class="font-sans text-sm text-gray-800 space-y-4">
+
+    <!-- Encabezado del partido -->
+    <section class="border border-gray-300 bg-white">
+      <div class="bg-[#0f5231] text-white px-3 py-1.5 flex flex-wrap justify-between gap-2 text-xs">
+        <a href={urlTorneo(torneo)} class="font-bold hover:underline">{p.competicion} {p.temporada}</a>
+        <span>{nombreRonda(p.ronda)}</span>
+      </div>
+      <div class="grid grid-cols-[1fr_auto_1fr] items-start gap-3 px-4 py-5">
+        <div class="flex flex-col items-center text-center gap-2">
+          <a href={urlEquipo(p.local)} class="flex flex-col items-center gap-2 text-[#2a6496] hover:underline">
+            <Escudo equipo={p.local} size={56} />
+            <span class="text-base font-bold">{p.local.nombre}</span>
+          </a>
+          <ul class="text-xs text-gray-600 space-y-0.5">
+            {goleadores("local").map((e: any) => <li>{e.jugador} {e.minuto}'{e.detalle === "Penalty" ? " (p)" : e.detalle === "Own goal" ? " (ec)" : ""}</li>)}
+          </ul>
+        </div>
+        <div class="text-center pt-3">
+          {p.terminado ? (
+            <div class="text-4xl font-bold text-gray-900 tabular-nums">{p.goles_local} - {p.goles_visitante}</div>
+          ) : (
+            <div class="text-3xl font-bold text-gray-900 tabular-nums">{p.fecha_utc ? hora(p.fecha_utc) : "-"}</div>
+          )}
+          {p.penales_local != null && <div class="text-xs text-gray-600">Penales {p.penales_local}-{p.penales_visitante}</div>}
+          <div class="text-xs font-semibold text-gray-600 mt-1">{estado}</div>
+          {p.fecha_utc && <div class="text-xs text-gray-500 mt-0.5 capitalize">{fechaLarga(p.fecha_utc)}</div>}
+        </div>
+        <div class="flex flex-col items-center text-center gap-2">
+          <a href={urlEquipo(p.visitante)} class="flex flex-col items-center gap-2 text-[#2a6496] hover:underline">
+            <Escudo equipo={p.visitante} size={56} />
+            <span class="text-base font-bold">{p.visitante.nombre}</span>
+          </a>
+          <ul class="text-xs text-gray-600 space-y-0.5">
+            {goleadores("visitante").map((e: any) => <li>{e.jugador} {e.minuto}'{e.detalle === "Penalty" ? " (p)" : e.detalle === "Own goal" ? " (ec)" : ""}</li>)}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="md:col-span-2 space-y-4">
+
+        <!-- Alineaciones en la cancha -->
+        {alineaciones && (
+          <section class="border border-gray-300 bg-white">
+            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5 flex justify-between">
+              <span>{p.local.nombre} {alineaciones.local.formacion && `(${alineaciones.local.formacion})`}</span>
+              <span>Alineaciones</span>
+              <span>{alineaciones.visitante.formacion && `(${alineaciones.visitante.formacion})`} {p.visitante.nombre}</span>
+            </h2>
+            <div class="p-2">
+              <div class="relative w-full aspect-[105/68] bg-[#2f7a4a] overflow-hidden rounded-sm">
+                <!-- Líneas de la cancha -->
+                <div class="absolute inset-[2%] border border-white/60"></div>
+                <div class="absolute top-[2%] bottom-[2%] left-1/2 border-l border-white/60"></div>
+                <div class="absolute left-1/2 top-1/2 w-[17%] aspect-square -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/60"></div>
+                <div class="absolute left-[2%] top-[21%] h-[58%] w-[15%] border border-l-0 border-white/60"></div>
+                <div class="absolute right-[2%] top-[21%] h-[58%] w-[15%] border border-r-0 border-white/60"></div>
+                {enCancha.map((j: any) => (
+                  <a href={urlJugador(j)} class="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center w-[72px] group" style={`left:${j.x}%;top:${j.y}%`}>
+                    <span class="relative">
+                      <span class={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 ${j.lado === "local" ? "bg-white text-[#0f5231] border-[#0f5231]" : "bg-[#1f6fb2] text-white border-white"}`}>{j.dorsal ?? ""}</span>
+                      {j.puntaje != null && (
+                        <span class={`absolute -top-2 -right-5 px-1 rounded-sm text-[9px] font-bold tabular-nums ${colorPuntaje(j.puntaje)}`}>{j.puntaje.toFixed(1)}</span>
+                      )}
+                      {j.goles > 0 && <span class="absolute -bottom-1 -left-3 text-[10px]">{"⚽".repeat(Math.min(j.goles, 3))}</span>}
+                    </span>
+                    <span class="text-[10px] text-white font-semibold text-center leading-tight mt-0.5 truncate max-w-full group-hover:underline drop-shadow">{j.nombre.split(" ").slice(-1)[0]}</span>
+                  </a>
+                ))}
+              </div>
+              <div class="grid grid-cols-2 gap-4 mt-3">
+                {["local", "visitante"].map((lado) => (
+                  <div>
+                    <h3 class="font-bold text-gray-900 border-b border-gray-300 pb-1 mb-1">Suplentes · {p[lado].nombre}</h3>
+                    <ul>
+                      {alineaciones[lado].suplentes.map((j: any) => (
+                        <li class="flex items-center justify-between gap-2 py-0.5">
+                          <span class="flex items-center gap-1.5 min-w-0">
+                            <span class="w-5 text-right text-gray-500 tabular-nums">{j.dorsal ?? ""}</span>
+                            <a href={urlJugador(j)} class={`truncate hover:underline ${j.minutos ? "text-[#2a6496]" : "text-gray-500"}`}>{j.nombre}</a>
+                          </span>
+                          {j.puntaje != null && <span class={`px-1 rounded-sm text-[10px] font-bold tabular-nums ${colorPuntaje(j.puntaje)}`}>{j.puntaje.toFixed(1)}</span>}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        <!-- Estadísticas del partido -->
+        {estadisticas.length > 0 && (
+          <section class="border border-gray-300 bg-white">
+            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Estadísticas</h2>
+            {estadisticas.map((g: any) => (
+              <div class="px-3 py-2">
+                <h3 class="font-bold text-gray-900 border-b border-gray-300 pb-1 mb-1.5">{t(g.titulo)}</h3>
+                {g.filas.map((f: any) => {
+                  const pct = proporcion(f);
+                  return (
+                    <div class="py-1">
+                      <div class="flex justify-between items-center text-sm">
+                        <span class="font-bold tabular-nums">{f.local ?? "-"}</span>
+                        <span class="text-gray-600 text-xs text-center">{t(f.titulo)}</span>
+                        <span class="font-bold tabular-nums">{f.visitante ?? "-"}</span>
+                      </div>
+                      {pct != null && (
+                        <div class="flex h-1.5 mt-0.5 gap-0.5">
+                          <div class="bg-[#0f5231] rounded-l-sm" style={`width:${pct}%`}></div>
+                          <div class="bg-[#1f6fb2] rounded-r-sm" style={`width:${100 - pct}%`}></div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </section>
+        )}
+
+        <!-- Mapa de tiros -->
+        {tiros.length > 0 && (
+          <section class="border border-gray-300 bg-white">
+            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Mapa de tiros</h2>
+            <div class="p-2">
+              <div class="flex justify-between text-xs font-semibold mb-1 px-1">
+                <span style={`color:${COLOR.visitante}`}>{p.visitante.nombre} · xG {xgTotal("visitante")} &larr;</span>
+                <span style={`color:${COLOR.local}`}>&rarr; {p.local.nombre} · xG {xgTotal("local")}</span>
+              </div>
+              <svg viewBox="0 0 105 68" class="w-full bg-[#f4f7f4] rounded-sm" role="img" aria-label="Mapa de tiros del partido">
+                <g fill="none" stroke="#9ab3a3" stroke-width="0.3">
+                  <rect x="0.5" y="0.5" width="104" height="67" />
+                  <line x1="52.5" y1="0.5" x2="52.5" y2="67.5" />
+                  <circle cx="52.5" cy="34" r="9.15" />
+                  <rect x="0.5" y="13.84" width="16" height="40.32" />
+                  <rect x="88.5" y="13.84" width="16" height="40.32" />
+                  <rect x="0.5" y="24.84" width="5" height="18.32" />
+                  <rect x="99.5" y="24.84" width="5" height="18.32" />
+                </g>
+                {tirosEnCancha.map((s: any) => (
+                  <circle
+                    cx={s.cx}
+                    cy={s.cy}
+                    r={s.r}
+                    fill={s.resultado === "Goal" ? COLOR[s.lado as "local" | "visitante"] : "white"}
+                    fill-opacity={s.resultado === "Goal" ? 0.9 : 0.6}
+                    stroke={COLOR[s.lado as "local" | "visitante"]}
+                    stroke-width="0.35"
+                  >
+                    <title>{`${s.minuto}' ${s.jugador ?? ""} · ${t(s.resultado)} · ${t(s.tipo)} · xG ${s.xg ?? "-"}`}</title>
+                  </circle>
+                ))}
+              </svg>
+              <p class="text-xs text-gray-500 mt-1">El tamaño es el xG del tiro; relleno = gol. Pasá el mouse por un tiro para ver el detalle.</p>
+            </div>
+          </section>
+        )}
+
+        <!-- Momentum -->
+        {momentum.length > 0 && (
+          <section class="border border-gray-300 bg-white">
+            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Momentum</h2>
+            <div class="p-3">
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span style={`color:${COLOR.local}`}>{p.local.nombre}</span>
+                <span style={`color:${COLOR.visitante}`}>{p.visitante.nombre}</span>
+              </div>
+              <svg viewBox={`0 -100 ${maxMinuto} 200`} preserveAspectRatio="none" class="w-full h-24 bg-[#f4f7f4]" role="img" aria-label="Momentum del partido">
+                <line x1="0" y1="0" x2={maxMinuto} y2="0" stroke="#9ab3a3" stroke-width="0.5" vector-effect="non-scaling-stroke" />
+                <line x1="45" y1="-100" x2="45" y2="100" stroke="#9ab3a3" stroke-dasharray="2 2" vector-effect="non-scaling-stroke" />
+                {momentum.map((m: any) => (
+                  <rect
+                    x={m.minuto - 0.45}
+                    width="0.9"
+                    y={m.valor >= 0 ? -m.valor : 0}
+                    height={Math.abs(m.valor)}
+                    fill={m.valor >= 0 ? COLOR.local : COLOR.visitante}
+                  />
+                ))}
+              </svg>
+              <div class="flex justify-between text-[10px] text-gray-500"><span>0'</span><span>45'</span><span>{Math.round(maxMinuto)}'</span></div>
+            </div>
+          </section>
+        )}
+
+        {!alineaciones && !estadisticas.length && !tiros.length && !momentum.length && (
+          <section class="border border-gray-300 bg-white px-3 py-4 text-gray-500">
+            {p.terminado
+              ? "No hay estadísticas detalladas de este partido: la fuente no las publica para esta categoría."
+              : "El partido todavía no se jugó."}
+          </section>
+        )}
+      </div>
+
+      <div class="space-y-4">
+        <!-- Eventos -->
+        <section class="border border-gray-300 bg-white">
+          <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Eventos</h2>
+          {eventos.length ? (
+            <ul>
+              {eventos.map((e: any) => (
+                <li class={`flex items-center gap-2 px-3 py-1.5 border-b border-gray-200 last:border-0 ${e.lado === "visitante" ? "flex-row-reverse text-right" : ""}`}>
+                  <span class="w-8 text-xs font-bold text-gray-600 tabular-nums">{e.minuto}'</span>
+                  <span>{iconoEvento(e)}</span>
+                  <span class="min-w-0">
+                    {e.jugador_id ? <a href={urlJugador({ jugador_id: e.jugador_id, nombre: e.jugador })} class="text-[#2a6496] hover:underline">{e.jugador}</a> : e.jugador}
+                    <span class="block text-xs text-gray-500">{textoEvento(e)}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="px-3 py-3 text-gray-500">No hay eventos registrados para este partido.</p>
+          )}
+        </section>
+
+        <!-- Datos del partido -->
+        <section class="border border-gray-300 bg-white">
+          <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Información</h2>
+          <dl class="px-3 py-2 space-y-1.5">
+            <div class="flex justify-between gap-2"><dt class="text-gray-500">Torneo</dt><dd><a href={urlTorneo(torneo)} class="text-[#2a6496] hover:underline">{p.competicion}</a></dd></div>
+            <div class="flex justify-between gap-2"><dt class="text-gray-500">Temporada</dt><dd>{p.temporada}</dd></div>
+            {p.ronda && <div class="flex justify-between gap-2"><dt class="text-gray-500">Instancia</dt><dd>{nombreRonda(p.ronda)}</dd></div>}
+            {p.fecha_utc && <div class="flex justify-between gap-2"><dt class="text-gray-500">Horario</dt><dd>{hora(p.fecha_utc)} (hora argentina)</dd></div>}
+          </dl>
+        </section>
+      </div>
+    </div>
+
+    <!-- Estadísticas por jugador -->
+    {(jugadores.local.length > 0 || jugadores.visitante.length > 0) && (
+      <section class="border border-gray-300 bg-white overflow-x-auto">
+        <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Estadísticas por jugador</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 lg:divide-x divide-gray-300">
+          {["local", "visitante"].map((lado) => (
+            <table class="w-full text-xs sm:text-sm">
+              <thead>
+                <tr class="text-gray-600 border-b border-gray-300 bg-gray-50">
+                  <th class="px-2 py-1 text-left font-semibold">
+                    <span class="flex items-center gap-1.5"><Escudo equipo={p[lado]} size={16} /> {p[lado].nombre}</span>
+                  </th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Minutos">Min</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Goles">G</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Asistencias">A</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Goles esperados">xG</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Asistencias esperadas">xA</th>
+                  <th class="px-2 py-1 text-center font-semibold">Puntaje</th>
+                </tr>
+              </thead>
+              <tbody>
+                {jugadores[lado].map((j: any) => (
+                  <tr class="border-b border-gray-200 last:border-0 hover:bg-gray-50">
+                    <td class="px-2 py-1">
+                      <a href={urlJugador(j)} class="text-[#2a6496] hover:underline">{j.nombre}</a>
+                      {j.amarilla && <span class="ml-1" title="Amarilla">🟨</span>}
+                      {j.roja && <span class="ml-1" title="Roja">🟥</span>}
+                    </td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{j.minutos ?? "-"}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{j.goles}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{j.asistencias}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{j.xg != null ? j.xg.toFixed(2) : "-"}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{j.xa != null ? j.xa.toFixed(2) : "-"}</td>
+                    <td class="px-2 py-1 text-center">
+                      {j.puntaje != null && <span class={`px-1.5 py-0.5 rounded-sm text-xs font-bold tabular-nums ${colorPuntaje(j.puntaje)}`}>{j.puntaje.toFixed(1)}</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>

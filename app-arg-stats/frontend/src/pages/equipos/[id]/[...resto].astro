@@ -1,0 +1,369 @@
+---
+// Página de equipo: /equipos/{id}/{pestaña}/{slug}
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Escudo from "../../../components/Escudo.astro";
+import Pestanas from "../../../components/Pestanas.astro";
+import TablaPosiciones from "../../../components/TablaPosiciones.astro";
+import FilaPartido from "../../../components/FilaPartido.astro";
+import TablaStats from "../../../components/TablaStats.astro";
+import Cobertura from "../../../components/Cobertura.astro";
+import { API_URL } from "../../../lib/api";
+import { TABS_EQUIPO, urlEquipo, urlJugador, urlPartido, urlTorneo } from "../../../lib/urls";
+import { colorResultado, colorPuntaje, fechaCorta, hora } from "../../../lib/formato";
+import { ARQUEROS, DEFENSA, DUELOS, EQUIPO_VS_RIVALES, ESTANDAR, PASES, PLANTEL, POSESION, TIROS, formatear } from "../../../lib/columnas";
+
+const { id, resto = "" } = Astro.params;
+if (!/^\d+$/.test(id ?? "")) return Astro.rewrite("/404");
+const pedida = resto.split("/")[0];
+const tab = (TABS_EQUIPO as readonly string[]).includes(pedida) ? (pedida as (typeof TABS_EQUIPO)[number]) : "resumen";
+
+const response = await fetch(`${API_URL}/api/equipos/${id}`);
+if (response.status === 404) return Astro.rewrite("/404");
+// La API responde { status, data }
+const { data = {} } = await response.json();
+
+const equipo = data.perfil || {};
+const nombreMostrar = equipo.nombre_corto || equipo.nombre_fuente || "Equipo";
+const yo = { equipo_id: equipo.equipo_id, nombre: nombreMostrar };
+
+// URL canónica (como FotMob): si el slug o la pestaña no coinciden, se redirige
+const canonica = urlEquipo(yo, tab);
+if (decodeURI(Astro.url.pathname).replace(/\/$/, "") !== canonica) return Astro.redirect(canonica, 301);
+
+const temporada = data.temporada;
+const ultimos = data.ultimos || [];
+const siguiente = data.siguiente;
+const partidos = data.partidos || [];
+const competiciones = data.competiciones || [];
+const clasificacion = data.clasificacion || [];
+const plantel = data.plantel || [];
+const rankings = data.rankings || { puntuados: [], goleadores: [], asistentes: [] };
+
+const rival = (p: any) => (p.local.equipo_id === equipo.equipo_id ? p.visitante : p.local);
+
+// Lista de partidos del resumen: páginas de 5, arrancando en la del partido siguiente
+const POR_PAGINA = 5;
+const indiceSiguiente = siguiente ? partidos.findIndex((p: any) => p.partido_id === siguiente.partido_id) : -1;
+const paginaInicial = Math.max(0, Math.floor((indiceSiguiente >= 0 ? indiceSiguiente : partidos.length - 1) / POR_PAGINA));
+const totalPaginas = Math.max(1, Math.ceil(partidos.length / POR_PAGINA));
+
+const hayRankings = rankings.puntuados.length || rankings.goleadores.length || rankings.asistentes.length;
+const bloquesRanking = [
+  { titulo: "Mejor puntuado", filas: rankings.puntuados },
+  { titulo: "Goleadores", filas: rankings.goleadores },
+  { titulo: "Asistencias", filas: rankings.asistentes },
+];
+
+const pestanas = [
+  { etiqueta: "Resumen", tab: "resumen" },
+  { etiqueta: "Partidos", tab: "partidos" },
+  { etiqueta: "Plantel", tab: "plantel" },
+  { etiqueta: "Estadísticas", tab: "estadisticas" },
+  { etiqueta: "Clasificación", tab: "clasificacion" },
+].map((p) => ({ etiqueta: p.etiqueta, href: urlEquipo(yo, p.tab as any), activa: p.tab === tab }));
+
+// Estadísticas al estilo FBref (pestañas Plantel y Estadísticas): solo se piden cuando se abren
+const stats = tab === "estadisticas" || tab === "plantel"
+  ? await fetch(`${API_URL}/api/equipos/${id}/estadisticas`).then((r) => (r.ok ? r.json() : {})).then((r: any) => r.data ?? {})
+  : {};
+const fijasJugador = [
+  { etiqueta: "Jugador", clave: "nombre", tipo: "jugador" as const },
+  { etiqueta: "Pos", clave: "linea", ayuda: "Línea más habitual según las alineaciones" },
+];
+const tablasPlantel = [
+  { id: "estandar", titulo: "Estadísticas estándar", grupos: ESTANDAR },
+  { id: "tiros", titulo: "Tiros", grupos: TIROS },
+  { id: "pases", titulo: "Pases", grupos: PASES },
+  { id: "defensa", titulo: "Acciones defensivas", grupos: DEFENSA },
+  { id: "posesion", titulo: "Posesión", grupos: POSESION },
+  { id: "duelos", titulo: "Duelos y faltas", grupos: DUELOS },
+];
+const vsRivales = stats.equipoVsRivales;
+
+// Plantel: todos los que figuran (también los suplentes que no entraron), con sus estadísticas
+const POS_CORTA: Record<string, string> = { Arqueros: "ARQ", Defensores: "DEF", Mediocampistas: "MED", Delanteros: "DEL" };
+const statsDe = new Map((stats.jugadores || []).map((j: any) => [j.jugador_id, j]));
+const filasPlantel = plantel.flatMap((g: any) => g.jugadores.map((j: any) => ({
+  ...(statsDe.get(j.jugador_id) ?? { pj: 0, min: 0 }),
+  jugador_id: j.jugador_id,
+  nombre: j.nombre,
+  dorsal: j.dorsal,
+  pos: POS_CORTA[g.linea] ?? "",
+})));
+const fijasPlantel = [
+  { etiqueta: "#", clave: "dorsal", ayuda: "Dorsal", numero: true },
+  { etiqueta: "Jugador", clave: "nombre", tipo: "jugador" as const },
+  { etiqueta: "Pos", clave: "pos", ayuda: "Línea más habitual según las alineaciones: ARQ, DEF, MED, DEL" },
+];
+
+// Pestaña Partidos: próximos y jugados (los jugados, del más reciente al más viejo)
+const proximos = partidos.filter((p: any) => !p.terminado);
+const jugados = partidos.filter((p: any) => p.terminado).reverse();
+
+const linkTorneo = (t: any) => urlTorneo({ edicion_id: t.edicion_id, nombre_torneo: t.nombre_torneo, temporada: t.temporada });
+---
+
+<BaseLayout title={`${nombreMostrar} — ArgStats`}>
+  <div class="font-sans text-sm text-gray-800">
+
+    <!-- Encabezado -->
+    <section class="border border-gray-300 bg-white px-4 py-4 flex items-center gap-4">
+      <Escudo equipo={equipo} size={56} />
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">{equipo.nombre_fuente}</h1>
+        <p class="text-gray-600">Argentina{temporada && ` · Temporada ${temporada}`}</p>
+      </div>
+    </section>
+    <Pestanas pestanas={pestanas} />
+
+    {tab === "resumen" && (
+      <>
+        <!-- Desde 768 px: dos tercios para resultados y tablas, un tercio para Partidos -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="md:col-span-2 space-y-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+              <!-- Últimos partidos -->
+              <section class="border border-gray-300 bg-white">
+                <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Últimos partidos</h2>
+                {ultimos.length ? (
+                  <div class="flex justify-around px-2 py-4">
+                    {ultimos.map((p: any) => (
+                      <a href={urlPartido(p)} class="flex flex-col items-center gap-2" title={`${p.local.nombre} ${p.goles_local}-${p.goles_visitante} ${p.visitante.nombre}`}>
+                        <span class={`px-1.5 py-0.5 rounded-sm text-xs font-bold tabular-nums ${colorResultado[p.resultado]}`}>{p.goles_local}-{p.goles_visitante}</span>
+                        <Escudo equipo={rival(p)} size={26} />
+                      </a>
+                    ))}
+                  </div>
+                ) : (
+                  <p class="px-3 py-4 text-gray-500">Sin partidos jugados esta temporada.</p>
+                )}
+              </section>
+
+              <!-- Partido siguiente -->
+              <section class="border border-gray-300 bg-white">
+                <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5 flex justify-between gap-2">
+                  <span>Partido siguiente</span>
+                  {siguiente && <a href={urlTorneo({ edicion_id: siguiente.edicion_id, nombre_torneo: siguiente.competicion, temporada })} class="font-normal text-xs self-center truncate hover:underline">{siguiente.competicion}</a>}
+                </h2>
+                {siguiente ? (
+                  <div class="grid grid-cols-3 items-center px-2 py-4 text-center">
+                    <a href={urlEquipo(siguiente.local)} class="flex flex-col items-center gap-1.5 text-[#2a6496] hover:underline">
+                      <Escudo equipo={siguiente.local} size={32} />
+                      <span class="text-xs font-medium">{siguiente.local.nombre}</span>
+                    </a>
+                    <a href={urlPartido(siguiente)} class="hover:underline">
+                      <div class="text-lg font-bold text-gray-900 tabular-nums">{hora(siguiente.fecha_utc)}</div>
+                      <div class="text-xs text-gray-500">{fechaCorta(siguiente.fecha_utc)}</div>
+                    </a>
+                    <a href={urlEquipo(siguiente.visitante)} class="flex flex-col items-center gap-1.5 text-[#2a6496] hover:underline">
+                      <Escudo equipo={siguiente.visitante} size={32} />
+                      <span class="text-xs font-medium">{siguiente.visitante.nombre}</span>
+                    </a>
+                  </div>
+                ) : (
+                  <p class="px-3 py-4 text-gray-500">No hay partidos programados.</p>
+                )}
+              </section>
+            </div>
+
+            <!-- Tablas del torneo actual de cada competición -->
+            {competiciones.map((comp: any) => (
+              <section class="border border-gray-300 bg-white">
+                <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">
+                  <a href={linkTorneo(comp.tablas[0])} class="hover:underline">{comp.nombre} {temporada}</a>
+                </h2>
+                {comp.tablas.map((t: any) => <TablaPosiciones tabla={t} destacarId={equipo.equipo_id} />)}
+              </section>
+            ))}
+          </div>
+
+          <!-- Lista de partidos, con flechas para pasar de página -->
+          <div>
+            <section class="border border-gray-300 bg-white" data-partidos data-pagina-inicial={paginaInicial} data-total-paginas={totalPaginas}>
+              <div class="bg-[#0f5231] text-white font-bold px-1 py-1 flex items-center justify-between">
+                <button type="button" data-anterior aria-label="Partidos anteriores" class="px-2 py-0.5 rounded-sm hover:bg-[#0a3a22] transition-colors">&#9664;</button>
+                <h2>Partidos</h2>
+                <button type="button" data-siguiente aria-label="Partidos siguientes" class="px-2 py-0.5 rounded-sm hover:bg-[#0a3a22] transition-colors">&#9654;</button>
+              </div>
+              {partidos.length ? partidos.map((p: any, i: number) => (
+                <div class="px-3 py-2.5 border-b border-gray-200 last:border-0" data-pagina={Math.floor(i / POR_PAGINA)} hidden={Math.floor(i / POR_PAGINA) !== paginaInicial}>
+                  <div class="flex justify-between text-xs text-gray-500 mb-1.5">
+                    <span>{fechaCorta(p.fecha_utc)}</span>
+                    <span class="truncate ml-2">{p.competicion}</span>
+                  </div>
+                  <FilaPartido partido={p} />
+                </div>
+              )) : (
+                <p class="px-3 py-4 text-gray-500">Sin partidos esta temporada.</p>
+              )}
+            </section>
+          </div>
+        </div>
+
+        <!-- Rankings de jugadores del equipo en la temporada (solo si hay estadísticas) -->
+        {hayRankings ? (
+          <section class="border border-gray-300 bg-white mt-4 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-300">
+            {bloquesRanking.map((b) => (
+              <div>
+                <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{b.titulo}</h2>
+                {b.filas.length ? (
+                  <ol>
+                    {b.filas.map((j: any, i: number) => (
+                      <li class="flex items-center justify-between gap-2 px-3 py-2 border-b border-gray-200 last:border-0">
+                        <a href={urlJugador(j)} class="text-[#2a6496] hover:underline truncate">{j.nombre}</a>
+                        <span class={`tabular-nums font-bold text-xs px-1.5 py-0.5 rounded-sm ${i === 0 ? "bg-[#c8102e] text-white" : "text-gray-800"}`}>{j.valor}</span>
+                      </li>
+                    ))}
+                  </ol>
+                ) : (
+                  <p class="px-3 py-3 text-gray-500">Sin datos.</p>
+                )}
+              </div>
+            ))}
+          </section>
+        ) : null}
+      </>
+    )}
+
+    {tab === "partidos" && (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[{ titulo: "Próximos partidos", lista: proximos }, { titulo: "Resultados", lista: jugados }].map((bloque) => (
+          <section class="border border-gray-300 bg-white self-start">
+            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{bloque.titulo} ({bloque.lista.length})</h2>
+            {bloque.lista.length ? bloque.lista.map((p: any) => (
+              <div class="px-3 py-2.5 border-b border-gray-200 last:border-0">
+                <div class="flex justify-between text-xs text-gray-500 mb-1.5">
+                  <span>{fechaCorta(p.fecha_utc)}</span>
+                  <a href={urlTorneo({ edicion_id: p.edicion_id, nombre_torneo: p.competicion, temporada })} class="truncate ml-2 hover:underline">{p.competicion}</a>
+                </div>
+                <FilaPartido partido={p} />
+              </div>
+            )) : <p class="px-3 py-4 text-gray-500">No hay partidos.</p>}
+          </section>
+        ))}
+      </div>
+    )}
+
+    {tab === "plantel" && (
+      plantel.length ? (
+        <div class="space-y-2">
+          <TablaStats titulo={`Plantel ${temporada ?? ""} · Estadísticas estándar`} grupos={PLANTEL} fijas={fijasPlantel} filas={filasPlantel} totales={stats.totales} etiquetaTotales="Equipo (por 90 = por partido)" />
+          <p class="text-xs text-gray-500">
+            Todas las competiciones de la temporada. Hacé clic en una columna para ordenar.
+            Pases, defensa, posesión y duelos: <a href={urlEquipo(yo, "estadisticas")} class="text-[#2a6496] hover:underline">pestaña Estadísticas</a>.
+          </p>
+        </div>
+      ) : (
+        <section class="border border-gray-300 bg-white px-3 py-4 text-gray-500">
+          No hay datos de jugadores para este equipo: la fuente no publica alineaciones ni estadísticas individuales de esta categoría.
+        </section>
+      )
+    )}
+
+    {tab === "estadisticas" && (
+      <div class="space-y-4">
+        <p class="text-xs text-gray-600">
+          Temporada {stats.temporada ?? "-"}{stats.competiciones?.length ? ` · ${stats.competiciones.join(", ")}` : ""} · partidos jugados en todas las competiciones.
+        </p>
+        <nav class="flex flex-wrap gap-x-3 gap-y-1 text-xs">
+          <a href="#equipo-vs-rivales" class="text-[#2a6496] hover:underline">Equipo vs rivales</a>
+          <a href="#estandar" class="text-[#2a6496] hover:underline">Estándar</a>
+          <a href="#arqueros" class="text-[#2a6496] hover:underline">Arqueros</a>
+          {tablasPlantel.slice(1).map((t) => <a href={`#${t.id}`} class="text-[#2a6496] hover:underline">{t.titulo}</a>)}
+        </nav>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Equipo vs rivales (con las estadísticas de equipo de cada partido) -->
+          <section id="equipo-vs-rivales" class="md:col-span-2 border border-gray-300 bg-white self-start">
+            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Equipo vs rivales</h2>
+            {vsRivales?.equipo?.pj ? (
+              <table class="w-full text-xs">
+                <thead>
+                  <tr class="text-gray-700 border-b border-gray-300 bg-gray-50">
+                    <th class="px-3 py-1 text-left font-semibold"></th>
+                    <th class="px-3 py-1 text-right font-semibold">
+                      <span class="inline-flex items-center gap-1.5"><Escudo equipo={equipo} size={16} /> {nombreMostrar}</span>
+                    </th>
+                    <th class="px-3 py-1 text-right font-semibold">Rivales</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {EQUIPO_VS_RIVALES.map((c) => {
+                    const a = vsRivales.equipo[c.clave], b = vsRivales.rivales[c.clave];
+                    const mejor = c.clave === "faltasProm" ? (a < b ? "a" : a > b ? "b" : "") : a > b ? "a" : a < b ? "b" : "";
+                    return (
+                      <tr class="border-b border-gray-200 last:border-0">
+                        <td class="px-3 py-1 text-gray-700" title={c.ayuda}>{c.etiqueta}</td>
+                        <td class={`px-3 py-1 text-right tabular-nums ${a == null ? "text-gray-300" : mejor === "a" ? "font-bold" : ""}`}>{a == null ? "—" : formatear(a, c.decimales)}</td>
+                        <td class={`px-3 py-1 text-right tabular-nums ${b == null ? "text-gray-300" : mejor === "b" ? "font-bold" : ""}`}>{b == null ? "—" : formatear(b, c.decimales)}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            ) : (
+              <p class="px-3 py-4 text-gray-500">No hay partidos jugados esta temporada.</p>
+            )}
+            {vsRivales?.equipo?.pj > 0 && vsRivales.equipo.conDatos < vsRivales.equipo.pj && (
+              <p class="px-3 py-1.5 text-[11px] text-gray-500 border-t border-gray-200">
+                Los promedios salen de los {vsRivales.equipo.conDatos} partidos (de {vsRivales.equipo.pj}) que tienen estadísticas de equipo en la base.
+              </p>
+            )}
+          </section>
+          <Cobertura cobertura={stats.cobertura} titulo={`Datos en la base · ${stats.temporada ?? ""}`} />
+        </div>
+
+        <TablaStats id="estandar" titulo="Estadísticas estándar" grupos={ESTANDAR} fijas={fijasJugador} filas={stats.jugadores || []} totales={stats.totales} etiquetaTotales="Equipo (por 90 = por partido)" />
+        <TablaStats id="arqueros" titulo="Arqueros" grupos={ARQUEROS} fijas={fijasJugador.slice(0, 1)} filas={stats.arqueros || []} />
+        {tablasPlantel.slice(1).map((t) => (
+          <TablaStats id={t.id} titulo={t.titulo} grupos={t.grupos} fijas={fijasJugador} filas={stats.jugadores || []} totales={stats.totales} etiquetaTotales="Equipo" />
+        ))}
+      </div>
+    )}
+
+    {tab === "clasificacion" && (
+      <div class="space-y-4">
+        {clasificacion.length ? clasificacion.map((comp: any) => (
+          <section class="border border-gray-300 bg-white">
+            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{comp.nombre} {temporada}</h2>
+            {comp.tablas.map((t: any) => (
+              <div>
+                <TablaPosiciones tabla={t} destacarId={equipo.equipo_id} />
+                <div class="px-3 py-1.5 text-right border-t border-gray-200">
+                  <a href={linkTorneo(t)} class="text-xs text-[#2a6496] hover:underline">Ver {t.nombre_torneo} &rarr;</a>
+                </div>
+              </div>
+            ))}
+          </section>
+        )) : (
+          <section class="border border-gray-300 bg-white px-3 py-4 text-gray-500">Este equipo no juega competiciones con tabla esta temporada.</section>
+        )}
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<script>
+  // Lista de partidos del resumen: las flechas pasan de a 5 partidos
+  for (const caja of document.querySelectorAll<HTMLElement>('[data-partidos]')) {
+    const filas = [...caja.querySelectorAll<HTMLElement>('[data-pagina]')];
+    const total = Number(caja.dataset.totalPaginas || 1);
+    let actual = Number(caja.dataset.paginaInicial || 0);
+    const anterior = caja.querySelector<HTMLButtonElement>('[data-anterior]')!;
+    const siguiente = caja.querySelector<HTMLButtonElement>('[data-siguiente]')!;
+
+    const mostrar = (pagina: number) => {
+      actual = Math.min(Math.max(pagina, 0), total - 1);
+      filas.forEach(f => (f.hidden = Number(f.dataset.pagina) !== actual));
+      anterior.disabled = actual === 0;
+      siguiente.disabled = actual === total - 1;
+      anterior.classList.toggle('opacity-40', anterior.disabled);
+      siguiente.classList.toggle('opacity-40', siguiente.disabled);
+    };
+
+    anterior.addEventListener('click', () => mostrar(actual - 1));
+    siguiente.addEventListener('click', () => mostrar(actual + 1));
+    mostrar(actual);
+  }
+</script>

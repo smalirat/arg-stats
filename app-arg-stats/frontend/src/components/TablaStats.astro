@@ -1,0 +1,151 @@
+---
+// Tabla de estadísticas al estilo FBref: encabezado con grupos de columnas,
+// orden al hacer clic en una columna y fila de totales. Las columnas que la
+// base todavía no carga se muestran en gris con "—".
+import Escudo from "./Escudo.astro";
+import { urlEquipo, urlJugador } from "../lib/urls";
+import { colorPuntaje } from "../lib/formato";
+import { formatear, type Grupo } from "../lib/columnas";
+
+export type Fija = { etiqueta: string; clave: string; tipo?: "texto" | "jugador" | "equipo"; ayuda?: string; numero?: boolean };
+
+interface Props {
+  titulo: string;
+  id?: string;
+  grupos: Grupo[];
+  fijas: Fija[];
+  filas: any[];
+  totales?: any;
+  etiquetaTotales?: string;
+}
+
+const { titulo, id, grupos, fijas, filas, totales, etiquetaTotales = "Total" } = Astro.props;
+
+// Columnas en orden, marcando la primera de cada grupo (lleva borde a la izquierda)
+const columnas = grupos.flatMap((g) => g.columnas.map((c, i) => ({ ...c, inicio: i === 0 })));
+const faltan = columnas.filter((c) => c.falta).length;
+const todoFalta = faltan === columnas.length;
+
+const valorFija = (f: any, fija: Fija) =>
+  fija.tipo === "jugador" ? f.nombre : fija.tipo === "equipo" ? f[fija.clave]?.nombre : f[fija.clave];
+const orden = (v: unknown) => (v == null ? "" : String(v));
+---
+
+<section id={id} class="border border-gray-300 bg-white scroll-mt-4">
+  <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5 flex flex-wrap items-center justify-between gap-2">
+    <span>{titulo}</span>
+    {todoFalta && <span class="text-xs font-normal bg-white/15 px-1.5 py-0.5 rounded-sm">Pendiente de carga en la base</span>}
+  </h2>
+  {filas.length ? (
+    <div class="overflow-x-auto">
+      <table class="w-full text-xs whitespace-nowrap" data-tabla-stats>
+        <thead>
+          <tr class="text-gray-500 bg-gray-50">
+            <th colspan={fijas.length} class="border-b border-gray-200"></th>
+            {grupos.map((g) => (
+              <th colspan={g.columnas.length} class="px-1.5 py-0.5 text-center font-semibold border-b border-l border-gray-200">{g.titulo}</th>
+            ))}
+          </tr>
+          <tr class="text-gray-700 border-b border-gray-300 bg-gray-50">
+            {fijas.map((f, i) => (
+              <th data-col={i} data-numero={f.numero || undefined} title={f.ayuda} class="px-2 py-1 text-left font-semibold cursor-pointer select-none hover:bg-gray-200">{f.etiqueta}</th>
+            ))}
+            {columnas.map((c, i) => (
+              <th
+                data-col={fijas.length + i}
+                data-numero
+                title={c.falta ? `${c.ayuda} — pendiente: FotMob lo publica pero la base no lo guarda` : c.ayuda}
+                class={`px-1.5 py-1 text-right font-semibold cursor-pointer select-none hover:bg-gray-200 ${c.inicio ? "border-l border-gray-200" : ""} ${c.falta ? "text-gray-400 italic" : ""}`}
+              >{c.etiqueta}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {filas.map((f) => (
+            <tr class="border-b border-gray-200 hover:bg-[#f2f7f3]">
+              {fijas.map((fija) => (
+                <td class="px-2 py-1" data-v={orden(valorFija(f, fija))}>
+                  {fija.tipo === "jugador" ? (
+                    <a href={urlJugador(f)} class="text-[#2a6496] hover:underline">{f.nombre}</a>
+                  ) : fija.tipo === "equipo" ? (
+                    f[fija.clave] && (
+                      <a href={urlEquipo(f[fija.clave])} class="flex items-center gap-1.5 text-[#2a6496] hover:underline">
+                        <Escudo equipo={f[fija.clave]} size={16} /> {f[fija.clave].nombre}
+                      </a>
+                    )
+                  ) : (
+                    f[fija.clave] ?? ""
+                  )}
+                </td>
+              ))}
+              {columnas.map((c) => (
+                <td
+                  data-v={orden(f[c.clave])}
+                  class={`px-1.5 py-1 text-right tabular-nums ${c.inicio ? "border-l border-gray-200" : ""} ${f[c.clave] == null ? "text-gray-300" : ""}`}
+                >
+                  {f[c.clave] == null ? "—" : c.clave === "puntaje" ? (
+                    <span class={`px-1 rounded-sm font-bold ${colorPuntaje(f[c.clave])}`}>{formatear(f[c.clave], c.decimales)}</span>
+                  ) : formatear(f[c.clave], c.decimales)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+        {totales && (
+          <tfoot>
+            <tr class="border-t-2 border-gray-400 bg-gray-50 font-bold">
+              <td colspan={fijas.length} class="px-2 py-1">{etiquetaTotales}</td>
+              {columnas.map((c) => (
+                <td class={`px-1.5 py-1 text-right tabular-nums ${c.inicio ? "border-l border-gray-200" : ""} ${totales[c.clave] == null ? "text-gray-300 font-normal" : ""}`}>
+                  {totales[c.clave] == null ? "—" : formatear(totales[c.clave], c.decimales)}
+                </td>
+              ))}
+            </tr>
+          </tfoot>
+        )}
+      </table>
+    </div>
+  ) : (
+    <p class="px-3 py-4 text-gray-500">Sin datos.</p>
+  )}
+  {filas.length > 0 && faltan > 0 && (
+    <p class="px-3 py-1.5 text-[11px] text-gray-500 border-t border-gray-200">
+      {todoFalta
+        ? "FotMob publica estas métricas por jugador y partido, pero la base todavía no las guarda."
+        : "Las columnas en gris (—) son métricas que FotMob publica pero la base todavía no guarda."}
+    </p>
+  )}
+</section>
+
+<script>
+  // Orden por columna: el primer clic ordena de mayor a menor (texto: A-Z), el segundo invierte.
+  // Las celdas vacías van siempre al final.
+  for (const tabla of document.querySelectorAll<HTMLTableElement>('[data-tabla-stats]')) {
+    const cuerpo = tabla.tBodies[0];
+    let actual = -1;
+    let ascendente = false;
+    for (const th of tabla.querySelectorAll<HTMLElement>('th[data-col]')) {
+      th.addEventListener('click', () => {
+        const col = Number(th.dataset.col);
+        const numero = th.hasAttribute('data-numero');
+        ascendente = col === actual ? !ascendente : !numero;
+        actual = col;
+        const valor = (fila: HTMLTableRowElement) => fila.cells[col]?.dataset.v ?? '';
+        const filas = [...cuerpo.rows].sort((a, b) => {
+          const va = valor(a), vb = valor(b);
+          if (va === '' || vb === '') return va === vb ? 0 : va === '' ? 1 : -1;
+          const d = numero ? Number(va) - Number(vb) : va.localeCompare(vb, 'es');
+          return ascendente ? d : -d;
+        });
+        cuerpo.append(...filas);
+        tabla.querySelectorAll('th[data-col]').forEach((x) => x.removeAttribute('aria-sort'));
+        th.setAttribute('aria-sort', ascendente ? 'ascending' : 'descending');
+      });
+    }
+  }
+</script>
+
+<style>
+  th[aria-sort="descending"]::after { content: " ▼"; font-size: 0.7em; }
+  th[aria-sort="ascending"]::after { content: " ▲"; font-size: 0.7em; }
+</style>

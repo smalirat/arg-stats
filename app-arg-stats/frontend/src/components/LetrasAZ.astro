@@ -1,0 +1,25 @@
+---
+// Barra de letras A-Z (como los índices de FBref). Las letras sin entradas
+// se muestran apagadas.
+interface Props {
+  letras: string[];
+  actual?: string;
+  href: (letra: string) => string;
+}
+
+const { letras, actual, href } = Astro.props;
+const disponibles = new Set(letras);
+const abecedario = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+---
+
+<nav class="flex flex-wrap gap-1 text-sm font-bold" aria-label="Índice alfabético">
+  {abecedario.map((l) =>
+    !disponibles.has(l) ? (
+      <span class="w-7 h-7 inline-flex items-center justify-center text-gray-300 border border-gray-200">{l}</span>
+    ) : l === actual ? (
+      <span class="w-7 h-7 inline-flex items-center justify-center bg-[#0f5231] text-white border border-[#0f5231]" aria-current="page">{l}</span>
+    ) : (
+      <a href={href(l)} class="w-7 h-7 inline-flex items-center justify-center text-[#2a6496] border border-gray-300 hover:bg-[#2a6496] hover:text-white">{l}</a>
+    )
+  )}
+</nav>

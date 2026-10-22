@@ -1,0 +1,39 @@
+---
+// Lista de jugadores: nombre, último equipo y partidos registrados
+import Escudo from "./Escudo.astro";
+import { urlEquipo, urlJugador } from "../lib/urls";
+
+interface Props {
+  jugadores: any[];
+  numerar?: boolean;
+}
+
+const { jugadores, numerar = false } = Astro.props;
+---
+
+<table class="w-full text-xs sm:text-sm">
+  <thead>
+    <tr class="text-gray-600 border-b border-gray-300 bg-gray-50">
+      {numerar && <th class="px-2 py-1 text-right font-semibold w-8">#</th>}
+      <th class="px-2 py-1 text-left font-semibold">Jugador</th>
+      <th class="px-2 py-1 text-left font-semibold">Último equipo</th>
+      <th class="px-2 py-1 text-right font-semibold" title="Partidos con estadísticas registradas">Partidos</th>
+    </tr>
+  </thead>
+  <tbody>
+    {jugadores.map((j: any, i: number) => (
+      <tr class="border-b border-gray-200 last:border-0 hover:bg-gray-50">
+        {numerar && <td class="px-2 py-1 text-right text-gray-500 tabular-nums">{i + 1}</td>}
+        <td class="px-2 py-1"><a href={urlJugador(j)} class="text-[#2a6496] hover:underline">{j.nombre}</a></td>
+        <td class="px-2 py-1">
+          {j.equipo ? (
+            <a href={urlEquipo(j.equipo)} class="flex items-center gap-1.5 text-gray-700 hover:underline">
+              <Escudo equipo={j.equipo} size={16} /><span class="truncate">{j.equipo.nombre}</span>
+            </a>
+          ) : <span class="text-gray-400">—</span>}
+        </td>
+        <td class="px-2 py-1 text-right tabular-nums">{j.partidos}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>

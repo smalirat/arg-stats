@@ -1,0 +1,256 @@
+---
+// Página de torneo (una edición): /torneos/{id}/{pestaña}/{slug}
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Escudo from "../../../components/Escudo.astro";
+import Pestanas from "../../../components/Pestanas.astro";
+import TablaPosiciones from "../../../components/TablaPosiciones.astro";
+import FilaPartido from "../../../components/FilaPartido.astro";
+import TablaStats from "../../../components/TablaStats.astro";
+import Cobertura from "../../../components/Cobertura.astro";
+import { API_URL } from "../../../lib/api";
+import { EQUIPOS_TORNEO } from "../../../lib/columnas";
+import { TABS_TORNEO, urlEquipo, urlJugador, urlTorneo } from "../../../lib/urls";
+import { colorPuntaje, fechaCorta, ronda as nombreRonda } from "../../../lib/formato";
+
+const { id, resto = "" } = Astro.params;
+if (!/^\d+$/.test(id ?? "")) return Astro.rewrite("/404");
+const pedida = resto.split("/")[0];
+const tab = (TABS_TORNEO as readonly string[]).includes(pedida) ? (pedida as (typeof TABS_TORNEO)[number]) : "resumen";
+
+const response = await fetch(`${API_URL}/api/ediciones/${id}`);
+if (response.status === 404) return Astro.rewrite("/404");
+// La API responde { status, data }
+const { data = {} } = await response.json();
+
+const edicion = data.edicion || {};
+
+// URL canónica (como FotMob): si el slug o la pestaña no coinciden, se redirige
+const canonica = urlTorneo(edicion, tab);
+if (decodeURI(Astro.url.pathname).replace(/\/$/, "") !== canonica) return Astro.redirect(canonica, 301);
+
+const etapas = data.etapas || [];
+const temporadas = data.temporadas || [];
+const tablas = data.tablas || [];
+const rondas = data.rondas || [];
+const rondaActual = data.rondaActual ?? 0;
+const rankings = data.rankings || { goleadores: [], asistentes: [], puntuados: [], xg: [] };
+const equipos = data.equipos || [];
+
+const pestanas = [
+  { etiqueta: "Resumen", tab: "resumen" },
+  { etiqueta: "Partidos", tab: "partidos" },
+  { etiqueta: "Estadísticas", tab: "estadisticas" },
+].map((p) => ({ etiqueta: p.etiqueta, href: urlTorneo(edicion, p.tab as any), activa: p.tab === tab }));
+
+const bloquesRanking = [
+  { titulo: "Goleadores", filas: rankings.goleadores, formato: (v: number) => v },
+  { titulo: "Asistencias", filas: rankings.asistentes, formato: (v: number) => v },
+  { titulo: "Mejor puntuado", filas: rankings.puntuados, formato: (v: number) => v.toFixed(2), puntaje: true },
+  { titulo: "Goles esperados (xG)", filas: rankings.xg, formato: (v: number) => v.toFixed(2) },
+].filter((b) => b.filas.length);
+
+const hayEstadisticas = bloquesRanking.length > 0;
+
+// Estadísticas de equipo y cobertura de datos: solo se piden en su pestaña
+const stats = tab === "estadisticas"
+  ? await fetch(`${API_URL}/api/ediciones/${id}/estadisticas`).then((r) => (r.ok ? r.json() : {})).then((r: any) => r.data ?? {})
+  : {};
+---
+
+<BaseLayout title={`${edicion.nombre_torneo} ${edicion.temporada} — ArgStats`}>
+  <div class="font-sans text-sm text-gray-800">
+
+    <!-- Encabezado: competición, etapas y temporada -->
+    <section class="border border-gray-300 bg-white px-4 py-3">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p class="text-xs text-gray-500 uppercase font-semibold">{edicion.competicion} · Argentina</p>
+          <h1 class="text-2xl font-bold text-gray-900">{edicion.nombre_torneo} {edicion.temporada}</h1>
+        </div>
+        {temporadas.length > 1 && (
+          <label class="text-xs font-bold text-gray-700">
+            Temporada
+            <select data-temporada class="ml-1 text-sm border border-gray-300 p-1 focus:outline-none focus:border-[#0f5231]">
+              {temporadas.map((t: any) => (
+                <option value={urlTorneo(t)} selected={t.edicion_id === edicion.edicion_id}>{t.temporada}</option>
+              ))}
+            </select>
+          </label>
+        )}
+      </div>
+      {etapas.length > 1 && (
+        <div class="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs">
+          {etapas.map((e: any) => (
+            e.edicion_id === edicion.edicion_id
+              ? <span class="font-bold text-gray-900">{e.nombre_torneo}</span>
+              : <a href={urlTorneo(e)} class="text-[#2a6496] hover:underline">{e.nombre_torneo}</a>
+          ))}
+        </div>
+      )}
+    </section>
+    <Pestanas pestanas={pestanas} />
+
+    {tab === "resumen" && (
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Tablas (si es eliminación directa, la lista de equipos) -->
+        <div class="md:col-span-2 space-y-4">
+          {tablas.length ? (
+            <section class="border border-gray-300 bg-white">
+              <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Posiciones</h2>
+              {tablas.map((t: any) => <TablaPosiciones tabla={t} />)}
+            </section>
+          ) : (
+            <section class="border border-gray-300 bg-white">
+              <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Equipos ({equipos.length})</h2>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-x-2 gap-y-2 p-3">
+                {equipos.map((e: any) => (
+                  <a href={urlEquipo(e)} class="flex items-center gap-2 text-[#2a6496] hover:underline min-w-0">
+                    <Escudo equipo={e} size={20} />
+                    <span class="truncate">{e.nombre}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        <div class="space-y-4">
+          <!-- Fecha actual, con flechas para recorrer las fechas -->
+          {rondas.length > 0 && (
+            <section class="border border-gray-300 bg-white" data-rondas data-actual={rondaActual} data-total={rondas.length}>
+              <div class="bg-[#0f5231] text-white font-bold px-1 py-1 flex items-center justify-between">
+                <button type="button" data-anterior aria-label="Fecha anterior" class="px-2 py-0.5 rounded-sm hover:bg-[#0a3a22] transition-colors">&#9664;</button>
+                <h2 data-titulo>{nombreRonda(rondas[rondaActual]?.ronda)}</h2>
+                <button type="button" data-siguiente aria-label="Fecha siguiente" class="px-2 py-0.5 rounded-sm hover:bg-[#0a3a22] transition-colors">&#9654;</button>
+              </div>
+              {rondas.map((r: any, i: number) => (
+                <div data-ronda={i} data-titulo-ronda={nombreRonda(r.ronda)} hidden={i !== rondaActual}>
+                  {r.partidos.map((p: any) => (
+                    <div class="px-3 py-2 border-b border-gray-200 last:border-0">
+                      <div class="text-xs text-gray-500 mb-1">{p.fecha_utc ? fechaCorta(p.fecha_utc) : "Sin fecha"}</div>
+                      <FilaPartido partido={p} />
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </section>
+          )}
+
+          <!-- Líderes -->
+          {bloquesRanking.slice(0, 2).map((b) => (
+            <section class="border border-gray-300 bg-white">
+              <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{b.titulo}</h2>
+              <ol>
+                {b.filas.slice(0, 5).map((j: any) => (
+                  <li class="flex items-center justify-between gap-2 px-3 py-1.5 border-b border-gray-200 last:border-0">
+                    <span class="flex items-center gap-1.5 min-w-0">
+                      <Escudo equipo={j.equipo} size={16} />
+                      <a href={urlJugador(j)} class="text-[#2a6496] hover:underline truncate">{j.nombre}</a>
+                    </span>
+                    <span class="font-bold tabular-nums">{b.formato(j.valor)}</span>
+                  </li>
+                ))}
+              </ol>
+              <a href={urlTorneo(edicion, "estadisticas")} class="block px-3 py-1.5 text-xs text-right text-[#2a6496] hover:underline border-t border-gray-200">Ver todo &rarr;</a>
+            </section>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {tab === "partidos" && (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {rondas.map((r: any) => (
+          <section class="border border-gray-300 bg-white self-start">
+            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{nombreRonda(r.ronda)}</h2>
+            {r.partidos.map((p: any) => (
+              <div class="px-3 py-2 border-b border-gray-200 last:border-0">
+                <div class="text-xs text-gray-500 mb-1">{p.fecha_utc ? fechaCorta(p.fecha_utc) : "Sin fecha"}</div>
+                <FilaPartido partido={p} />
+              </div>
+            ))}
+          </section>
+        ))}
+        {!rondas.length && <p class="text-gray-500">No hay partidos cargados.</p>}
+      </div>
+    )}
+
+    {tab === "estadisticas" && (
+      <div class="space-y-4 mb-4">
+        <TablaStats titulo="Estadísticas de equipo" grupos={EQUIPOS_TORNEO} fijas={[{ etiqueta: "Equipo", clave: "equipo", tipo: "equipo" }]} filas={stats.equipos || []} />
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Cobertura cobertura={stats.cobertura} />
+        </div>
+      </div>
+    )}
+
+    {tab === "estadisticas" && (
+      hayEstadisticas ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {bloquesRanking.map((b) => (
+            <section class="border border-gray-300 bg-white self-start">
+              <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{b.titulo}</h2>
+              <table class="w-full">
+                <tbody>
+                  {b.filas.map((j: any, i: number) => (
+                    <tr class="border-b border-gray-200 last:border-0 hover:bg-gray-50">
+                      <td class="px-2 py-1.5 text-right text-gray-500 tabular-nums w-8">{i + 1}</td>
+                      <td class="px-2 py-1.5">
+                        <a href={urlJugador(j)} class="text-[#2a6496] hover:underline">{j.nombre}</a>
+                      </td>
+                      <td class="px-2 py-1.5">
+                        <a href={urlEquipo(j.equipo)} class="flex items-center gap-1.5 text-gray-600 hover:underline">
+                          <Escudo equipo={j.equipo} size={16} />
+                          <span class="truncate">{j.equipo.nombre}</span>
+                        </a>
+                      </td>
+                      <td class="px-2 py-1.5 text-right">
+                        {b.puntaje
+                          ? <span class={`px-1.5 py-0.5 rounded-sm text-xs font-bold tabular-nums ${colorPuntaje(j.valor)}`}>{b.formato(j.valor)}</span>
+                          : <span class="font-bold tabular-nums">{b.formato(j.valor)}</span>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          ))}
+        </div>
+      ) : (
+        <section class="border border-gray-300 bg-white px-3 py-4 text-gray-500">
+          No hay estadísticas de jugadores para este torneo: la fuente no las publica para esta categoría.
+        </section>
+      )
+    )}
+  </div>
+</BaseLayout>
+
+<script>
+  // Selector de temporada: lleva a la misma etapa de otra temporada
+  for (const select of document.querySelectorAll<HTMLSelectElement>('[data-temporada]')) {
+    select.addEventListener('change', () => { window.location.href = select.value; });
+  }
+
+  // Fecha actual: las flechas recorren las fechas del torneo
+  for (const caja of document.querySelectorAll<HTMLElement>('[data-rondas]')) {
+    const bloques = [...caja.querySelectorAll<HTMLElement>('[data-ronda]')];
+    const titulo = caja.querySelector<HTMLElement>('[data-titulo]')!;
+    const anterior = caja.querySelector<HTMLButtonElement>('[data-anterior]')!;
+    const siguiente = caja.querySelector<HTMLButtonElement>('[data-siguiente]')!;
+    let actual = Number(caja.dataset.actual || 0);
+
+    const mostrar = (i: number) => {
+      actual = Math.min(Math.max(i, 0), bloques.length - 1);
+      bloques.forEach((b, j) => (b.hidden = j !== actual));
+      titulo.textContent = bloques[actual].dataset.tituloRonda ?? '';
+      anterior.disabled = actual === 0;
+      siguiente.disabled = actual === bloques.length - 1;
+      anterior.classList.toggle('opacity-40', anterior.disabled);
+      siguiente.classList.toggle('opacity-40', siguiente.disabled);
+    };
+
+    anterior.addEventListener('click', () => mostrar(actual - 1));
+    siguiente.addEventListener('click', () => mostrar(actual + 1));
+    mostrar(actual);
+  }
+</script>

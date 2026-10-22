@@ -1,0 +1,313 @@
+---
+// Página de jugador: /jugadores/{id}/{slug} (resumen) y /jugadores/{id}/{pestaña}/{slug}
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Escudo from "../../../components/Escudo.astro";
+import Pestanas from "../../../components/Pestanas.astro";
+import TablaStats from "../../../components/TablaStats.astro";
+import Scouting from "../../../components/Scouting.astro";
+import MapaTiros from "../../../components/MapaTiros.astro";
+import { API_URL } from "../../../lib/api";
+import { TABS_JUGADOR, urlEquipo, urlJugador, urlPartido, urlTorneo } from "../../../lib/urls";
+import { colorPuntaje, colorResultado, fechaCorta, ronda as nombreRonda } from "../../../lib/formato";
+import { DEFENSA, DUELOS, ESTANDAR, PASES, POSESION, TIROS } from "../../../lib/columnas";
+
+const { id, resto = "" } = Astro.params;
+if (!/^\d+$/.test(id ?? "")) return Astro.rewrite("/404");
+const pedida = resto.split("/")[0];
+const tab = (TABS_JUGADOR as readonly string[]).includes(pedida) ? (pedida as (typeof TABS_JUGADOR)[number]) : "resumen";
+
+const [response, respuestaStats] = await Promise.all([
+  fetch(`${API_URL}/api/jugadores/${id}`),
+  fetch(`${API_URL}/api/jugadores/${id}/estadisticas`),
+]);
+if (response.status === 404) return Astro.rewrite("/404");
+// La API responde { status, data }
+const { data = {} } = await response.json();
+const stats = respuestaStats.ok ? (await respuestaStats.json()).data ?? {} : {};
+
+const jugador = data.jugador || {};
+
+// URL canónica (como FotMob): si el slug o la pestaña no coinciden, se redirige
+const canonica = urlJugador(jugador, tab);
+if (decodeURI(Astro.url.pathname).replace(/\/$/, "") !== canonica) return Astro.redirect(canonica, 301);
+
+const equipoActual = data.equipoActual;
+const totales = data.totales || {};
+const temporadas = data.temporadas || [];
+const ultimos = data.ultimos || [];
+const transferencias = data.transferencias || [];
+
+const pestanas = [
+  { etiqueta: "Resumen", tab: "resumen" },
+  { etiqueta: "Estadísticas", tab: "estadisticas" },
+  { etiqueta: "Partidos", tab: "partidos" },
+  { etiqueta: "Tiros", tab: "tiros" },
+].map((p) => ({ etiqueta: p.etiqueta, href: urlJugador(jugador, p.tab as any), activa: p.tab === tab }));
+
+// Tablas de la pestaña Estadísticas: una fila por temporada, competición y equipo
+const fijas = [
+  { etiqueta: "Temp.", clave: "temporada" },
+  { etiqueta: "Competición", clave: "competicion" },
+  { etiqueta: "Equipo", clave: "equipo", tipo: "equipo" as const },
+];
+const tablas = [
+  { id: "estandar", titulo: "Estadísticas estándar", grupos: ESTANDAR },
+  { id: "tiros", titulo: "Tiros", grupos: TIROS },
+  { id: "pases", titulo: "Pases", grupos: PASES },
+  { id: "defensa", titulo: "Acciones defensivas", grupos: DEFENSA },
+  { id: "posesion", titulo: "Posesión", grupos: POSESION },
+  { id: "duelos", titulo: "Duelos y faltas", grupos: DUELOS },
+];
+
+// Registro de partidos, con filtro por temporada
+const registro = stats.partidos || [];
+const temporadasRegistro = [...new Set(registro.map((p: any) => p.temporada))];
+
+const resumen = [
+  { etiqueta: "Partidos", valor: totales.partidos ?? 0 },
+  { etiqueta: "Minutos", valor: totales.minutos ?? 0 },
+  { etiqueta: "Goles", valor: totales.goles ?? 0 },
+  { etiqueta: "Asistencias", valor: totales.asistencias ?? 0 },
+];
+---
+
+<BaseLayout title={`${jugador.nombre} — ArgStats`}>
+  <div class="font-sans text-sm text-gray-800">
+
+    <!-- Encabezado -->
+    <section class="border border-gray-300 bg-white px-4 py-4 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">{jugador.nombre}</h1>
+        <p class="text-gray-600 flex flex-wrap items-center gap-x-2">
+          {equipoActual && (
+            <a href={urlEquipo(equipoActual)} class="flex items-center gap-1.5 text-[#2a6496] hover:underline">
+              <Escudo equipo={equipoActual} size={18} /> {equipoActual.nombre}
+            </a>
+          )}
+          {data.posicion && <span>· {data.posicion}</span>}
+          {data.dorsal != null && <span>· #{data.dorsal}</span>}
+        </p>
+      </div>
+      <div class="flex gap-2">
+        {resumen.map((r) => (
+          <div class="border border-gray-300 px-3 py-1.5 text-center min-w-[70px]">
+            <div class="text-lg font-bold text-gray-900 tabular-nums">{r.valor}</div>
+            <div class="text-[11px] text-gray-500">{r.etiqueta}</div>
+          </div>
+        ))}
+        {totales.puntaje != null && (
+          <div class="border border-gray-300 px-3 py-1.5 text-center min-w-[70px]">
+            <div><span class={`px-1.5 rounded-sm text-base font-bold tabular-nums ${colorPuntaje(totales.puntaje)}`}>{totales.puntaje.toFixed(2)}</span></div>
+            <div class="text-[11px] text-gray-500 mt-0.5">Puntaje</div>
+          </div>
+        )}
+      </div>
+    </section>
+    <Pestanas pestanas={pestanas} />
+
+    {tab === "resumen" && (
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Estadísticas por temporada y competición -->
+      <div class="md:col-span-2 space-y-4">
+        <section class="border border-gray-300 bg-white overflow-x-auto">
+          <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Estadísticas por temporada</h2>
+          {temporadas.length ? (
+            <table class="w-full text-xs sm:text-sm">
+              <thead>
+                <tr class="text-gray-600 border-b border-gray-300 bg-gray-50">
+                  <th class="px-2 py-1 text-left font-semibold">Temp.</th>
+                  <th class="px-2 py-1 text-left font-semibold">Competición</th>
+                  <th class="px-2 py-1 text-left font-semibold">Equipo</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Partidos">PJ</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Minutos">Min</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Goles">G</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Asistencias">A</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Goles esperados">xG</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Asistencias esperadas">xA</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Amarillas">TA</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Rojas">TR</th>
+                  <th class="px-2 py-1 text-center font-semibold">Puntaje</th>
+                </tr>
+              </thead>
+              <tbody>
+                {temporadas.map((s: any) => (
+                  <tr class="border-b border-gray-200 last:border-0 hover:bg-gray-50">
+                    <td class="px-2 py-1 tabular-nums">{s.temporada}</td>
+                    <td class="px-2 py-1">{s.competicion}</td>
+                    <td class="px-2 py-1">
+                      <a href={urlEquipo(s.equipo)} class="flex items-center gap-1.5 text-[#2a6496] hover:underline">
+                        <Escudo equipo={s.equipo} size={16} /> <span class="truncate">{s.equipo.nombre}</span>
+                      </a>
+                    </td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{s.partidos}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{s.minutos}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{s.goles}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{s.asistencias}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{s.xg.toFixed(2)}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{s.xa.toFixed(2)}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{s.amarillas}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{s.rojas}</td>
+                    <td class="px-2 py-1 text-center">
+                      {s.puntaje != null && <span class={`px-1.5 py-0.5 rounded-sm text-xs font-bold tabular-nums ${colorPuntaje(s.puntaje)}`}>{s.puntaje.toFixed(2)}</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p class="px-3 py-4 text-gray-500">No hay estadísticas registradas para este jugador.</p>
+          )}
+          {temporadas.length > 0 && (
+            <a href={urlJugador(jugador, "estadisticas")} class="block px-3 py-1.5 text-xs text-right text-[#2a6496] hover:underline border-t border-gray-200">Todas las estadísticas &rarr;</a>
+          )}
+        </section>
+
+        <Scouting scouting={stats.scouting} />
+
+        {transferencias.length > 0 && (
+          <section class="border border-gray-300 bg-white">
+            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Transferencias</h2>
+            <ul>
+              {transferencias.map((tr: any) => (
+                <li class="flex flex-wrap items-center gap-2 px-3 py-2 border-b border-gray-200 last:border-0">
+                  <span class="text-xs text-gray-500 w-24">{tr.fecha ? String(tr.fecha).slice(0, 10) : ""}</span>
+                  {tr.origen && <a href={urlEquipo(tr.origen)} class="flex items-center gap-1 text-[#2a6496] hover:underline"><Escudo equipo={tr.origen} size={16} />{tr.origen.nombre}</a>}
+                  <span class="text-gray-400">&rarr;</span>
+                  {tr.destino && <a href={urlEquipo(tr.destino)} class="flex items-center gap-1 text-[#2a6496] hover:underline"><Escudo equipo={tr.destino} size={16} />{tr.destino.nombre}</a>}
+                  {tr.tipo && <span class="text-xs text-gray-500">({tr.tipo})</span>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+
+      <!-- Últimos partidos -->
+      <section class="border border-gray-300 bg-white self-start">
+        <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Últimos partidos</h2>
+        {ultimos.length ? ultimos.map((u: any) => (
+          <a href={urlPartido(u)} class="block px-3 py-2 border-b border-gray-200 last:border-0 hover:bg-gray-50">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>{fechaCorta(u.fecha_utc)}</span>
+              <span class="truncate ml-2">{u.competicion}</span>
+            </div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="flex items-center gap-1.5 min-w-0">
+                <Escudo equipo={u.local} size={16} />
+                <span class="truncate">{u.local.nombre}</span>
+                <span class={`px-1 rounded-sm text-xs font-bold tabular-nums ${colorResultado[u.resultado]}`}>{u.goles_local}-{u.goles_visitante}</span>
+                <span class="truncate">{u.visitante.nombre}</span>
+                <Escudo equipo={u.visitante} size={16} />
+              </span>
+              {u.puntaje != null && <span class={`px-1.5 py-0.5 rounded-sm text-xs font-bold tabular-nums ${colorPuntaje(u.puntaje)}`}>{u.puntaje.toFixed(1)}</span>}
+            </div>
+            <div class="text-xs text-gray-500 mt-0.5">
+              {u.minutos ?? 0}' {u.goles > 0 && `· ${u.goles} ⚽`} {u.asistencias > 0 && `· ${u.asistencias} asist.`} {u.amarilla && "· 🟨"} {u.roja && "· 🟥"}
+            </div>
+          </a>
+        )) : (
+          <p class="px-3 py-4 text-gray-500">Sin partidos registrados.</p>
+        )}
+      </section>
+    </div>
+    )}
+
+    {tab === "estadisticas" && (
+      <div class="space-y-4">
+        <nav class="flex flex-wrap gap-x-3 gap-y-1 text-xs">
+          {tablas.map((t) => <a href={`#${t.id}`} class="text-[#2a6496] hover:underline">{t.titulo}</a>)}
+        </nav>
+        {tablas.map((t) => (
+          <TablaStats id={t.id} titulo={t.titulo} grupos={t.grupos} fijas={fijas} filas={stats.temporadas || []} totales={stats.totales} etiquetaTotales="Total" />
+        ))}
+      </div>
+    )}
+
+    {tab === "partidos" && (
+      <section class="border border-gray-300 bg-white" data-registro>
+        <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5 flex items-center justify-between gap-2">
+          <span>Registro de partidos</span>
+          {temporadasRegistro.length > 1 && (
+            <select data-filtro class="text-xs text-gray-800 font-normal border border-gray-300 p-0.5">
+              <option value="">Todas las temporadas</option>
+              {temporadasRegistro.map((tp: any) => <option value={tp}>{tp}</option>)}
+            </select>
+          )}
+        </h2>
+        {registro.length ? (
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs whitespace-nowrap">
+              <thead>
+                <tr class="text-gray-700 border-b border-gray-300 bg-gray-50">
+                  <th class="px-2 py-1 text-left font-semibold">Fecha</th>
+                  <th class="px-2 py-1 text-left font-semibold">Torneo</th>
+                  <th class="px-2 py-1 text-left font-semibold">Ronda</th>
+                  <th class="px-1.5 py-1 text-center font-semibold" title="Local o visitante">Sede</th>
+                  <th class="px-1.5 py-1 text-center font-semibold">Resultado</th>
+                  <th class="px-2 py-1 text-left font-semibold">Rival</th>
+                  <th class="px-1.5 py-1 text-center font-semibold" title="Titular (— si el partido no tiene alineaciones cargadas)">Tit</th>
+                  <th class="px-1.5 py-1 text-right font-semibold border-l border-gray-200" title="Minutos">Min</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Goles">Gls</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Asistencias">Ast</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Disparos">Dis</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Disparos a puerta">DaP</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Tarjetas">Tarj</th>
+                  <th class="px-1.5 py-1 text-right font-semibold border-l border-gray-200" title="Goles esperados">xG</th>
+                  <th class="px-1.5 py-1 text-right font-semibold" title="Asistencias esperadas">xA</th>
+                  <th class="px-2 py-1 text-center font-semibold border-l border-gray-200" title="Puntaje de FotMob">Punt</th>
+                </tr>
+              </thead>
+              <tbody>
+                {registro.map((p: any) => (
+                  <tr data-temporada={p.temporada} class="border-b border-gray-200 hover:bg-[#f2f7f3]">
+                    <td class="px-2 py-1"><a href={urlPartido(p)} class="text-[#2a6496] hover:underline">{p.fecha_utc ? String(p.fecha_utc).slice(0, 10) : ""}</a></td>
+                    <td class="px-2 py-1"><a href={urlTorneo({ edicion_id: p.edicion_id, nombre_torneo: p.competicion, temporada: p.temporada })} class="text-[#2a6496] hover:underline">{p.competicion}</a></td>
+                    <td class="px-2 py-1 text-gray-600">{nombreRonda(p.ronda)}</td>
+                    <td class="px-1.5 py-1 text-center">{p.sede}</td>
+                    <td class="px-1.5 py-1 text-center">
+                      <span class={`px-1.5 rounded-sm font-bold tabular-nums ${colorResultado[p.resultado] ?? ""}`}>{p.goles_local ?? "-"}-{p.goles_visitante ?? "-"}</span>
+                    </td>
+                    <td class="px-2 py-1">
+                      <a href={urlEquipo(p.rival)} class="flex items-center gap-1.5 text-[#2a6496] hover:underline"><Escudo equipo={p.rival} size={16} /> {p.rival.nombre}</a>
+                    </td>
+                    <td class={`px-1.5 py-1 text-center ${p.titular == null ? "text-gray-300" : ""}`}>{p.titular == null ? "—" : p.titular ? "Sí" : "No"}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums border-l border-gray-200">{p.min}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{p.goles}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{p.asistencias}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{p.tiros}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{p.tirosArco}</td>
+                    <td class="px-1.5 py-1 text-right">{p.amarilla && "🟨"}{p.roja && "🟥"}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums border-l border-gray-200">{p.xg != null ? p.xg.toFixed(2) : "—"}</td>
+                    <td class="px-1.5 py-1 text-right tabular-nums">{p.xa != null ? p.xa.toFixed(2) : "—"}</td>
+                    <td class="px-2 py-1 text-center border-l border-gray-200">
+                      {p.puntaje != null ? <span class={`px-1 rounded-sm font-bold tabular-nums ${colorPuntaje(p.puntaje)}`}>{p.puntaje.toFixed(1)}</span> : <span class="text-gray-300">—</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p class="px-3 py-4 text-gray-500">Sin partidos registrados.</p>
+        )}
+        <p class="px-3 py-1.5 text-[11px] text-gray-500 border-t border-gray-200">
+          Disparos según el mapa de tiros del partido: si el partido no tiene tiros cargados, aparecen en 0.
+        </p>
+      </section>
+    )}
+
+    {tab === "tiros" && <MapaTiros tiros={stats.tiros || []} />}
+  </div>
+</BaseLayout>
+
+<script>
+  // Registro de partidos: filtro por temporada
+  for (const caja of document.querySelectorAll<HTMLElement>('[data-registro]')) {
+    const filtro = caja.querySelector<HTMLSelectElement>('[data-filtro]');
+    filtro?.addEventListener('change', () => {
+      caja.querySelectorAll<HTMLElement>('tr[data-temporada]').forEach((f) => {
+        f.hidden = !!filtro.value && f.dataset.temporada !== filtro.value;
+      });
+    });
+  }
+</script>

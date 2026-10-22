@@ -1,35 +1,13 @@
 const supabase = require('../config/supabase');
-
-// Competiciones de la ventana de clubes, en el orden de las flechas. Cada una
-// agrupa sus ediciones por prefijo de nombre (ej. "Liga Profesional" junta
-// Apertura, Clausura y playoffs).
-const COMPETICIONES = [
-    { nombre: 'Primera División', prefijo: 'Liga Profesional' },
-    { nombre: 'Primera Nacional', prefijo: 'Primera Nacional' },
-    { nombre: 'Primera B Metropolitana', prefijo: 'Primera B Metropolitana' },
-    { nombre: 'Federal A', prefijo: 'Federal A' },
-    { nombre: 'Copa Argentina', prefijo: 'Copa Argentina' },
-];
-
-// Supabase devuelve como máximo 1000 filas por consulta
-const PAGINA = 1000;
-
-const traerTodo = async (consulta) => {
-    const filas = [];
-    for (let desde = 0; ; desde += PAGINA) {
-        const { data, error } = await consulta().range(desde, desde + PAGINA - 1);
-        if (error) throw error;
-        filas.push(...data);
-        if (data.length < PAGINA) return filas;
-    }
-};
+const { COMPETICIONES } = require('../config/competiciones');
+const { traerTodo } = require('../utils/traerTodo');
 
 // Últimos partidos jugados de una competición (los programados todavía no
 // tienen resultado, por eso se filtra por estado terminado)
 const getPartidosRecientes = async (edicionIds) => {
     const { data, error } = await supabase
         .from('v_partidos_detalles')
-        .select('partido_id, edicion_id, fecha_utc, estado, goles_local, goles_visitante, local_nombre_fuente, local_nombre_corto, visitante_nombre_fuente, visitante_nombre_corto')
+        .select('partido_id, edicion_id, fecha_utc, estado, goles_local, goles_visitante, equipo_local_id, equipo_visitante_id, local_nombre_fuente, local_nombre_corto, visitante_nombre_fuente, visitante_nombre_corto')
         .in('edicion_id', edicionIds)
         .in('estado', ['FT', 'AET', 'Pen'])
         .order('fecha_utc', { ascending: false })
@@ -67,7 +45,7 @@ const getCompeticiones = async () => {
     const equipoIds = [...new Set(partidos.flatMap(p => [p.equipo_local_id, p.equipo_visitante_id]))];
     const { data: equipos, error: errorEquipos } = await supabase
         .from('equipos')
-        .select('equipo_id, nombre_fuente, nombre_corto')
+        .select('equipo_id, nombre_fuente, nombre_corto, escudo_url')
         .in('equipo_id', equipoIds);
     if (errorEquipos) throw errorEquipos;
 
@@ -85,7 +63,14 @@ const getCompeticiones = async () => {
             .filter(Boolean)
             .sort((a, b) => (a.nombre_corto || a.nombre_fuente).localeCompare(b.nombre_corto || b.nombre_fuente));
 
-        return { nombre: c.nombre, temporada: c.temporada, clubes, partidos: recientes[i] };
+        // La vista de partidos no trae escudos: se toman de los equipos ya cargados
+        const partidosConEscudo = recientes[i].map(p => ({
+            ...p,
+            local_escudo_url: porId.get(p.equipo_local_id)?.escudo_url ?? null,
+            visitante_escudo_url: porId.get(p.equipo_visitante_id)?.escudo_url ?? null,
+        }));
+
+        return { nombre: c.nombre, temporada: c.temporada, clubes, partidos: partidosConEscudo };
     });
 };
 

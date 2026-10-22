@@ -1,0 +1,29 @@
+---
+// Escudo de un equipo; si no tiene escudo cargado, sus tres primeras letras.
+interface Props {
+  equipo: { nombre?: string; nombre_corto?: string; nombre_fuente?: string; escudo_url?: string | null };
+  size?: number;
+}
+
+const { equipo, size = 20 } = Astro.props;
+const nombre = equipo?.nombre || equipo?.nombre_corto || equipo?.nombre_fuente || "ARG";
+---
+
+{equipo?.escudo_url ? (
+  <img
+    src={equipo.escudo_url}
+    alt={`Escudo de ${nombre}`}
+    width={size}
+    height={size}
+    loading="lazy"
+    class="shrink-0 object-contain"
+    style={`width:${size}px;height:${size}px`}
+  />
+) : (
+  <span
+    class="shrink-0 inline-flex items-center justify-center rounded bg-gray-100 border border-gray-200 text-[#0f5231] font-bold"
+    style={`width:${size}px;height:${size}px;font-size:${Math.max(8, Math.round(size * 0.36))}px`}
+  >
+    {nombre.slice(0, 3).toUpperCase()}
+  </span>
+)}

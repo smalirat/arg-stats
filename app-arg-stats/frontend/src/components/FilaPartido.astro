@@ -1,0 +1,32 @@
+---
+// Una fila de partido: local, marcador (o horario) y visitante.
+// Con "resultado" (G/E/P) el marcador se pinta desde el punto de vista de un equipo.
+import Escudo from "./Escudo.astro";
+import { urlPartido } from "../lib/urls";
+import { colorResultado, hora } from "../lib/formato";
+
+interface Props {
+  partido: any;
+}
+
+const { partido: p } = Astro.props;
+const marcador = p.terminado
+  ? `${p.goles_local}-${p.goles_visitante}${p.penales_local != null ? ` (${p.penales_local}-${p.penales_visitante})` : ""}`
+  : null;
+---
+
+<a href={urlPartido(p)} class="grid grid-cols-[1fr_auto_1fr] items-center gap-2 group">
+  <span class="flex items-center justify-end gap-1.5 min-w-0">
+    <span class="truncate text-right group-hover:underline">{p.local.nombre}</span>
+    <Escudo equipo={p.local} size={18} />
+  </span>
+  {marcador ? (
+    <span class={`px-1.5 py-0.5 rounded-sm text-xs font-bold tabular-nums whitespace-nowrap ${p.resultado ? colorResultado[p.resultado] : "bg-gray-100 text-gray-900"}`}>{marcador}</span>
+  ) : (
+    <span class="text-xs font-bold text-gray-700 tabular-nums">{p.fecha_utc ? hora(p.fecha_utc) : "-"}</span>
+  )}
+  <span class="flex items-center gap-1.5 min-w-0">
+    <Escudo equipo={p.visitante} size={18} />
+    <span class="truncate group-hover:underline">{p.visitante.nombre}</span>
+  </span>
+</a>

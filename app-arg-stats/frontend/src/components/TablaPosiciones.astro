@@ -1,0 +1,70 @@
+---
+// Tabla de posiciones (una zona/grupo) con forma y próximo rival
+import Escudo from "./Escudo.astro";
+import { urlEquipo, urlPartido } from "../lib/urls";
+import { colorResultado } from "../lib/formato";
+
+interface Props {
+  tabla: { titulo: string; filas: any[] };
+  destacarId?: number;
+}
+
+const { tabla, destacarId } = Astro.props;
+---
+
+<div class="overflow-x-auto">
+  <h3 class="font-bold text-gray-900 px-3 pt-3 pb-1.5 border-b border-gray-300">{tabla.titulo}</h3>
+  <table class="w-full text-xs sm:text-sm">
+    <thead>
+      <tr class="text-gray-600 border-b border-gray-300 bg-gray-50">
+        <th class="px-2 py-1 text-right font-semibold">#</th>
+        <th class="px-2 py-1 text-left font-semibold">Equipo</th>
+        <th class="px-1.5 py-1 text-right font-semibold" title="Jugados">J</th>
+        <th class="px-1.5 py-1 text-right font-semibold" title="Ganados">G</th>
+        <th class="px-1.5 py-1 text-right font-semibold" title="Empatados">E</th>
+        <th class="px-1.5 py-1 text-right font-semibold" title="Perdidos">P</th>
+        <th class="px-1.5 py-1 text-right font-semibold" title="Goles a favor - en contra">+/-</th>
+        <th class="px-1.5 py-1 text-right font-semibold" title="Diferencia de gol">DG</th>
+        <th class="px-1.5 py-1 text-right font-semibold" title="Puntos">PTS</th>
+        <th class="px-2 py-1 text-left font-semibold hidden sm:table-cell">Forma</th>
+        <th class="px-2 py-1 text-center font-semibold hidden sm:table-cell">Sig.</th>
+      </tr>
+    </thead>
+    <tbody>
+      {tabla.filas.map((f: any) => (
+        <tr class={`border-b border-gray-200 last:border-0 ${f.equipo_id === destacarId ? "bg-[#fff8dc] font-bold" : "hover:bg-gray-50"}`}>
+          <td class="px-2 py-1 text-right tabular-nums">{f.posicion}</td>
+          <td class="px-2 py-1">
+            <a href={urlEquipo(f.equipo)} class="flex items-center gap-1.5 text-[#2a6496] hover:underline">
+              <Escudo equipo={f.equipo} size={16} />
+              <span class="truncate">{f.equipo.nombre}</span>
+            </a>
+          </td>
+          <td class="px-1.5 py-1 text-right tabular-nums">{f.partidos_jugados}</td>
+          <td class="px-1.5 py-1 text-right tabular-nums">{f.victorias}</td>
+          <td class="px-1.5 py-1 text-right tabular-nums">{f.empates}</td>
+          <td class="px-1.5 py-1 text-right tabular-nums">{f.derrotas}</td>
+          <td class="px-1.5 py-1 text-right tabular-nums whitespace-nowrap">{f.goles_favor}-{f.goles_contra}</td>
+          <td class="px-1.5 py-1 text-right tabular-nums">{f.diferencia_gol > 0 ? `+${f.diferencia_gol}` : f.diferencia_gol}</td>
+          <td class="px-1.5 py-1 text-right tabular-nums font-bold">{f.puntos}</td>
+          <td class="px-2 py-1 hidden sm:table-cell">
+            <div class="flex gap-0.5">
+              {f.forma.map((r: any) => (
+                <a href={urlPartido(r)} class={`w-4 h-4 inline-flex items-center justify-center rounded-sm text-[10px] font-bold ${colorResultado[r.resultado]}`}>{r.resultado}</a>
+              ))}
+            </div>
+          </td>
+          <td class="px-2 py-1 hidden sm:table-cell">
+            <div class="flex justify-center">
+              {f.siguiente && (
+                <a href={urlEquipo(f.siguiente)} title={f.siguiente.nombre}>
+                  <Escudo equipo={f.siguiente} size={16} />
+                </a>
+              )}
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,156 @@
+---
+// Índice de clubes (como "Clubs" de FBref): los de la temporada actual por
+// competición, y todos A-Z con sus temporadas y partidos registrados.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Escudo from "../../components/Escudo.astro";
+import LetrasAZ from "../../components/LetrasAZ.astro";
+import { API_URL } from "../../lib/api";
+import { urlEquipo } from "../../lib/urls";
+
+const response = await fetch(`${API_URL}/api/equipos`);
+// La API responde { status, data }
+const { data = {} } = await response.json();
+
+const actuales = data.actuales || [];
+const clubes = data.clubes || [];
+const letras = data.letras || [];
+
+// Los clubes que empiezan con número van con la "A" en la barra, pero en su propia sección
+const porLetra = new Map<string, any[]>();
+for (const c of clubes) {
+  const l = /[A-Z]/.test(c.inicial) ? c.inicial : "0-9";
+  if (!porLetra.has(l)) porLetra.set(l, []);
+  porLetra.get(l)!.push(c);
+}
+const secciones = [...porLetra.entries()].sort((a, b) => (a[0] === "0-9" ? -1 : b[0] === "0-9" ? 1 : a[0].localeCompare(b[0])));
+
+// Nombre sin tildes ni mayúsculas, para el buscador
+const clave = (nombre: string) => nombre.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const busquedaInicial = Astro.url.searchParams.get("q")?.trim() ?? "";
+---
+
+<BaseLayout title="Clubes — ArgStats">
+  <div class="font-sans text-sm text-gray-800 space-y-4">
+
+    <section class="border border-gray-300 bg-white px-4 py-3 space-y-3">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">Clubes</h1>
+        <p class="text-gray-600">{clubes.length} clubes del fútbol argentino con partidos registrados, desde 1931 hasta la temporada {data.temporadaActual}.</p>
+      </div>
+      <!-- Buscador: filtra en vivo las listas de abajo -->
+      <form action="/clubes" method="get" class="flex max-w-lg" data-buscador-clubes>
+        <input
+          type="search"
+          name="q"
+          value={busquedaInicial}
+          placeholder="Buscar club"
+          autocomplete="off"
+          class="w-full border border-gray-400 px-3 py-1.5 focus:outline-none focus:border-[#0f5231]"
+        />
+        <button class="bg-[#0f5231] text-white px-5 py-1.5 font-bold hover:bg-[#0a3a22]">Buscar</button>
+      </form>
+      <p data-resultado-busqueda class="text-gray-600" hidden></p>
+      <div>
+        <h2 class="text-xs font-bold text-gray-700 uppercase mb-1.5">Todos los clubes</h2>
+        <LetrasAZ letras={letras.filter((l: string) => /[A-Z]/.test(l))} href={(l) => `#letra-${l}`} />
+      </div>
+    </section>
+
+    <!-- Clubes de la temporada actual, por competición -->
+    {actuales.map((g: any) => (
+      <section class="border border-gray-300 bg-white" data-grupo-clubes>
+        <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{g.competicion} {g.temporada} <span class="font-normal text-xs">({g.clubes.length} clubes)</span></h2>
+        <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-3 gap-y-2 p-3">
+          {g.clubes.map((c: any) => (
+            <li data-club={clave(c.nombre)}>
+              <a href={urlEquipo(c)} class="flex items-center gap-2 text-[#2a6496] hover:underline min-w-0">
+                <Escudo equipo={c} size={22} />
+                <span class="truncate">{c.nombre}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    <!-- Todos los clubes A-Z -->
+    <section class="border border-gray-300 bg-white overflow-x-auto">
+      <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Todos los clubes (A-Z)</h2>
+      <table class="w-full text-xs sm:text-sm">
+        <thead>
+          <tr class="text-gray-600 border-b border-gray-300 bg-gray-50">
+            <th class="px-2 py-1 text-left font-semibold">Club</th>
+            <th class="px-2 py-1 text-left font-semibold">Última competición</th>
+            <th class="px-2 py-1 text-right font-semibold">Desde</th>
+            <th class="px-2 py-1 text-right font-semibold">Hasta</th>
+            <th class="px-2 py-1 text-right font-semibold" title="Temporadas con partidos registrados">Temp.</th>
+            <th class="px-2 py-1 text-right font-semibold" title="Partidos registrados">Partidos</th>
+          </tr>
+        </thead>
+        {secciones.map(([letra, lista]) => (
+          <tbody data-seccion-letra>
+            <tr id={`letra-${letra}`} class="bg-[#e9f0eb] border-b border-gray-300 scroll-mt-4">
+              <th colspan="6" class="px-2 py-1 text-left font-bold text-[#0f5231]">{letra}</th>
+            </tr>
+            {lista.map((c: any) => (
+              <tr class="border-b border-gray-200 hover:bg-gray-50" data-club={clave(c.nombre)}>
+                <td class="px-2 py-1">
+                  <a href={urlEquipo(c)} class="flex items-center gap-1.5 text-[#2a6496] hover:underline">
+                    <Escudo equipo={c} size={16} /><span>{c.nombre}</span>
+                  </a>
+                </td>
+                <td class="px-2 py-1 text-gray-700">{c.competicion}</td>
+                <td class="px-2 py-1 text-right tabular-nums">{c.desde}</td>
+                <td class="px-2 py-1 text-right tabular-nums">{c.hasta}</td>
+                <td class="px-2 py-1 text-right tabular-nums">{c.temporadas}</td>
+                <td class="px-2 py-1 text-right tabular-nums">{c.partidos}</td>
+              </tr>
+            ))}
+          </tbody>
+        ))}
+      </table>
+      <p data-sin-resultados class="px-3 py-4 text-gray-500" hidden>No hay clubes con ese nombre.</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  // Buscador de clubes: filtra en vivo (sin tildes ni mayúsculas) los clubes
+  // actuales y la lista A-Z, y oculta los grupos y letras que quedan vacíos
+  const form = document.querySelector<HTMLFormElement>('[data-buscador-clubes]');
+  if (form) {
+    const input = form.querySelector<HTMLInputElement>('input[name="q"]')!;
+    const resultado = document.querySelector<HTMLElement>('[data-resultado-busqueda]')!;
+    const sinResultados = document.querySelector<HTMLElement>('[data-sin-resultados]')!;
+    const clave = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+
+    const filtrar = () => {
+      const buscado = clave(input.value);
+
+      document.querySelectorAll<HTMLElement>('[data-club]').forEach(el => {
+        el.hidden = !!buscado && !el.dataset.club!.includes(buscado);
+      });
+      document.querySelectorAll<HTMLElement>('[data-grupo-clubes]').forEach(g => {
+        g.hidden = !!buscado && !g.querySelector('li[data-club]:not([hidden])');
+      });
+      document.querySelectorAll<HTMLElement>('[data-seccion-letra]').forEach(s => {
+        s.hidden = !!buscado && !s.querySelector('tr[data-club]:not([hidden])');
+      });
+
+      const encontrados = document.querySelectorAll('tr[data-club]:not([hidden])').length;
+      resultado.hidden = !buscado;
+      resultado.textContent = `${encontrados} ${encontrados === 1 ? 'club' : 'clubes'} con "${input.value.trim()}"`;
+      sinResultados.hidden = !buscado || encontrados > 0;
+
+      // La búsqueda queda en la URL para poder compartirla
+      const url = new URL(window.location.href);
+      if (buscado) url.searchParams.set('q', input.value.trim());
+      else url.searchParams.delete('q');
+      history.replaceState(null, '', url);
+    };
+
+    input.addEventListener('input', filtrar);
+    form.addEventListener('submit', (e) => { e.preventDefault(); filtrar(); });
+    if (input.value) filtrar();
+  }
+</script>

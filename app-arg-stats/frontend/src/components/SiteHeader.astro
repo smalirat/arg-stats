@@ -1,4 +1,6 @@
 ---
+import { urlTorneo } from "../lib/urls";
+
 const { ediciones = [] } = Astro.props;
 
 // Cada edición es una competición/etapa de una temporada (el nombre no lleva
@@ -13,9 +15,9 @@ const torneosActuales = ediciones
   <!-- Top Bar (Estilo Sports Reference) -->
   <div class="bg-[#333] text-[#ccc] text-xs py-1.5 px-4 flex gap-4">
     <span class="font-bold text-[#e6b31e]">ArgStats Reference ®</span>
-    <a href="#" class="hover:text-white">Partidos</a>
-    <a href="#" class="hover:text-white">Equipos</a>
-    <a href="#" class="hover:text-white">Jugadores</a>
+    <a href="/partidos" class="hover:text-white">Partidos</a>
+    <a href="/clubes" class="hover:text-white">Equipos</a>
+    <a href="/jugadores" class="hover:text-white">Jugadores</a>
   </div>
 
   <!-- Main Header -->
@@ -24,16 +26,18 @@ const torneosActuales = ediciones
       <div class="text-4xl text-[#0f5231]">⚽</div>
       <a href="/" class="text-4xl font-bold text-gray-800 tracking-tighter">ARG<span class="text-[#0f5231]">STATS</span></a>
     </div>
-    <div class="flex w-full max-w-lg">
-      <input 
-        type="text" 
-        placeholder="Buscar jugador, equipo, torneo..." 
+    <form action="/buscar" method="get" class="flex w-full max-w-lg">
+      <input
+        type="search"
+        name="q"
+        minlength="2"
+        placeholder="Buscar jugador, equipo, torneo..."
         class="w-full border border-gray-400 px-3 py-1.5 focus:outline-none focus:border-[#0f5231] text-sm"
       >
       <button class="bg-[#0f5231] text-white px-5 py-1.5 font-bold hover:bg-[#0a3a22] transition-colors">
-        Search
+        Buscar
       </button>
-    </div>
+    </form>
   </div>
 
   <!-- Nav Bar -->
@@ -51,16 +55,16 @@ const torneosActuales = ediciones
           <span>˄</span>
         </div>
         {torneosActuales.map((e: any) => (
-          <a href={`/torneo/${e.edicion_id}`} class="px-4 py-2.5 hover:bg-[#0a3a22] border-b border-[#1f664a] last:border-0 font-medium transition-colors">
+          <a href={urlTorneo(e)} class="px-4 py-2.5 hover:bg-[#0a3a22] border-b border-[#1f664a] last:border-0 font-medium transition-colors">
             {e.nombre_torneo}
           </a>
         ))}
       </div>
     </div>
     
-    <a href="#" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Jugadores</a>
-    <a href="#" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Clubes</a>
-    <a href="#" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Partidos</a>
+    <a href="/jugadores" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Jugadores</a>
+    <a href="/clubes" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Clubes</a>
+    <a href="/partidos" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Partidos</a>
     <a href="#" class="px-5 py-2.5 hover:bg-[#e5e5e5]">Historial</a>
   </nav>
 </header>

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import SiteHeader from "../components/SiteHeader.astro";
 import { API_URL } from "../lib/api";
+import { urlEquipo, urlPartido, urlTorneo } from "../lib/urls";
 
 export const prerender = false;
 
@@ -18,9 +18,7 @@ const competiciones = homeData.competiciones || [];
 ---
 
 <BaseLayout title="ArgStats - Estadísticas de Fútbol Argentino">
-  
-  <!-- Inyectamos nuestro nuevo Header estilo FBref y le pasamos las ediciones -->
-  <SiteHeader ediciones={ediciones} />
+  <!-- El header estilo FBref (SiteHeader) lo pone BaseLayout en todas las páginas -->
 
   <main class="max-w-[1200px] mx-auto px-2 sm:px-4 py-6 font-sans">
     
@@ -47,15 +45,25 @@ const competiciones = homeData.competiciones || [];
                 </div>
                 <div class="flex justify-between items-center mb-0.5">
                   <!-- CORRECCIÓN: Leemos la columna plana de la vista SQL -->
-                  <span class="font-medium text-gray-800">{p.local_nombre_corto || p.local_nombre_fuente || 'Local'}</span>
+                  <span class="font-medium text-gray-800 flex items-center gap-1.5 min-w-0">
+                    {p.local_escudo_url
+                      ? <img src={p.local_escudo_url} alt="" width="16" height="16" loading="lazy" class="w-4 h-4 object-contain shrink-0" />
+                      : <span class="w-4 shrink-0"></span>}
+                    <span class="truncate">{p.local_nombre_corto || p.local_nombre_fuente || 'Local'}</span>
+                  </span>
                   <span class="font-bold bg-gray-100 px-2 py-0.5 rounded">{p.goles_local ?? '-'}</span>
                 </div>
                 <div class="flex justify-between items-center">
                   <!-- CORRECCIÓN: Leemos la columna plana de la vista SQL -->
-                  <span class="font-medium text-gray-800">{p.visitante_nombre_corto || p.visitante_nombre_fuente || 'Visitante'}</span>
+                  <span class="font-medium text-gray-800 flex items-center gap-1.5 min-w-0">
+                    {p.visitante_escudo_url
+                      ? <img src={p.visitante_escudo_url} alt="" width="16" height="16" loading="lazy" class="w-4 h-4 object-contain shrink-0" />
+                      : <span class="w-4 shrink-0"></span>}
+                    <span class="truncate">{p.visitante_nombre_corto || p.visitante_nombre_fuente || 'Visitante'}</span>
+                  </span>
                   <span class="font-bold bg-gray-100 px-2 py-0.5 rounded">{p.goles_visitante ?? '-'}</span>
                 </div>
-                <a href={`/partido/${p.partido_id}`} class="text-[#2a6496] hover:bg-[#2a6496] hover:text-white text-xs mt-2 inline-block px-1 rounded transition-colors">
+                <a href={urlPartido({ partido_id: p.partido_id, local: { nombre: p.local_nombre_corto || p.local_nombre_fuente }, visitante: { nombre: p.visitante_nombre_corto || p.visitante_nombre_fuente } })} class="text-[#2a6496] hover:bg-[#2a6496] hover:text-white text-xs mt-2 inline-block px-1 rounded transition-colors">
                   Ficha del partido &rarr;
                 </a>
               </div>
@@ -82,10 +90,15 @@ const competiciones = homeData.competiciones || [];
                 // Calculamos un nombre seguro para evitar que el slice() rompa
                 const nombreSeguro = eq.nombre_corto || eq.nombre_fuente || 'ARG';
                 return (
-                  <a href={`/equipo/${eq.equipo_id}`} class="flex items-center gap-2 group">
-                    <div class="w-7 h-7 shrink-0 bg-gray-100 border border-gray-200 text-[#0f5231] text-[10px] font-bold flex items-center justify-center rounded group-hover:bg-[#0f5231] group-hover:text-white transition-colors">
-                      {nombreSeguro.slice(0, 3).toUpperCase()}
-                    </div>
+                  <a href={urlEquipo({ equipo_id: eq.equipo_id, nombre: nombreSeguro })} class="flex items-center gap-2 group">
+                    {eq.escudo_url ? (
+                      <img src={eq.escudo_url} alt={`Escudo de ${nombreSeguro}`} width="28" height="28" loading="lazy" class="w-7 h-7 shrink-0 object-contain" />
+                    ) : (
+                      /* Sin escudo cargado: las tres primeras letras del club */
+                      <div class="w-7 h-7 shrink-0 bg-gray-100 border border-gray-200 text-[#0f5231] text-[10px] font-bold flex items-center justify-center rounded group-hover:bg-[#0f5231] group-hover:text-white transition-colors">
+                        {nombreSeguro.slice(0, 3).toUpperCase()}
+                      </div>
+                    )}
                     <span class="text-sm text-[#2a6496] group-hover:underline font-medium truncate">
                       {nombreSeguro}
                     </span>
@@ -128,7 +141,7 @@ const competiciones = homeData.competiciones || [];
           <ul class="space-y-1.5 text-sm mb-4">
             {ediciones.map((ed: any) => (
               <li class="flex justify-between items-center">
-                <a href={`/torneo/${ed.edicion_id}`} class="text-[#2a6496] hover:bg-[#2a6496] hover:text-white px-1 rounded transition-colors font-medium">
+                <a href={urlTorneo(ed)} class="text-[#2a6496] hover:bg-[#2a6496] hover:text-white px-1 rounded transition-colors font-medium">
                   {ed.nombre_torneo}
                 </a>
                 <span class="text-gray-500 text-xs font-mono">{ed.temporada}</span>
@@ -173,7 +186,8 @@ const competiciones = homeData.competiciones || [];
     for (const panel of paneles) {
       const select = panel.querySelector('select')!;
       panel.querySelector('[data-ir]')?.addEventListener('click', () => {
-        if (select.value) window.location.href = `/equipo/${select.value}`;
+        // Con el ID alcanza: la página del equipo completa la URL
+        if (select.value) window.location.href = `/equipos/${select.value}`;
       });
     }
   }

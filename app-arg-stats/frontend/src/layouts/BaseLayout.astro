@@ -1,7 +1,8 @@
 ---
 import "../styles/global.css";
-import Header from "../components/Header.astro";
+import SiteHeader from "../components/SiteHeader.astro";
 import Footer from "../components/Footer.astro";
+import { API_URL } from "../lib/api";
 
 interface Props {
   title?: string;
@@ -12,6 +13,16 @@ const {
   title = "ArgStats — Estadísticas históricas del fútbol argentino",
   description = "Plataforma de estadísticas históricas y avanzadas del fútbol argentino.",
 } = Astro.props;
+
+// Ediciones para el menú de competiciones del header. Si la API no responde,
+// el menú queda vacío pero la página se muestra igual.
+let ediciones = [];
+try {
+  const { data = [] } = await (await fetch(`${API_URL}/api/ediciones`)).json();
+  ediciones = data;
+} catch {
+  ediciones = [];
+}
 ---
 
 <!doctype html>
@@ -23,11 +34,14 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
-    <Header />
-    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <slot />
-    </main>
-    <Footer />
+  <!-- Como en FBref: todo el sitio en un recuadro centrado, con fondo gris a los costados -->
+  <body class="min-h-screen bg-[#e9e9e9] text-slate-900">
+    <div class="min-h-screen w-full max-w-[1320px] mx-auto bg-white border-x border-gray-300 shadow-sm flex flex-col">
+      <SiteHeader ediciones={ediciones} />
+      <main class="flex-1 w-full px-4 sm:px-6 lg:px-8 py-8">
+        <slot />
+      </main>
+      <Footer />
+    </div>
   </body>
 </html>
