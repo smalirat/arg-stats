@@ -1,3 +1,0 @@
-armar parsers/to DTO
-manejo de errores (ok) y codigos(respuestas)
-.env en frontend

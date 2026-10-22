@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Astro muestra esta página cuando una página tira un error (ej. el backend caído)
+interface Props {
+  error: unknown;
+}
+
+const { error } = Astro.props;
+const detalle = error instanceof Error ? error.message : "";
+---
+
+<BaseLayout title="Error — ArgStats">
+  <section class="border border-gray-300 bg-white max-w-xl mx-auto text-sm text-gray-800">
+    <h1 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Algo salió mal</h1>
+    <div class="px-3 py-4 space-y-2">
+      <p>No pudimos cargar esta página: puede que el servidor de datos no esté respondiendo. Probá de nuevo en un rato.</p>
+      {import.meta.env.DEV && detalle && <p class="text-xs text-gray-500 font-mono break-all">{detalle}</p>}
+      <a href="/" class="text-[#2a6496] hover:underline">&larr; Volver al inicio</a>
+    </div>
+  </section>
+</BaseLayout>

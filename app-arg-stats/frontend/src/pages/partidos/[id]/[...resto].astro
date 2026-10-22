@@ -2,7 +2,7 @@
 // Página de partido: /partidos/{id}/{local-vs-visitante}
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Escudo from "../../../components/Escudo.astro";
-import { API_URL } from "../../../lib/api";
+import { pedirApi } from "../../../lib/api";
 import { urlEquipo, urlJugador, urlPartido, urlTorneo } from "../../../lib/urls";
 import { colorPuntaje, fechaLarga, hora, ronda as nombreRonda } from "../../../lib/formato";
 import { t } from "../../../lib/traducciones";
@@ -10,10 +10,8 @@ import { t } from "../../../lib/traducciones";
 const { id } = Astro.params;
 if (!/^\d+$/.test(id ?? "")) return Astro.rewrite("/404");
 
-const response = await fetch(`${API_URL}/api/partidos/${id}`);
-if (response.status === 404) return Astro.rewrite("/404");
-// La API responde { status, data }
-const { data = {} } = await response.json();
+const data = await pedirApi(`/api/partidos/${id}`);
+if (!data) return Astro.rewrite("/404");
 
 const p = data.partido || {};
 

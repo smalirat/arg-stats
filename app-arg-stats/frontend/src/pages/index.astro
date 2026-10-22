@@ -1,14 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { API_URL } from "../lib/api";
+import { pedirApi } from "../lib/api";
 import { urlEquipo, urlPartido, urlTorneo } from "../lib/urls";
 
 export const prerender = false;
 
-const response = await fetch(`${API_URL}/api/home`);
-const json = await response.json();
-
-const homeData = json.data || {};
+const homeData = (await pedirApi("/api/home")) ?? {};
 
 const ediciones = homeData.ediciones || [];
 // [{ nombre, temporada, clubes: [...], partidos: [...] }]: las flechas de la

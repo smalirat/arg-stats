@@ -1,5 +1,6 @@
 // Índices al estilo FBref: partidos por día, jugadores A-Z, clubes y búsqueda
 const supabase = require('../config/supabase');
+const { BadRequestError } = require('../middlewares/errors/AppError');
 const { COMPETICIONES, competicionDe } = require('../config/competiciones');
 const { traerTodoEnParalelo, fechaIso } = require('../utils/traerTodo');
 const { conCache } = require('../utils/cache');
@@ -136,7 +137,9 @@ const clubesIndice = conCache(async () => {
  * anterior y siguiente que tienen partidos.
  */
 const getPartidosPorFecha = async (fecha) => {
-    const dia = esFechaValida(fecha) ? fecha : hoyArgentina();
+    // Sin fecha: hoy. Con una fecha que no existe (2026-13-99): 400
+    if (fecha != null && !esFechaValida(fecha)) throw new BadRequestError(`Fecha inválida: "${fecha}". Formato: AAAA-MM-DD.`);
+    const dia = fecha ?? hoyArgentina();
     const manana = sumarDias(dia, 1);
 
     // Un día argentino abarca dos días UTC (va hasta las 03:00 del siguiente)

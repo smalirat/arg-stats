@@ -7,7 +7,7 @@ import TablaPosiciones from "../../../components/TablaPosiciones.astro";
 import FilaPartido from "../../../components/FilaPartido.astro";
 import TablaStats from "../../../components/TablaStats.astro";
 import Cobertura from "../../../components/Cobertura.astro";
-import { API_URL } from "../../../lib/api";
+import { pedirApi } from "../../../lib/api";
 import { EQUIPOS_TORNEO } from "../../../lib/columnas";
 import { TABS_TORNEO, urlEquipo, urlJugador, urlTorneo } from "../../../lib/urls";
 import { colorPuntaje, fechaCorta, ronda as nombreRonda } from "../../../lib/formato";
@@ -17,10 +17,8 @@ if (!/^\d+$/.test(id ?? "")) return Astro.rewrite("/404");
 const pedida = resto.split("/")[0];
 const tab = (TABS_TORNEO as readonly string[]).includes(pedida) ? (pedida as (typeof TABS_TORNEO)[number]) : "resumen";
 
-const response = await fetch(`${API_URL}/api/ediciones/${id}`);
-if (response.status === 404) return Astro.rewrite("/404");
-// La API responde { status, data }
-const { data = {} } = await response.json();
+const data = await pedirApi(`/api/ediciones/${id}`);
+if (!data) return Astro.rewrite("/404");
 
 const edicion = data.edicion || {};
 
@@ -53,7 +51,7 @@ const hayEstadisticas = bloquesRanking.length > 0;
 
 // Estadísticas de equipo y cobertura de datos: solo se piden en su pestaña
 const stats = tab === "estadisticas"
-  ? await fetch(`${API_URL}/api/ediciones/${id}/estadisticas`).then((r) => (r.ok ? r.json() : {})).then((r: any) => r.data ?? {})
+  ? (await pedirApi(`/api/ediciones/${id}/estadisticas`).catch(() => null)) ?? {}
   : {};
 ---
 

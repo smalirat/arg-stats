@@ -1,7 +1,12 @@
 const express = require('express');
 const router = express.Router();
+const validarId = require('../middlewares/validarId');
+
 const teamController = require('../controllers/teamController');
 const indiceController = require('../controllers/indiceController');
+
+// Los :id son enteros: si no, 400 en vez de un error de la base
+router.param('id', validarId);
 
 // Índice de clubes
 router.get('/', indiceController.getClubes);

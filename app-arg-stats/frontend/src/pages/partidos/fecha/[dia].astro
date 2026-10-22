@@ -2,7 +2,7 @@
 // Partidos de un día: /partidos/fecha/{AAAA-MM-DD} (como "Scores & Fixtures" de FBref)
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Escudo from "../../../components/Escudo.astro";
-import { API_URL } from "../../../lib/api";
+import { pedirApi } from "../../../lib/api";
 import { urlEquipo, urlPartido, urlTorneo } from "../../../lib/urls";
 import { hora, ronda as nombreRonda } from "../../../lib/formato";
 
@@ -12,9 +12,7 @@ const fechaValida = /^\d{4}-\d{2}-\d{2}$/.test(dia ?? "") && !Number.isNaN(Date.
   && new Date(`${dia}T00:00:00Z`).toISOString().slice(0, 10) === dia;
 if (!fechaValida) return Astro.rewrite("/404");
 
-const response = await fetch(`${API_URL}/api/partidos?fecha=${dia}`);
-// La API responde { status, data }
-const { data = {} } = await response.json();
+const data = (await pedirApi(`/api/partidos?fecha=${dia}`)) ?? {};
 const torneos = data.torneos || [];
 
 // Fechas sin zona: se formatean como día calendario, sin corrimiento horario

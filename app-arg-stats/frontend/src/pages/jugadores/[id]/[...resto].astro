@@ -6,7 +6,7 @@ import Pestanas from "../../../components/Pestanas.astro";
 import TablaStats from "../../../components/TablaStats.astro";
 import Scouting from "../../../components/Scouting.astro";
 import MapaTiros from "../../../components/MapaTiros.astro";
-import { API_URL } from "../../../lib/api";
+import { pedirApi } from "../../../lib/api";
 import { TABS_JUGADOR, urlEquipo, urlJugador, urlPartido, urlTorneo } from "../../../lib/urls";
 import { colorPuntaje, colorResultado, fechaCorta, ronda as nombreRonda } from "../../../lib/formato";
 import { DEFENSA, DUELOS, ESTANDAR, PASES, POSESION, TIROS } from "../../../lib/columnas";
@@ -16,14 +16,12 @@ if (!/^\d+$/.test(id ?? "")) return Astro.rewrite("/404");
 const pedida = resto.split("/")[0];
 const tab = (TABS_JUGADOR as readonly string[]).includes(pedida) ? (pedida as (typeof TABS_JUGADOR)[number]) : "resumen";
 
-const [response, respuestaStats] = await Promise.all([
-  fetch(`${API_URL}/api/jugadores/${id}`),
-  fetch(`${API_URL}/api/jugadores/${id}/estadisticas`),
+// Las estadísticas son un extra: si fallan, la página se muestra igual sin ellas
+const [data, stats] = await Promise.all([
+  pedirApi(`/api/jugadores/${id}`),
+  pedirApi(`/api/jugadores/${id}/estadisticas`).catch(() => null).then((s) => s ?? {}),
 ]);
-if (response.status === 404) return Astro.rewrite("/404");
-// La API responde { status, data }
-const { data = {} } = await response.json();
-const stats = respuestaStats.ok ? (await respuestaStats.json()).data ?? {} : {};
+if (!data) return Astro.rewrite("/404");
 
 const jugador = data.jugador || {};
 

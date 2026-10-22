@@ -7,7 +7,7 @@ import TablaPosiciones from "../../../components/TablaPosiciones.astro";
 import FilaPartido from "../../../components/FilaPartido.astro";
 import TablaStats from "../../../components/TablaStats.astro";
 import Cobertura from "../../../components/Cobertura.astro";
-import { API_URL } from "../../../lib/api";
+import { pedirApi } from "../../../lib/api";
 import { TABS_EQUIPO, urlEquipo, urlJugador, urlPartido, urlTorneo } from "../../../lib/urls";
 import { colorResultado, colorPuntaje, fechaCorta, hora } from "../../../lib/formato";
 import { ARQUEROS, DEFENSA, DUELOS, EQUIPO_VS_RIVALES, ESTANDAR, PASES, PLANTEL, POSESION, TIROS, formatear } from "../../../lib/columnas";
@@ -17,10 +17,8 @@ if (!/^\d+$/.test(id ?? "")) return Astro.rewrite("/404");
 const pedida = resto.split("/")[0];
 const tab = (TABS_EQUIPO as readonly string[]).includes(pedida) ? (pedida as (typeof TABS_EQUIPO)[number]) : "resumen";
 
-const response = await fetch(`${API_URL}/api/equipos/${id}`);
-if (response.status === 404) return Astro.rewrite("/404");
-// La API responde { status, data }
-const { data = {} } = await response.json();
+const data = await pedirApi(`/api/equipos/${id}`);
+if (!data) return Astro.rewrite("/404");
 
 const equipo = data.perfil || {};
 const nombreMostrar = equipo.nombre_corto || equipo.nombre_fuente || "Equipo";
@@ -64,7 +62,7 @@ const pestanas = [
 
 // Estadísticas al estilo FBref (pestañas Plantel y Estadísticas): solo se piden cuando se abren
 const stats = tab === "estadisticas" || tab === "plantel"
-  ? await fetch(`${API_URL}/api/equipos/${id}/estadisticas`).then((r) => (r.ok ? r.json() : {})).then((r: any) => r.data ?? {})
+  ? (await pedirApi(`/api/equipos/${id}/estadisticas`).catch(() => null)) ?? {}
   : {};
 const fijasJugador = [
   { etiqueta: "Jugador", clave: "nombre", tipo: "jugador" as const },

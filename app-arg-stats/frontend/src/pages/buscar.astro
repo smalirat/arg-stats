@@ -3,14 +3,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Escudo from "../components/Escudo.astro";
 import TablaJugadores from "../components/TablaJugadores.astro";
-import { API_URL } from "../lib/api";
+import { pedirApi } from "../lib/api";
 import { urlEquipo, urlTorneo } from "../lib/urls";
 
 const q = Astro.url.searchParams.get("q")?.trim() ?? "";
 
-const response = await fetch(`${API_URL}/api/buscar?q=${encodeURIComponent(q)}`);
-// La API responde { status, data }
-const { data = {} } = await response.json();
+const data = (await pedirApi(`/api/buscar?q=${encodeURIComponent(q)}`)) ?? {};
 const clubes = data.clubes || [];
 const jugadores = data.jugadores || [];
 const torneos = data.torneos || [];
