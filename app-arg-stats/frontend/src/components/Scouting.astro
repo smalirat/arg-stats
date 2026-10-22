@@ -1,6 +1,7 @@
 ---
 // Informe de scouting (como el de FBref): percentil del jugador contra los de
 // su misma línea en la competición y temporada, en métricas por 90 minutos.
+// Si no hay ningún percentil, no se muestra; los grupos sin datos tampoco.
 import { SCOUTING, formatear } from "../lib/columnas";
 
 interface Props {
@@ -15,56 +16,53 @@ for (const m of scouting?.metricas ?? []) {
   if (!porGrupo.has(g)) porGrupo.set(g, []);
   porGrupo.get(g)!.push(m);
 }
-const grupos = [...porGrupo.entries()];
+const grupos = [...porGrupo.entries()].filter(([, metricas]) => metricas.some((m) => m.percentil != null));
+const sinDatos = (scouting?.metricas ?? []).filter((m: any) => m.percentil == null).length;
 
 // Mismos cortes que los colores de FBref: arriba de 80 muy bueno, debajo de 20 flojo
 const color = (p: number) => (p >= 80 ? "bg-[#1f8a4c]" : p >= 50 ? "bg-[#7fb48f]" : p >= 20 ? "bg-[#e3a008]" : "bg-[#c8102e]");
 ---
 
+{grupos.length > 0 && (
 <section class="border border-gray-300 bg-white">
   <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Informe de scouting</h2>
-  {scouting ? (
-    <>
-      <p class="px-3 pt-2 text-xs text-gray-600">
-        {scouting.competicion} {scouting.temporada} · comparado con <b>{scouting.comparados}</b> {scouting.linea ? scouting.linea.toLowerCase() : "jugadores"} con {scouting.minimoMinutos}+ minutos.
-        Valores cada 90 minutos.
-      </p>
-      {!scouting.suficientesMinutos && (
-        <p class="mx-3 mt-2 px-2 py-1 text-xs bg-[#fff6e0] border border-[#e3a008] text-gray-700">
-          Jugó {scouting.minutos} minutos: con menos de {scouting.minimoMinutos} los percentiles son poco confiables.
-        </p>
-      )}
-      <table class="w-full text-xs mt-1">
-        {grupos.map(([grupo, metricas]) => (
-          <tbody>
-            <tr><th colspan="3" class="px-3 pt-2 pb-1 text-left font-bold text-[#0f5231] border-b border-gray-200">{grupo}</th></tr>
-            {metricas.map((m: any) => {
-              const def = SCOUTING[m.clave];
-              return (
-                <tr class="border-b border-gray-100">
-                  <td class="px-3 py-1 text-gray-700">{def?.etiqueta ?? m.clave}</td>
-                  <td class={`px-1 py-1 text-right tabular-nums w-14 ${m.valor == null ? "text-gray-300" : ""}`}>{m.valor == null ? "—" : formatear(m.valor, def?.decimales ?? 2)}</td>
-                  <td class="px-3 py-1 w-[45%]">
-                    {m.percentil == null ? (
-                      <span class="text-[11px] text-gray-400">sin datos</span>
-                    ) : (
-                      <div class="flex items-center gap-1.5">
-                        <div class="flex-1 h-3 bg-gray-100 rounded-sm overflow-hidden">
-                          <div class={`h-full ${color(m.percentil)}`} style={`width:${Math.max(m.percentil, 2)}%`}></div>
-                        </div>
-                        <span class="w-6 text-right tabular-nums font-semibold">{m.percentil}</span>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        ))}
-      </table>
-      <p class="px-3 py-1.5 text-[11px] text-gray-500">"Sin datos": métricas que FotMob publica pero la base todavía no guarda.</p>
-    </>
-  ) : (
-    <p class="px-3 py-4 text-gray-500">No hay estadísticas suficientes para armar el informe.</p>
+  <p class="px-3 pt-2 text-xs text-gray-600">
+    {scouting.competicion} {scouting.temporada} · comparado con <b>{scouting.comparados}</b> {scouting.linea ? scouting.linea.toLowerCase() : "jugadores"} con {scouting.minimoMinutos}+ minutos.
+    Valores cada 90 minutos.
+  </p>
+  {!scouting.suficientesMinutos && (
+    <p class="mx-3 mt-2 px-2 py-1 text-xs bg-[#fff6e0] border border-[#e3a008] text-gray-700">
+      Jugó {scouting.minutos} minutos: con menos de {scouting.minimoMinutos} los percentiles son poco confiables.
+    </p>
+  )}
+  <table class="w-full text-xs mt-1">
+    {grupos.map(([grupo, metricas]) => (
+      <tbody>
+        <tr><th colspan="3" class="px-3 pt-2 pb-1 text-left font-bold text-[#0f5231] border-b border-gray-200">{grupo}</th></tr>
+        {metricas.filter((m: any) => m.percentil != null).map((m: any) => {
+          const def = SCOUTING[m.clave];
+          return (
+            <tr class="border-b border-gray-100">
+              <td class="px-3 py-1 text-gray-700">{def?.etiqueta ?? m.clave}</td>
+              <td class="px-1 py-1 text-right tabular-nums w-14">{formatear(m.valor, def?.decimales ?? 2)}</td>
+              <td class="px-3 py-1 w-[45%]">
+                <div class="flex items-center gap-1.5">
+                  <div class="flex-1 h-3 bg-gray-100 rounded-sm overflow-hidden">
+                    <div class={`h-full ${color(m.percentil)}`} style={`width:${Math.max(m.percentil, 2)}%`}></div>
+                  </div>
+                  <span class="w-6 text-right tabular-nums font-semibold">{m.percentil}</span>
+                </div>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    ))}
+  </table>
+  {sinDatos > 0 && (
+    <p class="px-3 py-1.5 text-[11px] text-gray-500">
+      Faltan {sinDatos} métricas (pases, defensa, duelos…): FotMob las publica pero la base todavía no las guarda.
+    </p>
   )}
 </section>
+)}

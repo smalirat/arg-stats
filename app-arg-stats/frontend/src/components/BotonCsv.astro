@@ -1,0 +1,52 @@
+---
+// Botón discreto para bajar una tabla en CSV. Toma el encabezado de la última
+// fila del thead (data-csv si lo tiene) y de cada celda su data-v (el valor sin
+// formato) o su texto. Respeta los filtros: las filas ocultas no se exportan.
+interface Props {
+  tabla: string; // id de la <table>
+  archivo: string; // nombre del archivo, sin .csv
+}
+
+const { tabla, archivo } = Astro.props;
+---
+
+<button
+  type="button"
+  data-exportar-csv={tabla}
+  data-archivo={archivo}
+  title="Bajar la tabla en CSV"
+  class="text-[11px] font-normal px-1.5 py-0.5 rounded-sm bg-white/10 hover:bg-white/25 transition-colors"
+>CSV</button>
+
+<script>
+  const celda = (c: HTMLElement) => {
+    const v = (c.dataset.csv ?? c.dataset.v ?? c.textContent ?? '').replace(/\s+/g, ' ').trim();
+    const limpio = v === '—' ? '' : v;
+    return /[",\n]/.test(limpio) ? `"${limpio.replace(/"/g, '""')}"` : limpio;
+  };
+
+  for (const boton of document.querySelectorAll<HTMLButtonElement>('[data-exportar-csv]')) {
+    boton.addEventListener('click', () => {
+      const tabla = document.getElementById(boton.dataset.exportarCsv!) as HTMLTableElement | null;
+      if (!tabla) return;
+      const encabezado = tabla.tHead?.rows[tabla.tHead.rows.length - 1];
+      const filas = [
+        ...(encabezado ? [encabezado] : []),
+        ...[...tabla.tBodies].flatMap((b) => [...b.rows]),
+        ...(tabla.tFoot ? [...tabla.tFoot.rows] : []),
+      ].filter((f) => !f.hidden && f.cells.length > 1);
+      // La fila de totales usa colspan en las columnas fijas: se completa con vacíos
+      const ancho = encabezado?.cells.length ?? 0;
+      const lineas = filas.map((f) => {
+        const valores = [...f.cells].flatMap((c) => [celda(c), ...Array(Math.max(0, c.colSpan - 1)).fill('')]);
+        while (valores.length < ancho) valores.push('');
+        return valores.join(',');
+      });
+      // BOM para que Excel lea bien los acentos
+      const blob = new Blob(['﻿' + lineas.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `${boton.dataset.archivo}.csv` });
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+  }
+</script>

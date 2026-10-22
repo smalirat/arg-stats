@@ -21,33 +21,29 @@ const FILAS = [
 const color = (pct: number) => (pct >= 90 ? "bg-[#1f8a4c]" : pct >= 50 ? "bg-[#e3a008]" : pct > 0 ? "bg-[#e07b00]" : "bg-[#c8102e]");
 ---
 
+{total > 0 && (
 <section class="border border-gray-300 bg-white">
   <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{titulo}</h2>
-  {total ? (
-    <>
-      <p class="px-3 pt-2 text-xs text-gray-600">De <b>{total}</b> partidos jugados, cuántos tienen cada tipo de dato:</p>
-      <ul class="px-3 py-2 space-y-2">
-        {FILAS.map((f) => {
-          const n = cobertura?.[f.clave] ?? 0;
-          const pct = Math.round((n / total) * 100);
-          return (
-            <li title={f.ayuda}>
-              <div class="flex justify-between text-xs">
-                <span class="text-gray-700">{f.etiqueta}</span>
-                <span class="tabular-nums font-semibold">{n}/{total} <span class="text-gray-500 font-normal">({pct}%)</span></span>
-              </div>
-              <div class="h-1.5 bg-gray-200 mt-0.5 rounded-sm overflow-hidden">
-                <div class={`h-full ${color(pct)}`} style={`width:${Math.max(pct, n ? 2 : 0)}%`}></div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-      <p class="px-3 pb-2 text-[11px] text-gray-500">
-        Pases, defensa, posesión y duelos por jugador: FotMob los publica, pero la base todavía no los guarda (0%).
-      </p>
-    </>
-  ) : (
-    <p class="px-3 py-4 text-gray-500">No hay partidos jugados cargados.</p>
-  )}
+  <p class="px-3 pt-2 text-xs text-gray-600">De <b>{total}</b> partidos jugados, cuántos tienen cada tipo de dato:</p>
+  <ul class="px-3 py-2 space-y-2">
+    {FILAS.map((f) => {
+      const n = cobertura?.[f.clave] ?? 0;
+      const pct = Math.round((n / total) * 100);
+      return (
+        <li title={f.ayuda}>
+          <div class="flex justify-between text-xs">
+            <span class="text-gray-700">{f.etiqueta}</span>
+            <span class="tabular-nums font-semibold">{n}/{total} <span class="text-gray-500 font-normal">({pct}%)</span></span>
+          </div>
+          <div class="h-1.5 bg-gray-200 mt-0.5 rounded-sm overflow-hidden">
+            <div class={`h-full ${color(pct)}`} style={`width:${Math.max(pct, n ? 2 : 0)}%`}></div>
+          </div>
+        </li>
+      );
+    })}
+  </ul>
+  <p class="px-3 pb-2 text-[11px] text-gray-500">
+    Pases, defensa, posesión y duelos por jugador: FotMob los publica, pero la base todavía no los guarda (0%).
+  </p>
 </section>
+)}

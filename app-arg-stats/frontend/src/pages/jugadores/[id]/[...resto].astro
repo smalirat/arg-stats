@@ -7,9 +7,10 @@ import TablaStats from "../../../components/TablaStats.astro";
 import Scouting from "../../../components/Scouting.astro";
 import MapaTiros from "../../../components/MapaTiros.astro";
 import { pedirApi } from "../../../lib/api";
-import { TABS_JUGADOR, urlEquipo, urlJugador, urlPartido, urlTorneo } from "../../../lib/urls";
+import BotonCsv from "../../../components/BotonCsv.astro";
+import { TABS_JUGADOR, slug, urlEquipo, urlJugador, urlPartido, urlTorneo } from "../../../lib/urls";
 import { colorPuntaje, colorResultado, fechaCorta, ronda as nombreRonda } from "../../../lib/formato";
-import { DEFENSA, DUELOS, ESTANDAR, PASES, POSESION, TIROS } from "../../../lib/columnas";
+import { DEFENSA, DUELOS, ESTANDAR, PASES, POSESION, TIROS, hayDatos } from "../../../lib/columnas";
 
 const { id, resto = "" } = Astro.params;
 if (!/^\d+$/.test(id ?? "")) return Astro.rewrite("/404");
@@ -35,12 +36,16 @@ const temporadas = data.temporadas || [];
 const ultimos = data.ultimos || [];
 const transferencias = data.transferencias || [];
 
+// Las pestañas sin datos no se muestran (salvo que sea la que se abrió)
 const pestanas = [
-  { etiqueta: "Resumen", tab: "resumen" },
-  { etiqueta: "Estadísticas", tab: "estadisticas" },
-  { etiqueta: "Partidos", tab: "partidos" },
-  { etiqueta: "Tiros", tab: "tiros" },
-].map((p) => ({ etiqueta: p.etiqueta, href: urlJugador(jugador, p.tab as any), activa: p.tab === tab }));
+  { etiqueta: "Resumen", tab: "resumen", hay: true },
+  { etiqueta: "Estadísticas", tab: "estadisticas", hay: (stats.temporadas || []).length > 0 },
+  { etiqueta: "Partidos", tab: "partidos", hay: (stats.partidos || []).length > 0 },
+  { etiqueta: "Tiros", tab: "tiros", hay: (stats.tiros || []).length > 0 },
+]
+  .filter((p) => p.hay || p.tab === tab)
+  .map((p) => ({ etiqueta: p.etiqueta, href: urlJugador(jugador, p.tab as any), activa: p.tab === tab }));
+const archivo = slug(jugador.nombre);
 
 // Tablas de la pestaña Estadísticas: una fila por temporada, competición y equipo
 const fijas = [
@@ -55,7 +60,7 @@ const tablas = [
   { id: "defensa", titulo: "Acciones defensivas", grupos: DEFENSA },
   { id: "posesion", titulo: "Posesión", grupos: POSESION },
   { id: "duelos", titulo: "Duelos y faltas", grupos: DUELOS },
-];
+].filter((t) => hayDatos(t.grupos, stats.temporadas || []));
 
 // Registro de partidos, con filtro por temporada
 const registro = stats.partidos || [];
@@ -211,30 +216,39 @@ const resumen = [
     )}
 
     {tab === "estadisticas" && (
-      <div class="space-y-4">
-        <nav class="flex flex-wrap gap-x-3 gap-y-1 text-xs">
-          {tablas.map((t) => <a href={`#${t.id}`} class="text-[#2a6496] hover:underline">{t.titulo}</a>)}
-        </nav>
-        {tablas.map((t) => (
-          <TablaStats id={t.id} titulo={t.titulo} grupos={t.grupos} fijas={fijas} filas={stats.temporadas || []} totales={stats.totales} etiquetaTotales="Total" />
-        ))}
-      </div>
+      tablas.length ? (
+        <div class="space-y-4">
+          {tablas.length > 1 && (
+            <nav class="flex flex-wrap gap-x-3 gap-y-1 text-xs">
+              {tablas.map((t) => <a href={`#${t.id}`} class="text-[#2a6496] hover:underline">{t.titulo}</a>)}
+            </nav>
+          )}
+          {tablas.map((t) => (
+            <TablaStats id={t.id} titulo={t.titulo} grupos={t.grupos} fijas={fijas} filas={stats.temporadas || []} totales={stats.totales} etiquetaTotales="Total" archivo={`${archivo}-${t.id}`} />
+          ))}
+        </div>
+      ) : (
+        <section class="border border-gray-300 bg-white px-3 py-4 text-gray-500">No hay estadísticas registradas para este jugador.</section>
+      )
     )}
 
     {tab === "partidos" && (
       <section class="border border-gray-300 bg-white" data-registro>
         <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5 flex items-center justify-between gap-2">
           <span>Registro de partidos</span>
-          {temporadasRegistro.length > 1 && (
-            <select data-filtro class="text-xs text-gray-800 font-normal border border-gray-300 p-0.5">
-              <option value="">Todas las temporadas</option>
-              {temporadasRegistro.map((tp: any) => <option value={tp}>{tp}</option>)}
-            </select>
-          )}
+          <span class="flex items-center gap-2">
+            {temporadasRegistro.length > 1 && (
+              <select data-filtro class="text-xs text-gray-800 font-normal border border-gray-300 p-0.5">
+                <option value="">Todas las temporadas</option>
+                {temporadasRegistro.map((tp: any) => <option value={tp}>{tp}</option>)}
+              </select>
+            )}
+            {registro.length > 0 && <BotonCsv tabla="tabla-registro" archivo={`${archivo}-partidos`} />}
+          </span>
         </h2>
         {registro.length ? (
           <div class="overflow-x-auto">
-            <table class="w-full text-xs whitespace-nowrap">
+            <table id="tabla-registro" class="w-full text-xs whitespace-nowrap">
               <thead>
                 <tr class="text-gray-700 border-b border-gray-300 bg-gray-50">
                   <th class="px-2 py-1 text-left font-semibold">Fecha</th>

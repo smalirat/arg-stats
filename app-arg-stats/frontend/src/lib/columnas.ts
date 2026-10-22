@@ -221,5 +221,9 @@ export const SCOUTING: Record<string, { etiqueta: string; decimales: number; gru
   aereosGanados: { etiqueta: "Duelos aéreos ganados", decimales: 2, grupo: "Pendiente de carga" },
 };
 
-export const formatear = (valor: unknown, decimales = 0) =>
+// ¿Alguna fila tiene algún dato cargado en estas columnas? Si no, la tabla no se muestra
+export const hayDatos = (grupos: Grupo[], filas: any[]) =>
+  filas.some((f) => grupos.some((g) => g.columnas.some((c) => !c.falta && f[c.clave] != null)));
+
+export const formatear =(valor: unknown, decimales = 0) =>
   valor == null || Number.isNaN(valor as number) ? "" : typeof valor === "number" ? valor.toFixed(decimales) : String(valor);

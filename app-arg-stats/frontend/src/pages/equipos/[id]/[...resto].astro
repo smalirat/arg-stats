@@ -7,10 +7,11 @@ import TablaPosiciones from "../../../components/TablaPosiciones.astro";
 import FilaPartido from "../../../components/FilaPartido.astro";
 import TablaStats from "../../../components/TablaStats.astro";
 import Cobertura from "../../../components/Cobertura.astro";
+import BotonCsv from "../../../components/BotonCsv.astro";
 import { pedirApi } from "../../../lib/api";
-import { TABS_EQUIPO, urlEquipo, urlJugador, urlPartido, urlTorneo } from "../../../lib/urls";
+import { TABS_EQUIPO, slug, urlEquipo, urlJugador, urlPartido, urlTorneo } from "../../../lib/urls";
 import { colorResultado, colorPuntaje, fechaCorta, hora } from "../../../lib/formato";
-import { ARQUEROS, DEFENSA, DUELOS, EQUIPO_VS_RIVALES, ESTANDAR, PASES, PLANTEL, POSESION, TIROS, formatear } from "../../../lib/columnas";
+import { ARQUEROS, DEFENSA, DUELOS, EQUIPO_VS_RIVALES, ESTANDAR, PASES, PLANTEL, POSESION, TIROS, formatear, hayDatos } from "../../../lib/columnas";
 
 const { id, resto = "" } = Astro.params;
 if (!/^\d+$/.test(id ?? "")) return Astro.rewrite("/404");
@@ -68,15 +69,24 @@ const fijasJugador = [
   { etiqueta: "Jugador", clave: "nombre", tipo: "jugador" as const },
   { etiqueta: "Pos", clave: "linea", ayuda: "Línea más habitual según las alineaciones" },
 ];
-const tablasPlantel = [
-  { id: "estandar", titulo: "Estadísticas estándar", grupos: ESTANDAR },
-  { id: "tiros", titulo: "Tiros", grupos: TIROS },
-  { id: "pases", titulo: "Pases", grupos: PASES },
-  { id: "defensa", titulo: "Acciones defensivas", grupos: DEFENSA },
-  { id: "posesion", titulo: "Posesión", grupos: POSESION },
-  { id: "duelos", titulo: "Duelos y faltas", grupos: DUELOS },
-];
+// Tablas de la pestaña Estadísticas: las que no tienen ningún dato no se muestran
+const jugadoresStats = stats.jugadores || [];
+const tablasEquipo = [
+  { id: "estandar", titulo: "Estadísticas estándar", grupos: ESTANDAR, fijas: fijasJugador, filas: jugadoresStats, totales: stats.totales, etiquetaTotales: "Equipo (por 90 = por partido)" },
+  { id: "arqueros", titulo: "Arqueros", grupos: ARQUEROS, fijas: fijasJugador.slice(0, 1), filas: stats.arqueros || [] },
+  { id: "tiros", titulo: "Tiros", grupos: TIROS, fijas: fijasJugador, filas: jugadoresStats, totales: stats.totales, etiquetaTotales: "Equipo" },
+  { id: "pases", titulo: "Pases", grupos: PASES, fijas: fijasJugador, filas: jugadoresStats, totales: stats.totales, etiquetaTotales: "Equipo" },
+  { id: "defensa", titulo: "Acciones defensivas", grupos: DEFENSA, fijas: fijasJugador, filas: jugadoresStats, totales: stats.totales, etiquetaTotales: "Equipo" },
+  { id: "posesion", titulo: "Posesión", grupos: POSESION, fijas: fijasJugador, filas: jugadoresStats, totales: stats.totales, etiquetaTotales: "Equipo" },
+  { id: "duelos", titulo: "Duelos y faltas", grupos: DUELOS, fijas: fijasJugador, filas: jugadoresStats, totales: stats.totales, etiquetaTotales: "Equipo" },
+].filter((t) => hayDatos(t.grupos, t.filas));
+const archivo = slug(nombreMostrar);
+
+// Equipo vs rivales: solo las filas que tienen algún valor
 const vsRivales = stats.equipoVsRivales;
+const filasVsRivales = vsRivales?.equipo?.pj
+  ? EQUIPO_VS_RIVALES.filter((c) => vsRivales.equipo[c.clave] != null || vsRivales.rivales[c.clave] != null)
+  : [];
 
 // Plantel: todos los que figuran (también los suplentes que no entraron), con sus estadísticas
 const POS_CORTA: Record<string, string> = { Arqueros: "ARQ", Defensores: "DEF", Mediocampistas: "MED", Delanteros: "DEL" };
@@ -246,10 +256,10 @@ const linkTorneo = (t: any) => urlTorneo({ edicion_id: t.edicion_id, nombre_torn
     {tab === "plantel" && (
       plantel.length ? (
         <div class="space-y-2">
-          <TablaStats titulo={`Plantel ${temporada ?? ""} · Estadísticas estándar`} grupos={PLANTEL} fijas={fijasPlantel} filas={filasPlantel} totales={stats.totales} etiquetaTotales="Equipo (por 90 = por partido)" />
+          <TablaStats titulo={`Plantel ${temporada ?? ""} · Estadísticas estándar`} grupos={PLANTEL} fijas={fijasPlantel} filas={filasPlantel} totales={stats.totales} etiquetaTotales="Equipo (por 90 = por partido)" archivo={`${archivo}-plantel`} />
           <p class="text-xs text-gray-500">
             Todas las competiciones de la temporada. Hacé clic en una columna para ordenar.
-            Pases, defensa, posesión y duelos: <a href={urlEquipo(yo, "estadisticas")} class="text-[#2a6496] hover:underline">pestaña Estadísticas</a>.
+            Más tablas en la <a href={urlEquipo(yo, "estadisticas")} class="text-[#2a6496] hover:underline">pestaña Estadísticas</a>.
           </p>
         </div>
       ) : (
@@ -264,19 +274,22 @@ const linkTorneo = (t: any) => urlTorneo({ edicion_id: t.edicion_id, nombre_torn
         <p class="text-xs text-gray-600">
           Temporada {stats.temporada ?? "-"}{stats.competiciones?.length ? ` · ${stats.competiciones.join(", ")}` : ""} · partidos jugados en todas las competiciones.
         </p>
-        <nav class="flex flex-wrap gap-x-3 gap-y-1 text-xs">
-          <a href="#equipo-vs-rivales" class="text-[#2a6496] hover:underline">Equipo vs rivales</a>
-          <a href="#estandar" class="text-[#2a6496] hover:underline">Estándar</a>
-          <a href="#arqueros" class="text-[#2a6496] hover:underline">Arqueros</a>
-          {tablasPlantel.slice(1).map((t) => <a href={`#${t.id}`} class="text-[#2a6496] hover:underline">{t.titulo}</a>)}
-        </nav>
+        {tablasEquipo.length > 0 && (
+          <nav class="flex flex-wrap gap-x-3 gap-y-1 text-xs">
+            {filasVsRivales.length > 0 && <a href="#equipo-vs-rivales" class="text-[#2a6496] hover:underline">Equipo vs rivales</a>}
+            {tablasEquipo.map((t) => <a href={`#${t.id}`} class="text-[#2a6496] hover:underline">{t.titulo}</a>)}
+          </nav>
+        )}
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <!-- Equipo vs rivales (con las estadísticas de equipo de cada partido) -->
+          {filasVsRivales.length > 0 && (
           <section id="equipo-vs-rivales" class="md:col-span-2 border border-gray-300 bg-white self-start">
-            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Equipo vs rivales</h2>
-            {vsRivales?.equipo?.pj ? (
-              <table class="w-full text-xs">
+            <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5 flex items-center justify-between gap-2">
+              <span>Equipo vs rivales</span>
+              <BotonCsv tabla="tabla-vs-rivales" archivo={`${archivo}-vs-rivales`} />
+            </h2>
+              <table id="tabla-vs-rivales" class="w-full text-xs">
                 <thead>
                   <tr class="text-gray-700 border-b border-gray-300 bg-gray-50">
                     <th class="px-3 py-1 text-left font-semibold"></th>
@@ -287,7 +300,7 @@ const linkTorneo = (t: any) => urlTorneo({ edicion_id: t.edicion_id, nombre_torn
                   </tr>
                 </thead>
                 <tbody>
-                  {EQUIPO_VS_RIVALES.map((c) => {
+                  {filasVsRivales.map((c) => {
                     const a = vsRivales.equipo[c.clave], b = vsRivales.rivales[c.clave];
                     const mejor = c.clave === "faltasProm" ? (a < b ? "a" : a > b ? "b" : "") : a > b ? "a" : a < b ? "b" : "";
                     return (
@@ -300,22 +313,18 @@ const linkTorneo = (t: any) => urlTorneo({ edicion_id: t.edicion_id, nombre_torn
                   })}
                 </tbody>
               </table>
-            ) : (
-              <p class="px-3 py-4 text-gray-500">No hay partidos jugados esta temporada.</p>
-            )}
-            {vsRivales?.equipo?.pj > 0 && vsRivales.equipo.conDatos < vsRivales.equipo.pj && (
+            {vsRivales.equipo.conDatos > 0 && vsRivales.equipo.conDatos < vsRivales.equipo.pj && (
               <p class="px-3 py-1.5 text-[11px] text-gray-500 border-t border-gray-200">
                 Los promedios salen de los {vsRivales.equipo.conDatos} partidos (de {vsRivales.equipo.pj}) que tienen estadísticas de equipo en la base.
               </p>
             )}
           </section>
+          )}
           <Cobertura cobertura={stats.cobertura} titulo={`Datos en la base · ${stats.temporada ?? ""}`} />
         </div>
 
-        <TablaStats id="estandar" titulo="Estadísticas estándar" grupos={ESTANDAR} fijas={fijasJugador} filas={stats.jugadores || []} totales={stats.totales} etiquetaTotales="Equipo (por 90 = por partido)" />
-        <TablaStats id="arqueros" titulo="Arqueros" grupos={ARQUEROS} fijas={fijasJugador.slice(0, 1)} filas={stats.arqueros || []} />
-        {tablasPlantel.slice(1).map((t) => (
-          <TablaStats id={t.id} titulo={t.titulo} grupos={t.grupos} fijas={fijasJugador} filas={stats.jugadores || []} totales={stats.totales} etiquetaTotales="Equipo" />
+        {tablasEquipo.map((t) => (
+          <TablaStats id={t.id} titulo={t.titulo} grupos={t.grupos} fijas={t.fijas} filas={t.filas} totales={t.totales} etiquetaTotales={t.etiquetaTotales} archivo={`${archivo}-${t.id}`} />
         ))}
       </div>
     )}

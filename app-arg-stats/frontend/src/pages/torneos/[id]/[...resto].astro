@@ -8,8 +8,8 @@ import FilaPartido from "../../../components/FilaPartido.astro";
 import TablaStats from "../../../components/TablaStats.astro";
 import Cobertura from "../../../components/Cobertura.astro";
 import { pedirApi } from "../../../lib/api";
-import { EQUIPOS_TORNEO } from "../../../lib/columnas";
-import { TABS_TORNEO, urlEquipo, urlJugador, urlTorneo } from "../../../lib/urls";
+import { EQUIPOS_TORNEO, hayDatos } from "../../../lib/columnas";
+import { TABS_TORNEO, slug, urlEquipo, urlJugador, urlTorneo } from "../../../lib/urls";
 import { colorPuntaje, fechaCorta, ronda as nombreRonda } from "../../../lib/formato";
 
 const { id, resto = "" } = Astro.params;
@@ -175,7 +175,7 @@ const stats = tab === "estadisticas"
 
     {tab === "estadisticas" && (
       <div class="space-y-4 mb-4">
-        <TablaStats titulo="Estadísticas de equipo" grupos={EQUIPOS_TORNEO} fijas={[{ etiqueta: "Equipo", clave: "equipo", tipo: "equipo" }]} filas={stats.equipos || []} />
+        <TablaStats titulo="Estadísticas de equipo" grupos={EQUIPOS_TORNEO} fijas={[{ etiqueta: "Equipo", clave: "equipo", tipo: "equipo" }]} filas={stats.equipos || []} archivo={`${slug(`${edicion.nombre_torneo} ${edicion.temporada}`)}-equipos`} />
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Cobertura cobertura={stats.cobertura} />
         </div>
@@ -214,9 +214,9 @@ const stats = tab === "estadisticas"
             </section>
           ))}
         </div>
-      ) : (
+      ) : !hayDatos(EQUIPOS_TORNEO, stats.equipos || []) && (
         <section class="border border-gray-300 bg-white px-3 py-4 text-gray-500">
-          No hay estadísticas de jugadores para este torneo: la fuente no las publica para esta categoría.
+          No hay estadísticas para este torneo: la fuente no las publica para esta categoría.
         </section>
       )
     )}

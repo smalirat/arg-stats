@@ -1,11 +1,13 @@
 ---
 // Tabla de estadísticas al estilo FBref: encabezado con grupos de columnas,
-// orden al hacer clic en una columna y fila de totales. Las columnas que la
-// base todavía no carga se muestran en gris con "—".
+// orden al hacer clic en una columna, fila de totales y botón para bajarla en
+// CSV. Las columnas que la base todavía no carga se muestran en gris con "—";
+// si la tabla no tiene ningún dato, no se muestra.
 import Escudo from "./Escudo.astro";
-import { urlEquipo, urlJugador } from "../lib/urls";
+import BotonCsv from "./BotonCsv.astro";
+import { slug, urlEquipo, urlJugador } from "../lib/urls";
 import { colorPuntaje } from "../lib/formato";
-import { formatear, type Grupo } from "../lib/columnas";
+import { formatear, hayDatos, type Grupo } from "../lib/columnas";
 
 export type Fija = { etiqueta: string; clave: string; tipo?: "texto" | "jugador" | "equipo"; ayuda?: string; numero?: boolean };
 
@@ -17,105 +19,111 @@ interface Props {
   filas: any[];
   totales?: any;
   etiquetaTotales?: string;
+  archivo?: string; // nombre del CSV (sin .csv)
 }
 
-const { titulo, id, grupos, fijas, filas, totales, etiquetaTotales = "Total" } = Astro.props;
+const { titulo, id, grupos, fijas, filas, totales, etiquetaTotales = "Total", archivo } = Astro.props;
 
-// Columnas en orden, marcando la primera de cada grupo (lleva borde a la izquierda)
-const columnas = grupos.flatMap((g) => g.columnas.map((c, i) => ({ ...c, inicio: i === 0 })));
+const mostrar = hayDatos(grupos, filas);
+const idTabla = `tabla-${id ?? slug(titulo)}`;
+
+// Columnas en orden, marcando la primera de cada grupo (lleva borde a la izquierda).
+// En el CSV, las etiquetas repetidas (Gls de "Por 90") llevan el nombre del grupo.
+const etiquetas = grupos.flatMap((g) => g.columnas.map((c) => c.etiqueta));
+const columnas = grupos.flatMap((g) => g.columnas.map((c, i) => ({
+  ...c,
+  inicio: i === 0,
+  csv: etiquetas.filter((e) => e === c.etiqueta).length > 1 ? `${c.etiqueta} (${g.titulo})` : c.etiqueta,
+})));
 const faltan = columnas.filter((c) => c.falta).length;
-const todoFalta = faltan === columnas.length;
 
 const valorFija = (f: any, fija: Fija) =>
   fija.tipo === "jugador" ? f.nombre : fija.tipo === "equipo" ? f[fija.clave]?.nombre : f[fija.clave];
 const orden = (v: unknown) => (v == null ? "" : String(v));
 ---
 
+{mostrar && (
 <section id={id} class="border border-gray-300 bg-white scroll-mt-4">
   <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5 flex flex-wrap items-center justify-between gap-2">
     <span>{titulo}</span>
-    {todoFalta && <span class="text-xs font-normal bg-white/15 px-1.5 py-0.5 rounded-sm">Pendiente de carga en la base</span>}
+    <BotonCsv tabla={idTabla} archivo={archivo ?? slug(titulo)} />
   </h2>
-  {filas.length ? (
-    <div class="overflow-x-auto">
-      <table class="w-full text-xs whitespace-nowrap" data-tabla-stats>
-        <thead>
-          <tr class="text-gray-500 bg-gray-50">
-            <th colspan={fijas.length} class="border-b border-gray-200"></th>
-            {grupos.map((g) => (
-              <th colspan={g.columnas.length} class="px-1.5 py-0.5 text-center font-semibold border-b border-l border-gray-200">{g.titulo}</th>
-            ))}
-          </tr>
-          <tr class="text-gray-700 border-b border-gray-300 bg-gray-50">
-            {fijas.map((f, i) => (
-              <th data-col={i} data-numero={f.numero || undefined} title={f.ayuda} class="px-2 py-1 text-left font-semibold cursor-pointer select-none hover:bg-gray-200">{f.etiqueta}</th>
-            ))}
-            {columnas.map((c, i) => (
-              <th
-                data-col={fijas.length + i}
-                data-numero
-                title={c.falta ? `${c.ayuda} — pendiente: FotMob lo publica pero la base no lo guarda` : c.ayuda}
-                class={`px-1.5 py-1 text-right font-semibold cursor-pointer select-none hover:bg-gray-200 ${c.inicio ? "border-l border-gray-200" : ""} ${c.falta ? "text-gray-400 italic" : ""}`}
-              >{c.etiqueta}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {filas.map((f) => (
-            <tr class="border-b border-gray-200 hover:bg-[#f2f7f3]">
-              {fijas.map((fija) => (
-                <td class="px-2 py-1" data-v={orden(valorFija(f, fija))}>
-                  {fija.tipo === "jugador" ? (
-                    <a href={urlJugador(f)} class="text-[#2a6496] hover:underline">{f.nombre}</a>
-                  ) : fija.tipo === "equipo" ? (
-                    f[fija.clave] && (
-                      <a href={urlEquipo(f[fija.clave])} class="flex items-center gap-1.5 text-[#2a6496] hover:underline">
-                        <Escudo equipo={f[fija.clave]} size={16} /> {f[fija.clave].nombre}
-                      </a>
-                    )
-                  ) : (
-                    f[fija.clave] ?? ""
-                  )}
-                </td>
-              ))}
-              {columnas.map((c) => (
-                <td
-                  data-v={orden(f[c.clave])}
-                  class={`px-1.5 py-1 text-right tabular-nums ${c.inicio ? "border-l border-gray-200" : ""} ${f[c.clave] == null ? "text-gray-300" : ""}`}
-                >
-                  {f[c.clave] == null ? "—" : c.clave === "puntaje" ? (
-                    <span class={`px-1 rounded-sm font-bold ${colorPuntaje(f[c.clave])}`}>{formatear(f[c.clave], c.decimales)}</span>
-                  ) : formatear(f[c.clave], c.decimales)}
-                </td>
-              ))}
-            </tr>
+  <div class="overflow-x-auto">
+    <table id={idTabla} class="w-full text-xs whitespace-nowrap" data-tabla-stats>
+      <thead>
+        <tr class="text-gray-500 bg-gray-50">
+          <th colspan={fijas.length} class="border-b border-gray-200"></th>
+          {grupos.map((g) => (
+            <th colspan={g.columnas.length} class="px-1.5 py-0.5 text-center font-semibold border-b border-l border-gray-200">{g.titulo}</th>
           ))}
-        </tbody>
-        {totales && (
-          <tfoot>
-            <tr class="border-t-2 border-gray-400 bg-gray-50 font-bold">
-              <td colspan={fijas.length} class="px-2 py-1">{etiquetaTotales}</td>
-              {columnas.map((c) => (
-                <td class={`px-1.5 py-1 text-right tabular-nums ${c.inicio ? "border-l border-gray-200" : ""} ${totales[c.clave] == null ? "text-gray-300 font-normal" : ""}`}>
-                  {totales[c.clave] == null ? "—" : formatear(totales[c.clave], c.decimales)}
-                </td>
-              ))}
-            </tr>
-          </tfoot>
-        )}
-      </table>
-    </div>
-  ) : (
-    <p class="px-3 py-4 text-gray-500">Sin datos.</p>
-  )}
-  {filas.length > 0 && faltan > 0 && (
+        </tr>
+        <tr class="text-gray-700 border-b border-gray-300 bg-gray-50">
+          {fijas.map((f, i) => (
+            <th data-col={i} data-numero={f.numero || undefined} title={f.ayuda} class="px-2 py-1 text-left font-semibold cursor-pointer select-none hover:bg-gray-200">{f.etiqueta}</th>
+          ))}
+          {columnas.map((c, i) => (
+            <th
+              data-col={fijas.length + i}
+              data-numero
+              data-csv={c.csv}
+              title={c.falta ? `${c.ayuda} — pendiente: FotMob lo publica pero la base no lo guarda` : c.ayuda}
+              class={`px-1.5 py-1 text-right font-semibold cursor-pointer select-none hover:bg-gray-200 ${c.inicio ? "border-l border-gray-200" : ""} ${c.falta ? "text-gray-400 italic" : ""}`}
+            >{c.etiqueta}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {filas.map((f) => (
+          <tr class="border-b border-gray-200 hover:bg-[#f2f7f3]">
+            {fijas.map((fija) => (
+              <td class="px-2 py-1" data-v={orden(valorFija(f, fija))}>
+                {fija.tipo === "jugador" ? (
+                  <a href={urlJugador(f)} class="text-[#2a6496] hover:underline">{f.nombre}</a>
+                ) : fija.tipo === "equipo" ? (
+                  f[fija.clave] && (
+                    <a href={urlEquipo(f[fija.clave])} class="flex items-center gap-1.5 text-[#2a6496] hover:underline">
+                      <Escudo equipo={f[fija.clave]} size={16} /> {f[fija.clave].nombre}
+                    </a>
+                  )
+                ) : (
+                  f[fija.clave] ?? ""
+                )}
+              </td>
+            ))}
+            {columnas.map((c) => (
+              <td
+                data-v={orden(f[c.clave])}
+                class={`px-1.5 py-1 text-right tabular-nums ${c.inicio ? "border-l border-gray-200" : ""} ${f[c.clave] == null ? "text-gray-300" : ""}`}
+              >
+                {f[c.clave] == null ? "—" : c.clave === "puntaje" ? (
+                  <span class={`px-1 rounded-sm font-bold ${colorPuntaje(f[c.clave])}`}>{formatear(f[c.clave], c.decimales)}</span>
+                ) : formatear(f[c.clave], c.decimales)}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+      {totales && (
+        <tfoot>
+          <tr class="border-t-2 border-gray-400 bg-gray-50 font-bold">
+            <td colspan={fijas.length} class="px-2 py-1">{etiquetaTotales}</td>
+            {columnas.map((c) => (
+              <td data-v={orden(totales[c.clave])} class={`px-1.5 py-1 text-right tabular-nums ${c.inicio ? "border-l border-gray-200" : ""} ${totales[c.clave] == null ? "text-gray-300 font-normal" : ""}`}>
+                {totales[c.clave] == null ? "—" : formatear(totales[c.clave], c.decimales)}
+              </td>
+            ))}
+          </tr>
+        </tfoot>
+      )}
+    </table>
+  </div>
+  {faltan > 0 && (
     <p class="px-3 py-1.5 text-[11px] text-gray-500 border-t border-gray-200">
-      {todoFalta
-        ? "FotMob publica estas métricas por jugador y partido, pero la base todavía no las guarda."
-        : "Las columnas en gris (—) son métricas que FotMob publica pero la base todavía no guarda."}
+      Las columnas en gris (—) son métricas que FotMob publica pero la base todavía no guarda.
     </p>
   )}
 </section>
+)}
 
 <script>
   // Orden por columna: el primer clic ordena de mayor a menor (texto: A-Z), el segundo invierte.
