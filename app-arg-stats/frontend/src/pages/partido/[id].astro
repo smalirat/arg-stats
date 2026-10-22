@@ -1,11 +1,13 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SectionCard from "../../components/SectionCard.astro";
+import { API_URL } from "../../lib/api";
 
 const { id } = Astro.params;
 
-const response = await fetch(`http://localhost:3000/api/partidos/${id}`);
-const data = await response.json();
+const response = await fetch(`${API_URL}/api/partidos/${id}`);
+// La API responde { status, data }
+const { data = {} } = await response.json();
 
 const partido = data.partido;
 const alineacionLocal = data.alineacionLocal;

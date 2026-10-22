@@ -3,12 +3,14 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import SectionCard from "../../components/SectionCard.astro";
 import DataTable from "../../components/DataTable.astro";
 import MatchCard from "../../components/MatchCard.astro";
+import { API_URL } from "../../lib/api";
 
 const { id } = Astro.params;
 
 // 1. Buscamos los datos en tu backend
-const response = await fetch(`http://localhost:3000/api/equipos/${id}`);
-const data = await response.json();
+const response = await fetch(`${API_URL}/api/equipos/${id}`);
+// La API responde { status, data }
+const { data = {} } = await response.json();
 
 const equipo = data.perfil || {};
 const plantel = data.plantel || [];

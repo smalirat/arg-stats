@@ -1,8 +1,12 @@
 ---
 const { ediciones = [] } = Astro.props;
 
-// Filtramos para que no se repitan los nombres (ej: que no salga "Liga Profesional" 3 veces por cada año)
-const torneosUnicos = [...new Set(ediciones.map((e: any) => e.nombre_torneo))];
+// Cada edición es una competición/etapa de una temporada (el nombre no lleva
+// el año). El menú muestra las de la temporada más reciente.
+const temporadaActual = ediciones.map((e: any) => e.temporada).sort().at(-1);
+const torneosActuales = ediciones
+  .filter((e: any) => e.temporada === temporadaActual)
+  .sort((a: any, b: any) => a.nombre_torneo.localeCompare(b.nombre_torneo));
 ---
 
 <header class="w-full font-sans border-b-2 border-[#0f5231]">
@@ -43,12 +47,12 @@ const torneosUnicos = [...new Set(ediciones.map((e: any) => e.nombre_torneo))];
       <!-- Menú Desplegable (Ventanita Verde) -->
       <div class="absolute left-0 top-full hidden group-hover:flex flex-col bg-[#144933] text-white w-64 shadow-xl z-50">
         <div class="px-4 py-2 border-b border-[#1f664a] text-xs font-bold text-green-300 uppercase flex justify-between items-center">
-          <span>🇦🇷 Competiciones</span>
+          <span>🇦🇷 Competiciones {temporadaActual}</span>
           <span>˄</span>
         </div>
-        {torneosUnicos.map((t) => (
-          <a href="#" class="px-4 py-2.5 hover:bg-[#0a3a22] border-b border-[#1f664a] last:border-0 font-medium transition-colors">
-            {t}
+        {torneosActuales.map((e: any) => (
+          <a href={`/torneo/${e.edicion_id}`} class="px-4 py-2.5 hover:bg-[#0a3a22] border-b border-[#1f664a] last:border-0 font-medium transition-colors">
+            {e.nombre_torneo}
           </a>
         ))}
       </div>

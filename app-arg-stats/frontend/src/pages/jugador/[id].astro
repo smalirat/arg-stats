@@ -2,11 +2,13 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SectionCard from "../../components/SectionCard.astro";
 import DataTable from "../../components/DataTable.astro";
+import { API_URL } from "../../lib/api";
 
 const { id } = Astro.params;
 
-const response = await fetch(`http://localhost:3000/api/jugadores/${id}`);
-const data = await response.json();
+const response = await fetch(`${API_URL}/api/jugadores/${id}`);
+// La API responde { status, data }
+const { data = {} } = await response.json();
 
 const jugador = data.jugador;
 const statsAgregadas = data.statsAgregadas || [];

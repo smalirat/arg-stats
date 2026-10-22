@@ -1,17 +1,19 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import { API_URL } from "../lib/api";
 
 export const prerender = false;
 
-const response = await fetch('http://localhost:3000/api/home');
+const response = await fetch(`${API_URL}/api/home`);
 const json = await response.json();
 
 const homeData = json.data || {};
 
 const ediciones = homeData.ediciones || [];
-const ultimosPartidos = homeData.ultimosPartidos || [];
-const equiposDestacados = homeData.equiposDestacados || [];
+// [{ nombre, temporada, clubes: [...], partidos: [...] }]: las flechas de la
+// ventana de clubes eligen la competición de Partidos Recientes y de Clubes
+const competiciones = homeData.competiciones || [];
 
 ---
 
@@ -28,16 +30,17 @@ const equiposDestacados = homeData.equiposDestacados || [];
     </p>
 
     <!-- Disposición en 3 Columnas -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
 
       <!-- COLUMNA 1: Últimos Partidos -->
       <div class="border border-gray-300 bg-white">
         <div class="bg-[#0f5231] text-white font-bold px-3 py-1.5 text-sm">
           Partidos Recientes
         </div>
-        <div class="p-3">
+        {competiciones.map((competicion: any, i: number) => (
+        <div class="p-3" data-competicion={i} hidden={i !== 0}>
           <div class="space-y-4">
-            {ultimosPartidos.map((p: any) => (
+            {competicion.partidos.map((p: any) => (
               <div class="text-sm border-b border-gray-100 pb-3 last:border-0 last:pb-0">
                 <div class="text-xs text-gray-500 mb-1 font-medium">
                   {p.fecha_utc ? new Date(p.fecha_utc).toLocaleDateString() : 'Sin fecha'} · {p.estado}
@@ -59,42 +62,50 @@ const equiposDestacados = homeData.equiposDestacados || [];
             ))}
           </div>
         </div>
+        ))}
       </div>
 
-      <!-- COLUMNA 2: Equipos (Clubes) -->
-      <div class="border border-gray-300 bg-white">
-        <div class="bg-[#0f5231] text-white font-bold px-3 py-1.5 text-sm">
-          Clubes Primera División
+      <!-- COLUMNA 2: Clubes por competición (las flechas cambian de competición) -->
+      <div class="border border-gray-300 bg-white" data-clubes>
+        <div class="bg-[#0f5231] text-white font-bold px-1 py-1 text-sm flex items-center justify-between gap-2">
+          <button type="button" data-anterior aria-label="Competición anterior" class="px-2 py-0.5 rounded-sm hover:bg-[#0a3a22] transition-colors">&#9664;</button>
+          <span data-titulo class="truncate">
+            {competiciones[0]?.nombre}
+          </span>
+          <button type="button" data-siguiente aria-label="Competición siguiente" class="px-2 py-0.5 rounded-sm hover:bg-[#0a3a22] transition-colors">&#9654;</button>
         </div>
-        <div class="p-3">
-          <div class="grid grid-cols-2 gap-x-2 gap-y-3">
-            {equiposDestacados.map((eq: any) => {
-              // Calculamos un nombre seguro para evitar que el slice() rompa
-              const nombreSeguro = eq.nombre_corto || eq.nombre_fuente || 'ARG';
-              return (
-                <a href={`/equipo/${eq.equipo_id}`} class="flex items-center gap-2 group">
-                  <div class="w-7 h-7 bg-gray-100 border border-gray-200 text-[#0f5231] text-[10px] font-bold flex items-center justify-center rounded group-hover:bg-[#0f5231] group-hover:text-white transition-colors">
-                    {nombreSeguro.slice(0, 3).toUpperCase()}
-                  </div>
-                  <span class="text-sm text-[#2a6496] group-hover:underline font-medium truncate">
-                    {nombreSeguro}
-                  </span>
-                </a>
-              )
-            })}
+
+        {competiciones.map((competicion: any, i: number) => (
+          <div class="p-3" data-competicion={i} data-panel data-titulo-panel={competicion.nombre} hidden={i !== 0}>
+            <div class="grid grid-cols-2 gap-x-2 gap-y-3 max-h-[420px] overflow-y-auto">
+              {competicion.clubes.map((eq: any) => {
+                // Calculamos un nombre seguro para evitar que el slice() rompa
+                const nombreSeguro = eq.nombre_corto || eq.nombre_fuente || 'ARG';
+                return (
+                  <a href={`/equipo/${eq.equipo_id}`} class="flex items-center gap-2 group">
+                    <div class="w-7 h-7 shrink-0 bg-gray-100 border border-gray-200 text-[#0f5231] text-[10px] font-bold flex items-center justify-center rounded group-hover:bg-[#0f5231] group-hover:text-white transition-colors">
+                      {nombreSeguro.slice(0, 3).toUpperCase()}
+                    </div>
+                    <span class="text-sm text-[#2a6496] group-hover:underline font-medium truncate">
+                      {nombreSeguro}
+                    </span>
+                  </a>
+                )
+              })}
+            </div>
+
+            <div class="mt-5 border-t border-gray-200 pt-3">
+               <label class="block text-xs font-bold text-gray-700 mb-1">Buscar club directo:</label>
+               <select class="w-full text-sm border border-gray-300 p-1.5 focus:outline-none focus:border-[#0f5231]">
+                 <option value="">Seleccionar club...</option>
+                 {competicion.clubes.map((eq: any) => (
+                   <option value={eq.equipo_id}>{eq.nombre_fuente}</option>
+                 ))}
+               </select>
+               <button type="button" data-ir class="mt-2 bg-[#0f5231] text-white text-sm font-bold px-3 py-1 rounded-sm w-full hover:bg-[#0a3a22]">Ir</button>
+            </div>
           </div>
-          
-          <div class="mt-5 border-t border-gray-200 pt-3">
-             <label class="block text-xs font-bold text-gray-700 mb-1">Buscar club directo:</label>
-             <select class="w-full text-sm border border-gray-300 p-1.5 focus:outline-none focus:border-[#0f5231]">
-               <option>Seleccionar club...</option>
-               {equiposDestacados.map((eq: any) => (
-                 <option value={eq.equipo_id}>{eq.nombre_fuente}</option>
-               ))}
-             </select>
-             <button class="mt-2 bg-[#0f5231] text-white text-sm font-bold px-3 py-1 rounded-sm w-full hover:bg-[#0a3a22]">Ir</button>
-          </div>
-        </div>
+        ))}
       </div>
 
       <!-- COLUMNA 3: Archivo Histórico (Ediciones DB) -->
@@ -139,3 +150,31 @@ const equiposDestacados = homeData.equiposDestacados || [];
     </div>
   </main>
 </BaseLayout>
+
+<script>
+  // Las flechas de la ventana de clubes recorren las competiciones (vuelve al
+  // principio después de la última) y cambian a la vez Partidos Recientes y
+  // Clubes (todo bloque con data-competicion). "Ir" abre el club elegido.
+  for (const caja of document.querySelectorAll<HTMLElement>('[data-clubes]')) {
+    const paneles = [...caja.querySelectorAll<HTMLElement>('[data-panel]')];
+    const bloques = [...document.querySelectorAll<HTMLElement>('[data-competicion]')];
+    const titulo = caja.querySelector<HTMLElement>('[data-titulo]')!;
+    let actual = 0;
+
+    const mostrar = (indice: number) => {
+      actual = (indice + paneles.length) % paneles.length;
+      bloques.forEach(bloque => (bloque.hidden = bloque.dataset.competicion !== String(actual)));
+      titulo.textContent = paneles[actual].dataset.tituloPanel ?? '';
+    };
+
+    caja.querySelector('[data-anterior]')?.addEventListener('click', () => mostrar(actual - 1));
+    caja.querySelector('[data-siguiente]')?.addEventListener('click', () => mostrar(actual + 1));
+
+    for (const panel of paneles) {
+      const select = panel.querySelector('select')!;
+      panel.querySelector('[data-ir]')?.addEventListener('click', () => {
+        if (select.value) window.location.href = `/equipo/${select.value}`;
+      });
+    }
+  }
+</script>
