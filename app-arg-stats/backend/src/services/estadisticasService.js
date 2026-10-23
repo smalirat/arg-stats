@@ -276,7 +276,8 @@ const getEstadisticasJugador = async (id) => {
     const detalle = await cargarDetalle(partidos.map(p => p.partido_id), { jugadorId }, partidos);
     // Las alineaciones se cargaron de todo el partido (para saber si hay alineación): se quedan las del equipo
     const yo = filasPorJugador(detalle).get(jugadorId);
-    const filas = (yo?.filas ?? []).map(f => ({ ...f, partido: partidoPorId.get(f.partido_id) })).filter(f => f.partido)
+    // Los partidos en el banco sin entrar (0 minutos) no cuentan: si no, quedan temporadas y partidos con 0 PJ
+    const filas = (yo?.filas ?? []).map(f => ({ ...f, partido: partidoPorId.get(f.partido_id) })).filter(f => f.partido && f.minutos !== 0)
         .sort((a, b) => String(a.partido.fecha_utc).localeCompare(String(b.partido.fecha_utc)));
 
     const mini = await cargarEquipos(partidos.flatMap(p => [p.equipo_local_id, p.equipo_visitante_id]));
