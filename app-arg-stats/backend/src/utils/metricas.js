@@ -61,8 +61,12 @@ const agregarJugador = (filas) => {
     const n90 = min / 90;
     const goles = suma(filas, 'goles');
     const asistencias = suma(filas, 'asistencias');
-    const xg = suma(filas, 'xg');
-    const xa = suma(filas, 'xa');
+    // xG, xA y tiros solo vienen en los partidos con stats de la fuente (no en
+    // las filas armadas con la alineación): si no hay ninguno, quedan en null
+    const conFuente = filas.filter(f => !f.sintetica);
+    const xg = conFuente.length ? suma(conFuente, 'xg') : null;
+    const xa = conFuente.length ? suma(conFuente, 'xa') : null;
+    const conXg = (fn) => (xg == null ? null : fn());
     const conAlineacion = filas.filter(f => f.titular != null);
     const puntajes = filas.map(f => f.puntaje).filter(p => p != null);
 
@@ -72,7 +76,8 @@ const agregarJugador = (filas) => {
     const xgTiros = suma(tiros, 'xg');
     const distancias = tiros.map(t => Math.hypot(ARCO.x - t.x, ARCO.y - t.y));
 
-    const por90 = (v) => redondear(div(v, n90));
+    const por90 = (v) => (v == null ? null : redondear(div(v, n90)));
+    const deTiros = (fn) => (conFuente.length ? fn() : null);
 
     // Tarjetas: solo de los partidos con eventos cargados
     const conTarjetas = filas.filter(f => f.amarilla != null);
@@ -107,31 +112,31 @@ const agregarJugador = (filas) => {
         pk,
         pkIntentos: pk == null ? null : penales.length,
         golesSinPenal: pk == null ? null : goles - pk,
-        npxg: pk == null ? null : redondear(xg - xgPenales),
-        npxgxa: pk == null ? null : redondear(xg - xgPenales + xa),
-        npxg90: pk == null ? null : por90(xg - xgPenales),
-        xg: redondear(xg),
-        xa: redondear(xa),
-        xgxa: redondear(xg + xa),
+        npxg: pk == null || xg == null ? null : redondear(xg - xgPenales),
+        npxgxa: pk == null || xg == null ? null : redondear(xg - xgPenales + xa),
+        npxg90: pk == null || xg == null ? null : por90(xg - xgPenales),
+        xg: conXg(() => redondear(xg)),
+        xa: conXg(() => redondear(xa)),
+        xgxa: conXg(() => redondear(xg + xa)),
         goles90: por90(goles),
         asistencias90: por90(asistencias),
         ga90: por90(goles + asistencias),
-        xg90: por90(xg),
-        xa90: por90(xa),
-        xgxa90: por90(xg + xa),
-        tiros: tiros.length,
-        tirosArco: alArco.length,
+        xg90: conXg(() => por90(xg)),
+        xa90: conXg(() => por90(xa)),
+        xgxa90: conXg(() => por90(xg + xa)),
+        tiros: deTiros(() => tiros.length),
+        tirosArco: deTiros(() => alArco.length),
         pctArco: redondear(div(alArco.length * 100, tiros.length), 1),
-        tiros90: por90(tiros.length),
-        tirosArco90: por90(alArco.length),
+        tiros90: deTiros(() => por90(tiros.length)),
+        tirosArco90: deTiros(() => por90(alArco.length)),
         golesPorTiro: redondear(div(golesDeTiro, tiros.length)),
         golesPorTiroArco: redondear(div(golesDeTiro, alArco.length)),
         distancia: redondear(div(distancias.reduce((a, b) => a + b, 0), distancias.length), 1),
-        xgTiros: redondear(xgTiros),
+        xgTiros: deTiros(() => redondear(xgTiros)),
         xgPorTiro: redondear(div(xgTiros, tiros.length)),
-        gMenosXg: redondear(goles - xg),
-        xgot: redondear(suma(tiros, 'xgot')),
-        cabezazos: tiros.filter(t => t.tipo === 'Header').length,
+        gMenosXg: conXg(() => redondear(goles - xg)),
+        xgot: deTiros(() => redondear(suma(tiros, 'xgot'))),
+        cabezazos: deTiros(() => tiros.filter(t => t.tipo === 'Header').length),
         puntaje: redondear(div(puntajes.reduce((a, b) => a + b, 0), puntajes.length)),
         partidosConPuntaje: puntajes.length,
         // Detalle de jugadores
@@ -163,8 +168,12 @@ const agregarArquero = (todos) => {
     const min = suma(partidos, 'minutos');
     const n90 = min / 90;
     const ga = suma(partidos, 'golesRecibidos');
-    const tirosArco = suma(partidos, 'tirosArcoRecibidos');
-    const atajadas = partidos.reduce((t, p) => t + (p.atajadas ?? Math.max(0, p.tirosArcoRecibidos - p.golesRecibidos)), 0);
+    // Tiros, atajadas y xGOT solo de los partidos con tiros o detalle del arquero
+    const conTiros = partidos.filter(p => p.tirosArcoRecibidos != null);
+    const tirosArco = conTiros.length ? suma(conTiros, 'tirosArcoRecibidos') : null;
+    const gaConTiros = suma(conTiros, 'golesRecibidos');
+    const atajadas = conTiros.length ? conTiros.reduce((t, p) => t + (p.atajadas ?? Math.max(0, p.tirosArcoRecibidos - p.golesRecibidos)), 0) : null;
+    const xgot = conTiros.length ? suma(conTiros, 'xgotRecibido') : null;
     const conDetalle = partidos.filter(p => p.penalesAtajados != null);
     const completos = partidos.filter(p => p.minutos >= 90);
     return {
@@ -175,11 +184,11 @@ const agregarArquero = (todos) => {
         ga90: redondear(div(ga, n90)),
         tirosArcoRecibidos: tirosArco,
         atajadas,
-        pctAtajadas: redondear(div(atajadas * 100, tirosArco), 1),
+        pctAtajadas: atajadas == null ? null : redondear(div(atajadas * 100, tirosArco), 1),
         vallasInvictas: completos.filter(p => p.golesRecibidos === 0).length,
         pctVallas: redondear(div(completos.filter(p => p.golesRecibidos === 0).length * 100, completos.length), 1),
-        xgotRecibido: redondear(suma(partidos, 'xgotRecibido')),
-        golesEvitados: redondear(suma(partidos, 'xgotRecibido') - ga),
+        xgotRecibido: redondear(xgot),
+        golesEvitados: xgot == null ? null : redondear(xgot - gaConTiros),
         penalesAtajados: conDetalle.length ? suma(conDetalle, 'penalesAtajados') : null,
     };
 };

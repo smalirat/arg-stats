@@ -261,6 +261,11 @@ const linkTorneo = (t: any) => urlTorneo({ edicion_id: t.edicion_id, nombre_torn
             Todas las competiciones de la temporada. Hacé clic en una columna para ordenar.
             Más tablas en la <a href={urlEquipo(yo, "estadisticas")} class="text-[#2a6496] hover:underline">pestaña Estadísticas</a>.
           </p>
+          {stats.partidosDesdeAlineaciones > 0 && (
+            <p class="text-xs text-gray-500">
+              En {stats.partidosDesdeAlineaciones} partidos la fuente no publica estadísticas de jugadores: partidos, minutos (aproximados, hasta el cambio o la roja), goles, asistencias y tarjetas salen de las alineaciones y los eventos.
+            </p>
+          )}
         </div>
       ) : (
         <section class="border border-gray-300 bg-white px-3 py-4 text-gray-500">
@@ -323,6 +328,11 @@ const linkTorneo = (t: any) => urlTorneo({ edicion_id: t.edicion_id, nombre_torn
           <Cobertura cobertura={stats.cobertura} titulo={`Datos en la base · ${stats.temporada ?? ""}`} />
         </div>
 
+        {stats.partidosDesdeAlineaciones > 0 && (
+          <p class="text-xs text-gray-500">
+            En {stats.partidosDesdeAlineaciones} partidos la fuente no publica estadísticas de jugadores: partidos, minutos (aproximados, hasta el cambio o la roja), goles, asistencias y tarjetas salen de las alineaciones y los eventos.
+          </p>
+        )}
         {tablasEquipo.map((t) => (
           <TablaStats id={t.id} titulo={t.titulo} grupos={t.grupos} fijas={t.fijas} filas={t.filas} totales={t.totales} etiquetaTotales={t.etiquetaTotales} archivo={`${archivo}-${t.id}`} />
         ))}

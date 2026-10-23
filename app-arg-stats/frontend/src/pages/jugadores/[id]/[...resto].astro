@@ -31,8 +31,15 @@ const canonica = urlJugador(jugador, tab);
 if (decodeURI(Astro.url.pathname).replace(/\/$/, "") !== canonica) return Astro.redirect(canonica, 301);
 
 const equipoActual = data.equipoActual;
-const totales = data.totales || {};
-const temporadas = data.temporadas || [];
+// Si la fuente no publica estadísticas del jugador (ascenso), el resumen usa
+// las armadas con alineaciones y eventos (las de la pestaña Estadísticas)
+const desdeStats = !(data.temporadas || []).length && (stats.temporadas || []).length > 0;
+const totales = desdeStats
+  ? { partidos: stats.totales?.pj, minutos: stats.totales?.min, goles: stats.totales?.goles, asistencias: stats.totales?.asistencias, puntaje: stats.totales?.puntaje }
+  : data.totales || {};
+const temporadas = desdeStats
+  ? stats.temporadas.map((t: any) => ({ ...t, partidos: t.pj, minutos: t.min }))
+  : data.temporadas || [];
 const ultimos = data.ultimos || [];
 const transferencias = data.transferencias || [];
 
@@ -146,8 +153,8 @@ const resumen = [
                     <td class="px-1.5 py-1 text-right tabular-nums">{s.minutos}</td>
                     <td class="px-1.5 py-1 text-right tabular-nums">{s.goles}</td>
                     <td class="px-1.5 py-1 text-right tabular-nums">{s.asistencias}</td>
-                    <td class="px-1.5 py-1 text-right tabular-nums">{s.xg.toFixed(2)}</td>
-                    <td class="px-1.5 py-1 text-right tabular-nums">{s.xa.toFixed(2)}</td>
+                    <td class={`px-1.5 py-1 text-right tabular-nums ${s.xg == null ? "text-gray-300" : ""}`}>{s.xg == null ? "—" : s.xg.toFixed(2)}</td>
+                    <td class={`px-1.5 py-1 text-right tabular-nums ${s.xa == null ? "text-gray-300" : ""}`}>{s.xa == null ? "—" : s.xa.toFixed(2)}</td>
                     <td class="px-1.5 py-1 text-right tabular-nums">{s.amarillas}</td>
                     <td class="px-1.5 py-1 text-right tabular-nums">{s.rojas}</td>
                     <td class="px-2 py-1 text-center">

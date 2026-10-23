@@ -29,24 +29,87 @@ const COLUMNAS_STATS = [
 ].join(', ');
 
 /**
- * Stats, alineaciones y tiros de un conjunto de partidos (opcionalmente solo
- * de un equipo o de un jugador).
+ * Filas "de stats" armadas con la alineación y los eventos, para los partidos
+ * en los que la fuente no publica estadísticas de jugadores (el ascenso):
+ * partido jugado, minutos (aproximados: hasta el cambio, la roja o el final),
+ * goles, asistencias y tarjetas. Sin xG, puntaje ni detalle.
  */
-const cargarDetalle = (partidoIds, filtro = {}) => {
+const statsDesdeAlineaciones = (alineaciones, eventos, duracion) => {
+    const evDe = new Map();
+    for (const e of eventos) {
+        if (!evDe.has(e.partido_id)) evDe.set(e.partido_id, []);
+        evDe.get(e.partido_id).push(e);
+    }
+    return alineaciones.map(a => {
+        const ev = evDe.get(a.partido_id) || [];
+        const deEl = ev.filter(e => e.jugador_id === a.jugador_id);
+        const fin = duracion(a.partido_id);
+        const roja = deEl.find(e => e.tipo_evento === 'Card' && ['Red', 'YellowRed'].includes(e.detalle));
+        const jugo = a.es_titular || a.minuto_entrada != null;
+        const inicio = a.es_titular ? 0 : a.minuto_entrada;
+        const salida = Math.min(a.minuto_salida ?? fin, roja?.minuto ?? fin, fin);
+        return {
+            partido_id: a.partido_id,
+            jugador_id: a.jugador_id,
+            equipo_id: a.equipo_id,
+            minutos_jugados: jugo ? Math.max(1, salida - inicio) : 0,
+            rating: null,
+            goles: deEl.filter(e => e.tipo_evento === 'Goal' && e.detalle !== 'Own goal').length,
+            asistencias: ev.filter(e => e.tipo_evento === 'Goal' && e.asistencia_jugador_id === a.jugador_id).length,
+            xg: null,
+            xa: null,
+            // Sin eventos cargados no se sabe si tuvo tarjetas
+            tarjeta_amarilla: ev.length ? deEl.some(e => e.tipo_evento === 'Card' && ['Yellow', 'YellowRed'].includes(e.detalle)) : null,
+            tarjeta_roja: ev.length ? !!roja : null,
+            jugadores: a.jugadores,
+            sintetica: true,
+        };
+    });
+};
+
+/**
+ * Stats, alineaciones y tiros de un conjunto de partidos (opcionalmente solo
+ * de un equipo o de un jugador). Donde un equipo no tiene stats de jugadores
+ * en un partido pero sí alineación, las stats se arman con la alineación y los
+ * eventos (ver statsDesdeAlineaciones). `partidos` (opcional) sirve para la
+ * duración: 120 minutos si hubo alargue.
+ */
+const cargarDetalle = async (partidoIds, filtro = {}, partidos = []) => {
     const aplicar = (q) => {
         if (filtro.equipoId) q = q.eq('equipo_id', filtro.equipoId);
         if (filtro.jugadorId) q = q.eq('jugador_id', filtro.jugadorId);
         return q;
     };
-    return Promise.all([
+    const [stats, alineaciones, tiros, eventos] = await Promise.all([
         porLotes(partidoIds, (lote) => aplicar(supabase.from('stats_jugador_partido').select(COLUMNAS_STATS).in('partido_id', lote)).order('stat_id')),
-        porLotes(partidoIds, (lote) => supabase.from('alineaciones').select('partido_id, jugador_id, equipo_id, es_titular, posicion').in('partido_id', lote).order('partido_id').order('jugador_id')),
+        porLotes(partidoIds, (lote) => supabase.from('alineaciones')
+            .select('partido_id, jugador_id, equipo_id, es_titular, posicion, minuto_entrada, minuto_salida, jugadores(nombre_completo)')
+            .in('partido_id', lote).order('partido_id').order('jugador_id')),
         porLotes(partidoIds, (lote) => supabase.from('tiros').select('tiro_id, partido_id, equipo_id, jugador_id, minuto, x, y, xg, xgot, tipo_tiro, resultado, situacion').in('partido_id', lote).order('tiro_id')),
-    ]).then(([stats, alineaciones, tiros]) => ({
-        stats,
+        porLotes(partidoIds, (lote) => supabase.from('eventos').select('evento_id, partido_id, jugador_id, minuto, tipo_evento, detalle, asistencia_jugador_id')
+            .in('partido_id', lote).in('tipo_evento', ['Goal', 'Card']).order('evento_id')),
+    ]);
+
+    // Equipos y partidos con stats propias. Con el filtro por jugador solo vienen
+    // las suyas: para los partidos sin ellas se pregunta si el partido tiene stats de otros.
+    const conStats = new Set(stats.map(s => `${s.partido_id}|${s.equipo_id}`));
+    if (filtro.jugadorId) {
+        const sinSusStats = [...new Set(alineaciones.filter(a => a.jugador_id === filtro.jugadorId && !conStats.has(`${a.partido_id}|${a.equipo_id}`)).map(a => a.partido_id))];
+        const deOtros = sinSusStats.length
+            ? await porLotes(sinSusStats, (lote) => supabase.from('stats_jugador_partido').select('partido_id, equipo_id').in('partido_id', lote).order('partido_id').limit(1000))
+            : [];
+        for (const s of deOtros) conStats.add(`${s.partido_id}|${s.equipo_id}`);
+    }
+    const alargue = new Set(partidos.filter(p => ['AET', 'Pen'].includes(p.estado)).map(p => p.partido_id));
+    const sinStats = alineaciones.filter(a => !conStats.has(`${a.partido_id}|${a.equipo_id}`)
+        && (!filtro.jugadorId || a.jugador_id === filtro.jugadorId)
+        && (!filtro.equipoId || a.equipo_id === filtro.equipoId));
+
+    return {
+        stats: [...stats, ...statsDesdeAlineaciones(sinStats, eventos, (id) => (alargue.has(id) ? 120 : 90))],
         alineaciones,
         tiros: tiros.map(t => ({ ...t, x: Number(t.x), y: Number(t.y), xg: t.xg != null ? Number(t.xg) : 0, xgot: t.xgot != null ? Number(t.xgot) : 0, tipo: t.tipo_tiro })),
-    }));
+    };
 };
 
 /**
@@ -74,8 +137,10 @@ const filasPorJugador = ({ stats, alineaciones, tiros }) => {
             minutos: s.minutos_jugados || 0,
             goles: s.goles || 0,
             asistencias: s.asistencias || 0,
-            xg: Number(s.xg) || 0,
-            xa: Number(s.xa) || 0,
+            xg: s.xg == null ? null : Number(s.xg),
+            xa: s.xa == null ? null : Number(s.xa),
+            // Fila armada con la alineación y los eventos (sin estadísticas de la fuente)
+            sintetica: !!s.sintetica,
             // null = el partido no tiene eventos (no se sabe)
             amarilla: s.tarjeta_amarilla,
             roja: s.tarjeta_roja,
@@ -141,7 +206,7 @@ const jugadoresDeCompeticion = conCachePorClave(async (clave) => {
         .from('ediciones').select('edicion_id, nombre_torneo').eq('temporada', temporada).like('nombre_torneo', `${prefijo}%`);
     if (error) throw error;
     const partidos = await partidosJugados(ediciones.filter(e => claveCompeticion(e) === prefijo).map(e => e.edicion_id));
-    const porJugador = filasPorJugador(await cargarDetalle(partidos.map(p => p.partido_id)));
+    const porJugador = filasPorJugador(await cargarDetalle(partidos.map(p => p.partido_id), {}, partidos));
     return [...porJugador.values()].map(j => ({ jugador_id: j.jugador_id, linea: j.linea, m: agregarJugador(j.filas) }));
 }, 15);
 
@@ -190,13 +255,16 @@ const getEstadisticasJugador = async (id) => {
     if (error) throw error;
     if (!jugador) throw new NotFoundError(`No se encontró el jugador con ID ${id}`);
 
-    const propios = await traerTodo(() => supabase
-        .from('stats_jugador_partido')
+    // Sus partidos: los que tienen stats suyas y los de las alineaciones (en el
+    // ascenso no hay stats, pero sí alineación)
+    const [conStats, enAlineacion] = await Promise.all(['stats_jugador_partido', 'alineaciones'].map(tabla => traerTodo(() => supabase
+        .from(tabla)
         .select(`partido_id, partidos(${COLUMNAS_PARTIDO})`)
         .eq('jugador_id', jugadorId)
-        .order('partido_id'));
-    const partidos = propios.map(s => s.partidos).filter(Boolean).map(p => ({ ...p, fecha_utc: fechaIso(p.fecha_utc) }));
-    const partidoPorId = new Map(partidos.map(p => [p.partido_id, p]));
+        .order('partido_id'))));
+    const partidoPorId = new Map([...conStats, ...enAlineacion].map(s => s.partidos).filter(Boolean)
+        .map(p => [p.partido_id, { ...p, fecha_utc: fechaIso(p.fecha_utc) }]));
+    const partidos = [...partidoPorId.values()];
 
     const edicionIds = [...new Set(partidos.map(p => p.edicion_id))];
     const { data: ediciones, error: errorEdiciones } = edicionIds.length
@@ -205,7 +273,7 @@ const getEstadisticasJugador = async (id) => {
     if (errorEdiciones) throw errorEdiciones;
     const edicionPorId = new Map(ediciones.map(e => [e.edicion_id, e]));
 
-    const detalle = await cargarDetalle(partidos.map(p => p.partido_id), { jugadorId });
+    const detalle = await cargarDetalle(partidos.map(p => p.partido_id), { jugadorId }, partidos);
     // Las alineaciones se cargaron de todo el partido (para saber si hay alineación): se quedan las del equipo
     const yo = filasPorJugador(detalle).get(jugadorId);
     const filas = (yo?.filas ?? []).map(f => ({ ...f, partido: partidoPorId.get(f.partido_id) })).filter(f => f.partido)
@@ -320,7 +388,7 @@ const getEstadisticasEquipo = async (id) => {
         .filter(p => p.equipo_local_id === equipoId || p.equipo_visitante_id === equipoId);
     const ids = partidos.map(p => p.partido_id);
 
-    const detalle = await cargarDetalle(ids);
+    const detalle = await cargarDetalle(ids, {}, partidos);
     const delEquipo = {
         stats: detalle.stats.filter(s => s.equipo_id === equipoId),
         alineaciones: detalle.alineaciones.filter(a => a.equipo_id === equipoId),
@@ -335,7 +403,7 @@ const getEstadisticasEquipo = async (id) => {
     // Total del equipo: minutos = 90 por partido, así "por 90" es "por partido"
     const totalesBase = agregarJugador([...porJugador.values()].flatMap(j => j.filas));
     const n = partidos.length;
-    const porPartido = (v) => redondear(n ? v / n : null);
+    const porPartido = (v) => (v == null || !n ? null : redondear(v / n));
     const totales = {
         ...totalesBase,
         pj: n,
@@ -374,8 +442,9 @@ const getEstadisticasEquipo = async (id) => {
                     minutos: f.minutos,
                     golesRecibidos,
                     // Con detalle: lo que le llegó a él (atajadas + goles); si no, los tiros al arco del rival
-                    tirosArcoRecibidos: d ? d.atajadas + golesRecibidos : recibidos.filter(t => AL_ARCO.includes(t.resultado)).length,
-                    xgotRecibido: d?.xgot_recibido != null ? Number(d.xgot_recibido) : recibidos.reduce((s, t) => s + (t.xgot || 0), 0),
+                    // Sin detalle ni tiros cargados (ascenso), no se sabe cuánto le patearon
+                    tirosArcoRecibidos: d ? d.atajadas + golesRecibidos : recibidos.length ? recibidos.filter(t => AL_ARCO.includes(t.resultado)).length : null,
+                    xgotRecibido: d?.xgot_recibido != null ? Number(d.xgot_recibido) : recibidos.length ? recibidos.reduce((s, t) => s + (t.xgot || 0), 0) : null,
                     atajadas: d ? d.atajadas : null,
                     penalesAtajados: d ? d.penales_atajados ?? 0 : null,
                 };
@@ -396,6 +465,8 @@ const getEstadisticasEquipo = async (id) => {
         totales,
         arqueros,
         equipoVsRivales: { equipo: agregarEquipo(propio), rivales: agregarEquipo(rival) },
+        // Partidos en los que las stats del plantel se armaron con la alineación y los eventos
+        partidosDesdeAlineaciones: new Set(delEquipo.stats.filter(s => s.sintetica).map(s => s.partido_id)).size,
         cobertura: await cobertura(partidos),
     };
 };
