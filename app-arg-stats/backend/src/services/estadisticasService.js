@@ -6,7 +6,7 @@ const { COMPETICIONES, competicionDe } = require('../config/competiciones');
 const { traerTodo, fechaIso } = require('../utils/traerTodo');
 const { conCachePorClave } = require('../utils/cache');
 const { esTerminado, resultadoPara, claveCompeticion, lineaDe, masComun } = require('../utils/futbol');
-const { agregarJugador, agregarArquero, statsDeEquipo, agregarEquipo, percentil, AL_ARCO, redondear } = require('../utils/metricas');
+const { agregarJugador, agregarArquero, statsDeEquipo, agregarEquipo, percentil, DETALLE, AL_ARCO, redondear } = require('../utils/metricas');
 const { cargarEquipos, COLUMNAS_PARTIDO } = require('./comun');
 
 // Mínimo de minutos para entrar en la comparación del informe de scouting
@@ -21,7 +21,12 @@ const porLotes = async (ids, consulta, tamano = 50) => {
     return (await Promise.all(lotes.map(lote => traerTodo(() => consulta(lote))))).flat();
 };
 
-const COLUMNAS_STATS = 'partido_id, jugador_id, equipo_id, minutos_jugados, rating, goles, asistencias, xg, xa, tarjeta_amarilla, tarjeta_roja, jugadores(nombre_completo)';
+// Columnas de arquero que se usan además del detalle de metricas.DETALLE
+const COLUMNAS_ARQUERO = ['atajadas', 'goles_recibidos', 'xgot_recibido', 'penales_atajados'];
+const COLUMNAS_STATS = [
+    'partido_id, jugador_id, equipo_id, minutos_jugados, rating, goles, asistencias, xg, xa, tarjeta_amarilla, tarjeta_roja',
+    ...Object.values(DETALLE), ...COLUMNAS_ARQUERO, 'fotmob', 'jugadores(nombre_completo)',
+].join(', ');
 
 /**
  * Stats, alineaciones y tiros de un conjunto de partidos (opcionalmente solo
@@ -36,7 +41,7 @@ const cargarDetalle = (partidoIds, filtro = {}) => {
     return Promise.all([
         porLotes(partidoIds, (lote) => aplicar(supabase.from('stats_jugador_partido').select(COLUMNAS_STATS).in('partido_id', lote)).order('stat_id')),
         porLotes(partidoIds, (lote) => supabase.from('alineaciones').select('partido_id, jugador_id, equipo_id, es_titular, posicion').in('partido_id', lote).order('partido_id').order('jugador_id')),
-        porLotes(partidoIds, (lote) => supabase.from('tiros').select('tiro_id, partido_id, equipo_id, jugador_id, minuto, x, y, xg, xgot, tipo_tiro, resultado').in('partido_id', lote).order('tiro_id')),
+        porLotes(partidoIds, (lote) => supabase.from('tiros').select('tiro_id, partido_id, equipo_id, jugador_id, minuto, x, y, xg, xgot, tipo_tiro, resultado, situacion').in('partido_id', lote).order('tiro_id')),
     ]).then(([stats, alineaciones, tiros]) => ({
         stats,
         alineaciones,
@@ -71,9 +76,12 @@ const filasPorJugador = ({ stats, alineaciones, tiros }) => {
             asistencias: s.asistencias || 0,
             xg: Number(s.xg) || 0,
             xa: Number(s.xa) || 0,
-            amarilla: !!s.tarjeta_amarilla,
-            roja: !!s.tarjeta_roja,
+            // null = el partido no tiene eventos (no se sabe)
+            amarilla: s.tarjeta_amarilla,
+            roja: s.tarjeta_roja,
             puntaje: Number.isNaN(r) ? null : r,
+            // Detalle de jugadores: solo si la fuente lo publicó (pases_intentados viene en todos los que lo tienen)
+            detalle: s.pases_intentados != null ? s : null,
             titular: conAlineacion.has(`${s.partido_id}|${s.equipo_id}`) ? !!a?.es_titular : null,
             posicion: a?.posicion ?? null,
             tiros: tirosDe.get(`${s.partido_id}|${s.jugador_id}`) || [],
@@ -94,8 +102,9 @@ const cobertura = async (partidos) => {
     const distintos = async (tabla, extra = (q) => q) => new Set((await porLotes(ids, (lote) =>
         extra(supabase.from(tabla).select('partido_id').in('partido_id', lote)).order('partido_id'))).map(f => f.partido_id)).size;
 
-    const [stats, alineaciones, tiros, eventos, momentum] = await Promise.all([
+    const [stats, detalle, alineaciones, tiros, eventos, momentum] = await Promise.all([
         distintos('stats_jugador_partido', q => q.gte('minutos_jugados', 90)),
+        distintos('stats_jugador_partido', q => q.not('pases_intentados', 'is', null)),
         distintos('alineaciones', q => q.eq('es_titular', true)),
         distintos('tiros'),
         distintos('eventos'),
@@ -105,6 +114,7 @@ const cobertura = async (partidos) => {
     return {
         partidos: ids.length,
         estadisticasJugadores: stats,
+        detalleJugadores: detalle,
         alineaciones,
         tiros,
         eventos,
@@ -137,9 +147,11 @@ const jugadoresDeCompeticion = conCachePorClave(async (clave) => {
 
 // Métricas del informe de scouting (por 90 salvo las que son porcentajes o promedios)
 const METRICAS_SCOUTING = [
-    'goles90', 'xg90', 'tiros90', 'tirosArco90', 'pctArco', 'golesPorTiro', 'asistencias90', 'xa90', 'xgxa90', 'puntaje',
-    // Pendientes de carga en la base
-    'pasesPrecisos', 'pctPases', 'chancesCreadas', 'entradas', 'intercepciones', 'recuperaciones', 'gambetas', 'duelosGanados', 'aereosGanados',
+    'goles90', 'npxg90', 'xg90', 'tiros90', 'tirosArco90', 'pctArco', 'golesPorTiro', 'toquesArea90',
+    'asistencias90', 'xa90', 'xgxa90', 'chancesCreadas90', 'pasesUltimoTercio90', 'gambetas90',
+    'pasesPrecisos90', 'pctPases',
+    'entradas90', 'intercepciones90', 'recuperaciones90', 'despejes90', 'aereosGanados90', 'pctAereos', 'pctDuelos',
+    'puntaje',
 ];
 
 const scouting = async (jugadorId, temporada, competicionNombre) => {
@@ -355,11 +367,17 @@ const getEstadisticasEquipo = async (id) => {
             ...agregarArquero(j.filas.map(f => {
                 const p = partidoPorId.get(f.partido_id);
                 const recibidos = tirosRival.get(f.partido_id) || [];
+                // Con el detalle del arquero, lo suyo; si no, lo del rival en todo el partido
+                const d = f.detalle?.atajadas != null ? f.detalle : null;
+                const golesRecibidos = d ? d.goles_recibidos ?? 0 : (p.equipo_local_id === equipoId ? p.goles_visitante : p.goles_local);
                 return {
                     minutos: f.minutos,
-                    golesRecibidos: p.equipo_local_id === equipoId ? p.goles_visitante : p.goles_local,
-                    tirosArcoRecibidos: recibidos.filter(t => AL_ARCO.includes(t.resultado)).length,
-                    xgotRecibido: recibidos.reduce((s, t) => s + (t.xgot || 0), 0),
+                    golesRecibidos,
+                    // Con detalle: lo que le llegó a él (atajadas + goles); si no, los tiros al arco del rival
+                    tirosArcoRecibidos: d ? d.atajadas + golesRecibidos : recibidos.filter(t => AL_ARCO.includes(t.resultado)).length,
+                    xgotRecibido: d?.xgot_recibido != null ? Number(d.xgot_recibido) : recibidos.reduce((s, t) => s + (t.xgot || 0), 0),
+                    atajadas: d ? d.atajadas : null,
+                    penalesAtajados: d ? d.penales_atajados ?? 0 : null,
                 };
             })),
         }))

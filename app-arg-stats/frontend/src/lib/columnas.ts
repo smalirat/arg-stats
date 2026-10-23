@@ -25,17 +25,17 @@ export const ESTANDAR: Grupo[] = [
     c("goles", "Gls", "Goles"),
     c("asistencias", "Ast", "Asistencias"),
     c("ga", "G+A", "Goles + asistencias"),
-    c("golesSinPenal", "G-TP", "Goles sin contar penales", 0, true),
-    c("pk", "TP", "Penales convertidos", 0, true),
-    c("pkIntentos", "TPint", "Penales intentados", 0, true),
-    c("amarillas", "TA", "Tarjetas amarillas (el ETL las guarda siempre en falso)", 0, true),
-    c("rojas", "TR", "Tarjetas rojas (el ETL las guarda siempre en falso)", 0, true),
+    c("golesSinPenal", "G-TP", "Goles sin contar penales"),
+    c("pk", "TP", "Penales convertidos"),
+    c("pkIntentos", "TPint", "Penales intentados"),
+    c("amarillas", "TA", "Tarjetas amarillas (vacío si los partidos no tienen eventos cargados)"),
+    c("rojas", "TR", "Tarjetas rojas (vacío si los partidos no tienen eventos cargados)"),
   ] },
   { titulo: "Esperado", columnas: [
     c("xg", "xG", "Goles esperados", 2),
-    c("npxg", "npxG", "Goles esperados sin penales", 2, true),
+    c("npxg", "npxG", "Goles esperados sin penales", 2),
     c("xa", "xA", "Asistencias esperadas", 2),
-    c("xgxa", "xG+xA", "Goles esperados + asistencias esperadas", 2),
+    c("npxgxa", "npxG+xA", "Goles esperados sin penales + asistencias esperadas", 2),
   ] },
   { titulo: "Por 90 minutos", columnas: [
     c("goles90", "Gls", "Goles cada 90 minutos", 2),
@@ -85,47 +85,87 @@ export const TIROS: Grupo[] = [
   ] },
 ];
 
+// Pases, defensa, posesión y duelos salen del detalle de jugadores: en el
+// ascenso FotMob no lo publica, así que ahí quedan vacíos.
 export const PASES: Grupo[] = [
-  { titulo: "Pases", columnas: [
-    c("pasesPrecisos", "Cmp", "Pases completados", 0, true),
-    c("pasesTotales", "Int", "Pases intentados", 0, true),
-    c("pctPases", "%Cmp", "Porcentaje de pases completados", 1, true),
-    c("pasesUltimoTercio", "1/3", "Pases al último tercio", 0, true),
-    c("pelotazosPrecisos", "Larg", "Pases largos precisos", 0, true),
-    c("centrosPrecisos", "Cen", "Centros precisos", 0, true),
-    c("chancesCreadas", "Ocas", "Ocasiones creadas", 0, true),
+  { titulo: "Total", columnas: [
+    c("pasesPrecisos", "Cmp", "Pases completados"),
+    c("pasesTotales", "Int", "Pases intentados"),
+    c("pctPases", "%Cmp", "Porcentaje de pases completados", 1),
+    c("pasesPrecisos90", "Cmp/90", "Pases completados cada 90 minutos", 1),
+  ] },
+  { titulo: "Largos y centros", columnas: [
+    c("pelotazosPrecisos", "Larg", "Pases largos precisos"),
+    c("pctPelotazos", "%Larg", "Porcentaje de pases largos precisos", 1),
+    c("centrosPrecisos", "Cen", "Centros precisos"),
+    c("centrosTotales", "CenInt", "Centros intentados"),
+    c("pctCentros", "%Cen", "Porcentaje de centros precisos", 1),
+  ] },
+  { titulo: "Creación", columnas: [
+    c("pasesUltimoTercio", "1/3", "Pases al último tercio"),
+    c("chancesCreadas", "Ocas", "Ocasiones creadas (pases que terminan en tiro)"),
+    c("grandesChancesCreadas", "OcasCl", "Ocasiones claras creadas"),
+    c("chancesCreadas90", "Ocas/90", "Ocasiones creadas cada 90 minutos", 2),
+    c("xa", "xA", "Asistencias esperadas", 2),
   ] },
 ];
 
 export const DEFENSA: Grupo[] = [
   { titulo: "Acciones defensivas", columnas: [
-    c("entradas", "Ent", "Entradas", 0, true),
-    c("intercepciones", "Int", "Intercepciones", 0, true),
-    c("despejes", "Desp", "Despejes", 0, true),
-    c("bloqueos", "Bloq", "Disparos bloqueados", 0, true),
-    c("recuperaciones", "Rec", "Recuperaciones", 0, true),
-    c("regateado", "Reg", "Veces que lo regatearon", 0, true),
-    c("accionesDefensivas", "AccD", "Acciones defensivas totales", 0, true),
+    c("entradas", "Ent", "Entradas"),
+    c("intercepciones", "Int", "Intercepciones"),
+    c("despejes", "Desp", "Despejes"),
+    c("bloqueos", "Bloq", "Disparos bloqueados"),
+    c("recuperaciones", "Rec", "Recuperaciones"),
+    c("regateado", "Reg", "Veces que lo regatearon"),
+    c("accionesDefensivas", "AccD", "Acciones defensivas totales (según FotMob)"),
+  ] },
+  { titulo: "Por 90 minutos", columnas: [
+    c("entradas90", "Ent", "Entradas cada 90 minutos", 2),
+    c("intercepciones90", "Int", "Intercepciones cada 90 minutos", 2),
+    c("recuperaciones90", "Rec", "Recuperaciones cada 90 minutos", 2),
+  ] },
+  { titulo: "Errores", columnas: [
+    c("erroresGol", "Err", "Errores que terminaron en gol del rival"),
+    c("penalesCometidos", "TPcom", "Penales cometidos"),
   ] },
 ];
 
 export const POSESION: Grupo[] = [
-  { titulo: "Posesión", columnas: [
-    c("toques", "Toq", "Toques", 0, true),
-    c("toquesArea", "ÁreaR", "Toques en el área rival", 0, true),
-    c("gambetas", "Reg", "Regates exitosos", 0, true),
-    c("perdidas", "Pérd", "Pérdidas de balón", 0, true),
-    c("offsides", "Off", "Fueras de juego", 0, true),
+  { titulo: "Toques", columnas: [
+    c("toques", "Toq", "Toques"),
+    c("toquesArea", "ÁreaR", "Toques en el área rival"),
+    c("toquesArea90", "ÁreaR/90", "Toques en el área rival cada 90 minutos", 2),
+  ] },
+  { titulo: "Regates", columnas: [
+    c("gambetas", "Exi", "Regates exitosos"),
+    c("gambetasIntentos", "Int", "Regates intentados"),
+    c("pctGambetas", "%Exi", "Porcentaje de regates exitosos", 1),
+  ] },
+  { titulo: "Pérdidas", columnas: [
+    c("perdidas", "Pérd", "Pérdidas de balón"),
+    c("offsides", "Off", "Fueras de juego"),
+    c("grandesChancesFalladas", "OcasF", "Ocasiones claras falladas"),
+    c("penalesGanados", "TPgan", "Penales a favor que generó"),
   ] },
 ];
 
 export const DUELOS: Grupo[] = [
-  { titulo: "Duelos y faltas", columnas: [
-    c("duelosGanados", "DG", "Duelos ganados", 0, true),
-    c("duelosPerdidos", "DP", "Duelos perdidos", 0, true),
-    c("aereosGanados", "Aér", "Duelos aéreos ganados", 0, true),
-    c("faltasCometidas", "FC", "Faltas cometidas", 0, true),
-    c("faltasRecibidas", "FR", "Faltas recibidas", 0, true),
+  { titulo: "Duelos", columnas: [
+    c("duelosGanados", "DG", "Duelos ganados"),
+    c("duelosPerdidos", "DP", "Duelos perdidos"),
+    c("pctDuelos", "%DG", "Porcentaje de duelos ganados", 1),
+  ] },
+  { titulo: "Aéreos", columnas: [
+    c("aereosGanados", "Gan", "Duelos aéreos ganados"),
+    c("aereosTotales", "Tot", "Duelos aéreos disputados"),
+    c("pctAereos", "%Gan", "Porcentaje de duelos aéreos ganados", 1),
+  ] },
+  { titulo: "Faltas", columnas: [
+    c("faltasCometidas", "FC", "Faltas cometidas"),
+    c("faltasRecibidas", "FR", "Faltas recibidas"),
+    c("amarillas", "TA", "Tarjetas amarillas"),
+    c("rojas", "TR", "Tarjetas rojas"),
   ] },
 ];
 
@@ -147,6 +187,9 @@ export const ARQUEROS: Grupo[] = [
   { titulo: "Esperado", columnas: [
     c("xgotRecibido", "PSxG", "Goles esperados de los disparos a puerta recibidos", 2),
     c("golesEvitados", "PSxG-GC", "Goles evitados: PSxG menos goles en contra (positivo = atajó más de lo esperado)", 2),
+  ] },
+  { titulo: "Penales", columnas: [
+    c("penalesAtajados", "TPat", "Penales atajados (sin contar definiciones por penales)"),
   ] },
 ];
 
@@ -201,24 +244,29 @@ export const EQUIPO_VS_RIVALES: Columna[] = [
 // Métricas del informe de scouting
 export const SCOUTING: Record<string, { etiqueta: string; decimales: number; grupo: string }> = {
   goles90: { etiqueta: "Goles", decimales: 2, grupo: "Ataque" },
+  npxg90: { etiqueta: "npxG", decimales: 2, grupo: "Ataque" },
   xg90: { etiqueta: "xG", decimales: 2, grupo: "Ataque" },
   tiros90: { etiqueta: "Disparos", decimales: 2, grupo: "Ataque" },
   tirosArco90: { etiqueta: "Disparos a puerta", decimales: 2, grupo: "Ataque" },
   pctArco: { etiqueta: "% disparos a puerta", decimales: 1, grupo: "Ataque" },
   golesPorTiro: { etiqueta: "Goles por disparo", decimales: 2, grupo: "Ataque" },
+  toquesArea90: { etiqueta: "Toques en el área rival", decimales: 2, grupo: "Ataque" },
   asistencias90: { etiqueta: "Asistencias", decimales: 2, grupo: "Creación" },
   xa90: { etiqueta: "xA", decimales: 2, grupo: "Creación" },
   xgxa90: { etiqueta: "xG + xA", decimales: 2, grupo: "Creación" },
+  chancesCreadas90: { etiqueta: "Ocasiones creadas", decimales: 2, grupo: "Creación" },
+  pasesUltimoTercio90: { etiqueta: "Pases al último tercio", decimales: 2, grupo: "Creación" },
+  gambetas90: { etiqueta: "Regates exitosos", decimales: 2, grupo: "Creación" },
+  pasesPrecisos90: { etiqueta: "Pases completados", decimales: 1, grupo: "Pases" },
+  pctPases: { etiqueta: "% de pases", decimales: 1, grupo: "Pases" },
+  entradas90: { etiqueta: "Entradas", decimales: 2, grupo: "Defensa" },
+  intercepciones90: { etiqueta: "Intercepciones", decimales: 2, grupo: "Defensa" },
+  recuperaciones90: { etiqueta: "Recuperaciones", decimales: 2, grupo: "Defensa" },
+  despejes90: { etiqueta: "Despejes", decimales: 2, grupo: "Defensa" },
+  aereosGanados90: { etiqueta: "Duelos aéreos ganados", decimales: 2, grupo: "Defensa" },
+  pctAereos: { etiqueta: "% duelos aéreos ganados", decimales: 1, grupo: "Defensa" },
+  pctDuelos: { etiqueta: "% duelos ganados", decimales: 1, grupo: "Defensa" },
   puntaje: { etiqueta: "Puntaje FotMob", decimales: 2, grupo: "General" },
-  pasesPrecisos: { etiqueta: "Pases completados", decimales: 1, grupo: "Pendiente de carga" },
-  pctPases: { etiqueta: "% de pases", decimales: 1, grupo: "Pendiente de carga" },
-  chancesCreadas: { etiqueta: "Ocasiones creadas", decimales: 2, grupo: "Pendiente de carga" },
-  entradas: { etiqueta: "Entradas", decimales: 2, grupo: "Pendiente de carga" },
-  intercepciones: { etiqueta: "Intercepciones", decimales: 2, grupo: "Pendiente de carga" },
-  recuperaciones: { etiqueta: "Recuperaciones", decimales: 2, grupo: "Pendiente de carga" },
-  gambetas: { etiqueta: "Regates exitosos", decimales: 2, grupo: "Pendiente de carga" },
-  duelosGanados: { etiqueta: "Duelos ganados", decimales: 2, grupo: "Pendiente de carga" },
-  aereosGanados: { etiqueta: "Duelos aéreos ganados", decimales: 2, grupo: "Pendiente de carga" },
 };
 
 // ¿Alguna fila tiene algún dato cargado en estas columnas? Si no, la tabla no se muestra

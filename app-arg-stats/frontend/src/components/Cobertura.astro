@@ -10,7 +10,8 @@ const { cobertura, titulo = "Datos en la base" } = Astro.props;
 const total = cobertura?.partidos ?? 0;
 
 const FILAS = [
-  { clave: "estadisticasJugadores", etiqueta: "Estadísticas de jugadores", ayuda: "Minutos, goles, asistencias, xG, xA, tarjetas y puntaje" },
+  { clave: "estadisticasJugadores", etiqueta: "Estadísticas de jugadores", ayuda: "Minutos, goles, asistencias, xG, xA y puntaje" },
+  { clave: "detalleJugadores", etiqueta: "Detalle de jugadores", ayuda: "Pases, defensa, posesión y duelos de cada jugador (FotMob no lo publica en el ascenso)" },
   { clave: "estadisticasEquipo", etiqueta: "Estadísticas de equipo", ayuda: "Posesión, tiros, pases, córners, faltas (metadata del partido)" },
   { clave: "tiros", etiqueta: "Mapa de tiros", ayuda: "Ubicación, xG y resultado de cada tiro" },
   { clave: "alineaciones", etiqueta: "Alineaciones", ayuda: "Titulares y suplentes: sin esto no se sabe quién fue titular" },
@@ -42,8 +43,5 @@ const color = (pct: number) => (pct >= 90 ? "bg-[#1f8a4c]" : pct >= 50 ? "bg-[#e
       );
     })}
   </ul>
-  <p class="px-3 pb-2 text-[11px] text-gray-500">
-    Pases, defensa, posesión y duelos por jugador: FotMob los publica, pero la base todavía no los guarda (0%).
-  </p>
 </section>
 )}
