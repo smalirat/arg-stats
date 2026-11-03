@@ -18,6 +18,11 @@ type Jugador = { jugador_id: number; nombre?: string; nombre_completo?: string }
 export const TABS_EQUIPO = ["resumen", "partidos", "plantel", "estadisticas", "clasificacion"] as const;
 export const TABS_TORNEO = ["resumen", "partidos", "estadisticas"] as const;
 export const TABS_JUGADOR = ["resumen", "estadisticas", "partidos", "tiros"] as const;
+export const TABS_HISTORIAL = ["campeones", "tabla", "records", "temporadas"] as const;
+
+// Los campeones son la portada del historial: van en /historial, sin pestaña
+export const urlHistorial = (tab: (typeof TABS_HISTORIAL)[number] = "campeones", era?: string) =>
+  `${tab === "campeones" ? "/historial" : `/historial/${tab}`}${era && era !== "todas" ? `?era=${era}` : ""}`;
 
 export const urlEquipo = (e: Equipo, tab: (typeof TABS_EQUIPO)[number] = "resumen") =>
   `/equipos/${e.equipo_id}/${tab}/${slug(e.nombre ?? e.nombre_corto ?? e.nombre_fuente)}`;

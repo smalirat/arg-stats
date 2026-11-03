@@ -1,0 +1,299 @@
+---
+// Historial de Primera División: /historial (campeones), /historial/tabla,
+// /historial/records y /historial/temporadas (archivo de todas las categorías)
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Escudo from "../../components/Escudo.astro";
+import Pestanas from "../../components/Pestanas.astro";
+import TablaStats from "../../components/TablaStats.astro";
+import { pedirApi } from "../../lib/api";
+import { TABLA_HISTORICA } from "../../lib/columnas";
+import { TABS_HISTORIAL, urlEquipo, urlHistorial, urlPartido, urlTorneo } from "../../lib/urls";
+
+const { resto = "" } = Astro.params;
+const pedida = resto.split("/")[0] || "campeones";
+if (!(TABS_HISTORIAL as readonly string[]).includes(pedida)) return Astro.rewrite("/404");
+const tab = pedida as (typeof TABS_HISTORIAL)[number];
+
+// /historial/campeones lleva a /historial
+if (decodeURI(Astro.url.pathname).replace(/\/$/, "") !== urlHistorial(tab).split("?")[0]) return Astro.redirect(urlHistorial(tab), 301);
+
+const era = Astro.url.searchParams.get("era") ?? "todas";
+const rutas = {
+  campeones: "/api/historial/campeones",
+  tabla: `/api/historial/tabla?era=${encodeURIComponent(era)}`,
+  records: "/api/historial/records",
+  temporadas: "/api/historial/temporadas",
+};
+let data: any;
+try {
+  data = (await pedirApi(rutas[tab])) ?? {};
+} catch (error) {
+  // Una era que no existe (la API responde 400) lleva a la tabla completa
+  if (tab === "tabla" && era !== "todas") return Astro.redirect(urlHistorial("tabla"), 302);
+  throw error;
+}
+
+const pestanas = [
+  { etiqueta: "Campeones", tab: "campeones" },
+  { etiqueta: "Tabla histórica", tab: "tabla" },
+  { etiqueta: "Récords", tab: "records" },
+  { etiqueta: "Temporadas", tab: "temporadas" },
+].map((p) => ({ etiqueta: p.etiqueta, href: urlHistorial(p.tab as any), activa: p.tab === tab }));
+
+const titulos: Record<string, string> = {
+  campeones: "Campeones de Primera División",
+  tabla: "Tabla histórica de Primera División",
+  records: "Récords de Primera División",
+  temporadas: "Archivo de temporadas",
+};
+
+// Campeones agrupados por temporada (en un mismo año puede haber varios torneos)
+const campeonesPorTemporada: { temporada: string; campeones: any[] }[] = [];
+for (const c of data.campeones ?? []) {
+  const ultimo = campeonesPorTemporada.at(-1);
+  if (ultimo?.temporada === c.temporada) ultimo.campeones.push(c);
+  else campeonesPorTemporada.push({ temporada: c.temporada, campeones: [c] });
+}
+
+const filasTabla = (data.filas ?? []).map((f: any, i: number) => ({ ...f, pos: i + 1 }));
+
+const golesPorTemporada = data.golesPorTemporada ?? [];
+const masGolesPorPartido = [...golesPorTemporada].sort((a: any, b: any) => b.promedio - a.promedio).slice(0, 8);
+const menosGolesPorPartido = [...golesPorTemporada].sort((a: any, b: any) => a.promedio - b.promedio).slice(0, 8);
+
+const bloquesRachas = [
+  { titulo: "Más partidos invicto", filas: data.invictos ?? [] },
+  { titulo: "Más victorias seguidas", filas: data.victorias ?? [] },
+  { titulo: "Más partidos sin ganar", filas: data.sinGanar ?? [] },
+];
+const bloquesPartidos = [
+  { titulo: "Mayores goleadas", filas: data.goleadas ?? [] },
+  { titulo: "Partidos con más goles", filas: data.masGoles ?? [] },
+];
+
+const nombreTorneo = (e: any) => `${e.nombre_torneo} ${e.temporada}`;
+---
+
+<BaseLayout title={`${titulos[tab]} — ArgStats`}>
+  <div class="font-sans text-sm text-gray-800">
+
+    <section class="border border-gray-300 bg-white px-4 py-3">
+      <p class="text-xs text-gray-500 uppercase font-semibold">Historial · Argentina</p>
+      <h1 class="text-2xl font-bold text-gray-900">{titulos[tab]}</h1>
+      <p class="text-gray-600 mt-1">
+        {tab === "campeones" && "Todos los campeones desde el comienzo del profesionalismo, en 1931, y los clubes con más títulos."}
+        {tab === "tabla" && `Todos los partidos de Primera desde ${data.desde ?? 1931} sumados por club (${(data.partidos ?? 0).toLocaleString("es-AR")} partidos). Puntos con 3 por victoria en todas las épocas, para poder compararlas.`}
+        {tab === "records" && `Calculados con los ${(data.partidos ?? 0).toLocaleString("es-AR")} partidos de Primera cargados desde ${data.desde ?? 1931}.`}
+        {tab === "temporadas" && "Todos los torneos de la base, por temporada y categoría."}
+      </p>
+    </section>
+    <Pestanas pestanas={pestanas} />
+
+    {tab === "campeones" && (
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <section class="md:col-span-2 border border-gray-300 bg-white self-start overflow-x-auto">
+          <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Campeones por temporada</h2>
+          <table class="w-full">
+            <thead>
+              <tr class="text-gray-600 border-b border-gray-300 bg-gray-50 text-xs">
+                <th class="px-2 py-1 text-left font-semibold">Temporada</th>
+                <th class="px-2 py-1 text-left font-semibold">Torneo</th>
+                <th class="px-2 py-1 text-left font-semibold">Campeón</th>
+              </tr>
+            </thead>
+            <tbody>
+              {campeonesPorTemporada.map((t) => t.campeones.map((c: any, i: number) => (
+                <tr class={`hover:bg-gray-50 ${i === t.campeones.length - 1 ? "border-b border-gray-200" : ""}`}>
+                  {i === 0 && <td rowspan={t.campeones.length} class="px-2 py-1.5 align-top font-bold tabular-nums whitespace-nowrap">{t.temporada}</td>}
+                  <td class="px-2 py-1.5 whitespace-nowrap">
+                    {c.edicion
+                      ? <a href={urlTorneo(c.edicion)} class="text-[#2a6496] hover:underline">{c.torneo}</a>
+                      : <span title="Este torneo no está cargado en la base">{c.torneo}</span>}
+                    {c.tipo === "copa" && <span class="ml-1 text-[10px] text-gray-500 uppercase">copa</span>}
+                  </td>
+                  <td class="px-2 py-1.5">
+                    <a href={urlEquipo(c.equipo)} class="flex items-center gap-1.5 text-[#2a6496] hover:underline">
+                      <Escudo equipo={c.equipo} size={18} /><span>{c.equipo.nombre}</span>
+                    </a>
+                  </td>
+                </tr>
+              )))}
+            </tbody>
+          </table>
+        </section>
+
+        <section class="border border-gray-300 bg-white self-start">
+          <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Títulos por club</h2>
+          <table class="w-full">
+            <thead>
+              <tr class="text-gray-600 border-b border-gray-300 bg-gray-50 text-xs">
+                <th class="px-2 py-1"></th>
+                <th class="px-2 py-1 text-left font-semibold">Club</th>
+                <th class="px-2 py-1 text-right font-semibold" title="Títulos de liga">Ligas</th>
+                <th class="px-2 py-1 text-right font-semibold" title="Copa de la Liga y Copa Diego Maradona">Copas</th>
+                <th class="px-2 py-1 text-right font-semibold">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(data.titulos ?? []).map((t: any, i: number) => (
+                <tr class="border-b border-gray-200 last:border-0 hover:bg-gray-50">
+                  <td class="px-2 py-1.5 text-right text-gray-500 tabular-nums w-6">{i + 1}</td>
+                  <td class="px-2 py-1.5">
+                    <a href={urlEquipo(t.equipo)} class="flex items-center gap-1.5 text-[#2a6496] hover:underline" title={`Último: ${t.ultimo.torneo} ${t.ultimo.temporada}`}>
+                      <Escudo equipo={t.equipo} size={16} /><span class="truncate">{t.equipo.nombre}</span>
+                    </a>
+                  </td>
+                  <td class="px-2 py-1.5 text-right tabular-nums">{t.ligas}</td>
+                  <td class="px-2 py-1.5 text-right tabular-nums text-gray-500">{t.copas || ""}</td>
+                  <td class="px-2 py-1.5 text-right tabular-nums font-bold">{t.titulos}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p class="px-3 py-2 text-[11px] text-gray-500 border-t border-gray-200">
+            Era profesional (desde 1931). La Copa de la Liga y la Copa Diego Maradona van aparte porque no todos los registros las cuentan como títulos de liga.
+          </p>
+        </section>
+      </div>
+    )}
+
+    {tab === "tabla" && (
+      <div class="space-y-3">
+        <nav class="flex flex-wrap gap-1.5 text-xs" aria-label="Época">
+          {(data.eras ?? []).map((e: any) => (
+            <a
+              href={urlHistorial("tabla", e.clave)}
+              title={e.descripcion}
+              aria-current={e.clave === data.era?.clave ? "page" : undefined}
+              class={e.clave === data.era?.clave
+                ? "px-3 py-1 border border-[#0f5231] bg-[#0f5231] text-white font-semibold"
+                : "px-3 py-1 border border-gray-300 bg-white text-gray-700 hover:bg-[#e5e5e5]"}
+            >{e.nombre}</a>
+          ))}
+        </nav>
+        <TablaStats
+          titulo={`Tabla histórica · ${data.era?.nombre ?? "Todas"}${data.era?.descripcion && data.era.clave !== "todas" ? ` (${data.era.descripcion})` : ""}`}
+          id="tabla-historica"
+          grupos={TABLA_HISTORICA}
+          fijas={[{ etiqueta: "#", clave: "pos", numero: true }, { etiqueta: "Club", clave: "equipo", tipo: "equipo" }]}
+          filas={filasTabla}
+          archivo={`tabla-historica-${data.era?.clave ?? "todas"}`}
+        />
+      </div>
+    )}
+
+    {tab === "records" && (
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {bloquesPartidos.map((b) => (
+            <section class="border border-gray-300 bg-white self-start">
+              <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{b.titulo}</h2>
+              <table class="w-full">
+                <tbody>
+                  {b.filas.map((p: any, i: number) => (
+                    <tr class="border-b border-gray-200 last:border-0 hover:bg-gray-50">
+                      <td class="px-2 py-1.5 text-right text-gray-500 tabular-nums w-6">{i + 1}</td>
+                      <td class="px-2 py-1.5">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                          <a href={urlEquipo(p.local)} class="flex items-center gap-1 text-[#2a6496] hover:underline"><Escudo equipo={p.local} size={16} />{p.local.nombre}</a>
+                          <a href={urlPartido(p)} class="px-1.5 bg-gray-100 font-bold tabular-nums hover:bg-gray-200">{p.goles_local}–{p.goles_visitante}</a>
+                          <a href={urlEquipo(p.visitante)} class="flex items-center gap-1 text-[#2a6496] hover:underline"><Escudo equipo={p.visitante} size={16} />{p.visitante.nombre}</a>
+                        </div>
+                        <a href={urlTorneo(p.edicion)} class="text-xs text-gray-500 hover:underline">{nombreTorneo(p.edicion)}</a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          ))}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {bloquesRachas.map((b) => (
+            <section class="border border-gray-300 bg-white self-start">
+              <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{b.titulo}</h2>
+              <table class="w-full">
+                <tbody>
+                  {b.filas.map((r: any, i: number) => (
+                    <tr class="border-b border-gray-200 last:border-0 hover:bg-gray-50">
+                      <td class="px-2 py-1.5 text-right text-gray-500 tabular-nums w-6 align-top">{i + 1}</td>
+                      <td class="px-2 py-1.5">
+                        <a href={urlEquipo(r.equipo)} class="flex items-center gap-1.5 text-[#2a6496] hover:underline"><Escudo equipo={r.equipo} size={16} />{r.equipo.nombre}</a>
+                        <span class="text-xs text-gray-500">
+                          {nombreTorneo(r.desde) === nombreTorneo(r.hasta) ? nombreTorneo(r.desde) : `${nombreTorneo(r.desde)} → ${nombreTorneo(r.hasta)}`}
+                          {r.vigente && <span class="ml-1 px-1 bg-[#e9f0eb] text-[#0f5231] font-semibold">vigente</span>}
+                        </span>
+                      </td>
+                      <td class="px-2 py-1.5 text-right font-bold tabular-nums align-top">{r.largo}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          ))}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[{ titulo: "Temporadas con más goles por partido", filas: masGolesPorPartido }, { titulo: "Temporadas con menos goles por partido", filas: menosGolesPorPartido }].map((b) => (
+            <section class="border border-gray-300 bg-white self-start">
+              <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">{b.titulo}</h2>
+              <table class="w-full">
+                <thead>
+                  <tr class="text-gray-600 border-b border-gray-300 bg-gray-50 text-xs">
+                    <th class="px-2 py-1 text-left font-semibold">Temporada</th>
+                    <th class="px-2 py-1 text-right font-semibold">Partidos</th>
+                    <th class="px-2 py-1 text-right font-semibold">Goles</th>
+                    <th class="px-2 py-1 text-right font-semibold">Por partido</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {b.filas.map((t: any) => (
+                    <tr class="border-b border-gray-200 last:border-0">
+                      <td class="px-2 py-1.5 tabular-nums">{t.temporada}</td>
+                      <td class="px-2 py-1.5 text-right tabular-nums">{t.partidos}</td>
+                      <td class="px-2 py-1.5 text-right tabular-nums">{t.goles}</td>
+                      <td class="px-2 py-1.5 text-right tabular-nums font-bold">{t.promedio.toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          ))}
+        </div>
+
+        <p class="text-[11px] text-gray-500">
+          Las rachas cuentan partidos seguidos en Primera; se cortan si el club pasó más de un año y medio sin jugar en la categoría. En los torneos más viejos la base no tiene la fecha de cada partido y algunos partidos faltan, así que pueden diferir un poco de los registros oficiales.
+        </p>
+      </div>
+    )}
+
+    {tab === "temporadas" && (
+      <section class="border border-gray-300 bg-white overflow-x-auto">
+        <h2 class="bg-[#0f5231] text-white font-bold px-3 py-1.5">Torneos por temporada</h2>
+        <table class="w-full text-xs">
+          <thead>
+            <tr class="text-gray-600 border-b border-gray-300 bg-gray-50">
+              <th class="px-2 py-1 text-left font-semibold sticky left-0 bg-gray-50">Temporada</th>
+              {(data.categorias ?? []).map((c: string) => <th class="px-2 py-1 text-left font-semibold whitespace-nowrap border-l border-gray-200">{c}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {(data.temporadas ?? []).map((t: any) => (
+              <tr class="border-b border-gray-200 hover:bg-gray-50 align-top">
+                <td class="px-2 py-1.5 font-bold tabular-nums whitespace-nowrap sticky left-0 bg-white">{t.temporada}</td>
+                {(data.categorias ?? []).map((c: string) => (
+                  <td class="px-2 py-1.5 border-l border-gray-200 min-w-36">
+                    {(t.categorias[c] ?? []).map((e: any, i: number) => (
+                      <>{i > 0 && <span class="text-gray-300"> · </span>}<a href={urlTorneo(e)} class="text-[#2a6496] hover:underline" title={e.nombre_torneo}>{e.corto}</a></>
+                    ))}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    )}
+  </div>
+</BaseLayout>

@@ -223,6 +223,28 @@ export const EQUIPOS_TORNEO: Grupo[] = [
   ] },
 ];
 
+// Tabla histórica de Primera (todos los partidos de una era sumados por club)
+export const TABLA_HISTORICA: Grupo[] = [
+  { titulo: "Partidos", columnas: [
+    c("pts", "Pts", "Puntos, con 3 por victoria en todas las épocas"),
+    c("pj", "PJ", "Partidos jugados"),
+    c("g", "G", "Partidos ganados"),
+    c("e", "E", "Partidos empatados (los definidos por penales cuentan como empate)"),
+    c("p", "P", "Partidos perdidos"),
+  ] },
+  { titulo: "Goles", columnas: [
+    c("gf", "GF", "Goles a favor"),
+    c("gc", "GC", "Goles en contra"),
+    c("dg", "DG", "Diferencia de gol"),
+  ] },
+  { titulo: "En Primera", columnas: [
+    c("temporadas", "Temp.", "Temporadas jugadas en Primera"),
+    c("titulos", "Títulos", "Títulos de Primera (ligas y Copas de la Liga)"),
+    c("primera", "Desde", "Primera temporada"),
+    c("ultima", "Hasta", "Última temporada"),
+  ] },
+];
+
 // Bloque equipo vs rivales (filas de una tabla vertical)
 export const EQUIPO_VS_RIVALES: Columna[] = [
   c("pj", "Partidos", "Partidos jugados"),
