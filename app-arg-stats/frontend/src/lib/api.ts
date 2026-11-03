@@ -1,6 +1,7 @@
-// URL del backend. Se define con API_URL en el .env del frontend; por defecto
-// apunta al backend local.
-export const API_URL = import.meta.env.API_URL ?? 'http://localhost:3000';
+// URL del backend. En el servidor se lee API_URL del entorno al arrancar (así
+// el mismo build sirve en cualquier máquina); en desarrollo, del .env del
+// frontend. Por defecto apunta al backend local.
+export const API_URL = process.env.API_URL ?? import.meta.env.API_URL ?? 'http://localhost:3000';
 
 /**
  * Pide una ruta de la API y devuelve su `data` (la API responde { status, data }).

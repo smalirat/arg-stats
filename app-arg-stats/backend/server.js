@@ -7,6 +7,7 @@ const teamRoutes = require('./src/routes/teamRoutes');
 const matchRoutes = require('./src/routes/matchRoutes');
 const edicionRoutes = require('./src/routes/edicionRoutes');
 const playerRoutes = require('./src/routes/playerRoutes');
+const historialRoutes = require('./src/routes/historialRoutes');
 const { buscar } = require('./src/controllers/indiceController');
 
 const errorHandler = require('./src/middlewares/errorHandler');
@@ -23,6 +24,7 @@ app.use('/api/equipos', teamRoutes);
 app.use('/api/partidos', matchRoutes);
 app.use('/api/ediciones', edicionRoutes);
 app.use('/api/jugadores', playerRoutes);
+app.use('/api/historial', historialRoutes);
 app.get('/api/buscar', buscar);
 
 app.use((req, res, next) => {
@@ -31,6 +33,7 @@ app.use((req, res, next) => {
 
 app.use(errorHandler);
 
-app.listen(port, () => {
+// En el servidor se usa HOST=127.0.0.1: la API solo la consulta el frontend, no queda expuesta
+app.listen(port, process.env.HOST, () => {
     console.log(`🚀 Servidor backend en http://localhost:${port}`);
 });

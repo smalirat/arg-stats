@@ -1,8 +1,11 @@
 import { defineConfig } from 'astro/config';
+import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   output: 'server',
+  // Servidor Node propio (dist/server/entry.mjs), para correrlo en la VM detrás de Caddy
+  adapter: node({ mode: 'standalone' }),
   // URLs viejas -> nuevas (esquema de FotMob). Las páginas nuevas completan
   // la pestaña y el slug con otra redirección.
   redirects: {

@@ -1,0 +1,2 @@
+# Los scripts que corren en la VM (Linux) siempre con fin de línea LF
+*.sh text eol=lf
